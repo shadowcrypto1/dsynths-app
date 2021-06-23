@@ -1,4 +1,4 @@
-const Bottleneck = require('bottleneck')
+import Bottleneck from 'bottleneck'
 
 // Finnhub API rate limits at 300 calls/minute && 30 calls/sec
 class Queue {

@@ -102,7 +102,7 @@ export const ConnectButton = () => {
 	useInactiveListener(!triedEager || !!activatingConnector)
 
 	useEffect(() => {
-    handleConnectEvents({ payload: "default" })
+    handleConnectEvents({ payload: 'default' })
 		setModalVisibility(false)
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [account])
@@ -114,17 +114,17 @@ export const ConnectButton = () => {
 			error instanceof UserRejectedRequestErrorInjected ||
       error instanceof UserRejectedRequestErrorWalletConnect
 		) {
-			handleConnectEvents({ payload: "userRejected" })
+			handleConnectEvents({ payload: 'userRejected' })
       return
 		}
 
     if (error instanceof UnsupportedChainIdError) {
-			handleConnectEvents({ payload: "networkError" })
+			handleConnectEvents({ payload: 'networkError' })
       return
 		}
 
     if (error instanceof NoEthereumProviderError) {
-      handleConnectEvents({ payload: "noEthereumProviderError" })
+      handleConnectEvents({ payload: 'noEthereumProviderError' })
       return
     }
 
@@ -150,7 +150,7 @@ export const ConnectButton = () => {
 	}
 
 	function handleConnectEvents ({ payload }) {
-    if (payload === "default") {
+    if (payload === 'default') {
       setDisplayErrorBox(false)
       if (account) {
         setButtonDisabled(false)
@@ -161,23 +161,23 @@ export const ConnectButton = () => {
       return
     }
 
-    if (payload === "userRejected") {
+    if (payload === 'userRejected') {
       setButtonDisabled(false)
       setDisplayErrorBox(true)
-      setErrorBoxText("Error connecting")
+      setErrorBoxText('Error connecting')
       setButtonText('Connect Wallet')
       return
     }
 
-    if (payload === "noEthereumProviderError") {
+    if (payload === 'noEthereumProviderError') {
       setButtonDisabled(false)
       setDisplayErrorBox(true)
-      setButtonText("Connect Wallet")
-      setErrorBoxText("Install Metamask first!")
+      setButtonText('Connect Wallet')
+      setErrorBoxText('Install Metamask first!')
       return
     }
 
-    if (payload === "networkError") {
+    if (payload === 'networkError') {
       setButtonDisabled(true)
     	setButtonText('Wrong Network')
       setDisplayErrorBox(false)
@@ -188,9 +188,9 @@ export const ConnectButton = () => {
 
 	function isCorrectChain () {
 		if (active && !supportedChainIds.includes(chainId)) {
-      return handleConnectEvents({ payload: "networkError"})
+      return handleConnectEvents({ payload: 'networkError'})
 		}
-    return handleConnectEvents({ payload: "default"})
+    return handleConnectEvents({ payload: 'default'})
 	}
 
 	// walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
@@ -235,7 +235,7 @@ export const ConnectButton = () => {
 									onClick={() => {
 										setActivatingConnector(currentConnector)
 										setCachedConnectorName(currentConnector)
-										handleConnectEvents({ payload: "default" })
+										handleConnectEvents({ payload: 'default' })
 										activate(currentConnector)
 									}}
 								>
