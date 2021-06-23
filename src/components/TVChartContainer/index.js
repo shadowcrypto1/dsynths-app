@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
+import { ThemeContext } from '../../context/ThemeContext'
 
 const Widget = tryRequire()
 	? tryRequire()
@@ -23,6 +24,8 @@ const Container = styled.div.attrs(props => ({
 `
 
 export const TVChartContainer = ({ widgetOptions }) => {
+	const { theme } = useContext(ThemeContext)
+
 	useEffect(() => {
 		if (Widget) {
 			let tvWidget = new Widget(widgetOptions)
@@ -39,7 +42,7 @@ export const TVChartContainer = ({ widgetOptions }) => {
 		} else {
 			console.error('The TradingView charting_library seems to be missing, please read the README.md for further information.')
 		}
-	}, [])
+	}, [theme])
 
 	return (
 		<Container
