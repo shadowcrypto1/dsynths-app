@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import styled from "styled-components";
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-import { Sidebar } from './Sidebar';
-import { Main } from './Main';
+import { Sidebar } from './Sidebar'
+import { Main } from './Main'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -12,24 +12,24 @@ const Wrapper = styled.div`
 `
 
 export const Layout = ({ children }) => {
-  const [toggled, setToggled] = useState(false);
+	const [toggled, setToggled] = useState(false)
 
-  // Open/close sidebar
-  const handleToggleSidebar = (value) => {
-    setToggled(value);
-  };
+	// Open/close sidebar
+	const handleToggleSidebar = (value) => {
+		setToggled(value)
+	}
 
-  return (
-    <Wrapper>
-      <Sidebar
-        toggled={toggled}
-        handleToggleSidebar={handleToggleSidebar}
-      />
-      <Main
-        handleToggleSidebar={handleToggleSidebar}
-      >
-        {children}
-      </Main >
-    </Wrapper>
-  );
+	return (
+		<Wrapper>
+			<Sidebar
+				toggled={toggled}
+				handleToggleSidebar={handleToggleSidebar}
+			/>
+			<Main
+				handleToggleSidebar={handleToggleSidebar}
+			>
+				{children}
+			</Main >
+		</Wrapper>
+	)
 }

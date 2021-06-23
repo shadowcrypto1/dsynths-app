@@ -1,16 +1,16 @@
-import { intervalMapping } from "../../utils/stocks"
+import { intervalMapping } from '../../utils/stocks'
 
 export function getLanguageFromURL() {
-	const regex = new RegExp('[\\?&]lang=([^&#]*)');
-	const results = regex.exec(window.location.search);
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	const regex = new RegExp('[\\?&]lang=([^&#]*)')
+	const results = regex.exec(window.location.search)
+	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
 export const widgetOptions = ({
-	theme = "light",
+	theme = 'light',
 	datafeed = null,
 } = {}) => {
-	if (!datafeed) throw new Error("Datafeed param is not provided")
+	if (!datafeed) throw new Error('Datafeed param is not provided')
 	return {
 		debug: false,
 		symbol: 'dGME-L',
@@ -40,8 +40,8 @@ export const widgetOptions = ({
 		autosize: true,
 		studies_overrides: {},
 		overrides: {
-			'paneProperties.vertGridProperties.color': (theme === "light") ? "#FFFFFF" : "#131722",
-			'paneProperties.horzGridProperties.color': (theme === "light") ? "#FFFFFF" : "#131722",
+			'paneProperties.vertGridProperties.color': (theme === 'light') ? '#FFFFFF' : '#131722',
+			'paneProperties.horzGridProperties.color': (theme === 'light') ? '#FFFFFF' : '#131722',
 		},
 	}
 }

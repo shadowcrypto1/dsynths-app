@@ -1,2 +1,2 @@
-export { MarketHistoryLarge } from "./MarketHistoryLarge";
-export { AccountHistoryLarge } from "./AccountHistoryLarge";
+export { MarketHistoryLarge } from './MarketHistoryLarge'
+export { AccountHistoryLarge } from './AccountHistoryLarge'

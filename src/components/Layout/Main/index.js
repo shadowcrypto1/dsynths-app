@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { FaBars } from 'react-icons/fa';
+import React from 'react'
+import styled from 'styled-components'
+import { FaBars } from 'react-icons/fa'
 
-import { Footer } from '../Footer';
+import { Footer } from '../Footer'
 
 const Wrapper = styled.div`
   flex-grow: 1;
@@ -39,17 +39,17 @@ const Content = styled.div`
 `
 
 export const Main = ({ handleToggleSidebar, children }) => {
-  return (
-    <Wrapper>
-      <ToggleContainer>
-        <ToggleWrapper onClick={() => handleToggleSidebar(true)}>
-          <FaBars />
-        </ToggleWrapper>
-      </ToggleContainer>
-      <Content>
-        {children}
-      </Content>
-      <Footer/>
-    </Wrapper>
-  );
-};
+	return (
+		<Wrapper>
+			<ToggleContainer>
+				<ToggleWrapper onClick={() => handleToggleSidebar(true)}>
+					<FaBars />
+				</ToggleWrapper>
+			</ToggleContainer>
+			<Content>
+				{children}
+			</Content>
+			<Footer/>
+		</Wrapper>
+	)
+}

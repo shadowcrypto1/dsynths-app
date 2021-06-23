@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-import { ThemeToggle } from "../../ThemeToggle";
-import { ConnectButton } from "../../../web3/components/ConnectButton";
+import { ThemeToggle } from '../../ThemeToggle'
+import { ConnectButton } from '../../../web3/components/ConnectButton'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,10 +13,10 @@ const Wrapper = styled.div`
 `
 
 export default function Footer () {
-  return (
-    <Wrapper>
-      <ThemeToggle />
-      <ConnectButton />
-    </Wrapper>
-  )
+	return (
+		<Wrapper>
+			<ThemeToggle />
+			<ConnectButton />
+		</Wrapper>
+	)
 }

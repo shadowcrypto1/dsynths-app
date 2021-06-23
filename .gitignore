@@ -1,6 +1,6 @@
-public/charting_libary/
-public/datafeeds/
-src/static/charting_libary/
+public/charting_library
+public/datafeeds
+src/static/charting_library
 
 node_modules
 build

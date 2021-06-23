@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,12 +23,12 @@ const Link = styled.a`
 `
 
 export const Footer = () => {
-  return (
-    <Wrapper>
+	return (
+		<Wrapper>
       © {`${new Date().getFullYear()}`} a product of
-      <Link target="_blank" rel="noopener noreferrer" href="https://github.com/dsynths">
+			<Link target="_blank" rel="noopener noreferrer" href="https://github.com/dsynths">
         dsynths
-      </Link>
-    </Wrapper>
-  )
+			</Link>
+		</Wrapper>
+	)
 }

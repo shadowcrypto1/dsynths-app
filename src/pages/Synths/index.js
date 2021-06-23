@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from "react-router-dom";
-import styled from 'styled-components';
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from '../../context/ThemeContext'
 
-import { TVChartContainer } from '../../components/TVChartContainer';
-import { MarketHistoryLarge, AccountHistoryLarge } from '../../components/TransactionsHistory';
-import { SynthStats } from '../../components/SynthStats';
+import { TVChartContainer } from '../../components/TVChartContainer'
+import { MarketHistoryLarge, AccountHistoryLarge } from '../../components/TransactionsHistory'
+import { SynthStats } from '../../components/SynthStats'
 
-import { Card } from "../../components/Card";
-import { Button, LinkButton } from "../../components/Button"
-import { Break } from "../../components/Break";
+import { Card } from '../../components/Card'
+import { Button, LinkButton } from '../../components/Button'
+import { Break } from '../../components/Break'
 
-import { useTopRegistrars } from "../../hooks/registrars";
-import { widgetOptions as getWidgetOptions } from "./widgetOptions";
-import Datafeed from "./datafeed";
+import { useTopRegistrars } from '../../hooks/registrars'
+import { widgetOptions as getWidgetOptions } from './widgetOptions'
+import Datafeed from './datafeed'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const MidWrapper = styled.div`
 
 const ChartWrapper = styled(Card)`
   padding: 5px; /* additional padding because the chart instance has no border-radius */
-  background: ${props => props.theme === "light" ? "#FFFFFF" : "#131722"}
+  background: ${props => props.theme === 'light' ? '#FFFFFF' : '#131722'}
 `
 
 const TableWrapper = styled(Card)`
@@ -66,78 +66,79 @@ const TableNavigation = styled.div`
 `
 
 export default function () {
-  const { theme } = useContext(ThemeContext)
-  let { ticker } = useParams()
-  ticker = (ticker) ? ticker.toUpperCase() : "GME"
+	const { theme } = useContext(ThemeContext)
+	let { ticker } = useParams()
+	ticker = (ticker) ? ticker.toUpperCase() : 'GME'
 
-  const datafeed = new Datafeed({ ticker })
-  let widgetOptions = getWidgetOptions({theme, datafeed})
+	const datafeed = new Datafeed({ ticker })
+	const widgetOptions = getWidgetOptions({ theme, datafeed })
 
-  const [ showMarketHistory, setShowMarketHistory ] = useState(true)
-  const [ showAccountHistory, setShowAccountHistory ] = useState(false)
+	const [ showMarketHistory, setShowMarketHistory ] = useState(true)
+	const [ showAccountHistory, setShowAccountHistory ] = useState(false)
 
-  // topRegistrars is just temporary
-  const topRegistrars = useTopRegistrars()
-  const mappedTopRegistrars = topRegistrars.reduce((acc, obj) => {
-    const tickerOnly = obj.symbol.split("-").shift(0).substring(1) // dGME-L becomes GME and dLBS becomes LBS
-    if (acc.includes(tickerOnly)) return acc
-    acc.push(tickerOnly)
-    return acc
-  }, [])
+	// topRegistrars is just temporary
+	const topRegistrars = useTopRegistrars()
+	const mappedTopRegistrars = topRegistrars.reduce((acc, obj) => {
+		const tickerOnly = obj.symbol.split('-').shift(0).substring(1) // dGME-L becomes GME and dLBS becomes LBS
+		if (acc.includes(tickerOnly)) return acc
+		acc.push(tickerOnly)
+		return acc
+	}, [])
 
-  useEffect(() => {
-    document.title = `${ticker} Info | dSynths.io`
-  }, [ticker])
+	useEffect(() => {
+		document.title = `${ticker} Info | dSynths.io`
 
-  const toggleTabs = (type) => {
-    switch (type) {
-      case "market":
-        setShowMarketHistory(true)
-        setShowAccountHistory(false)
-        break;
-      case "account":
-        setShowMarketHistory(false)
-        setShowAccountHistory(true)
-        break;
-      default:
-        setShowMarketHistory(true)
-        setShowAccountHistory(false)
-    }
-  }
+	}, [ticker])
 
-  return (
-    <Wrapper>
-      <TokensBar>
-        <div style={{display: "flex"}}>
-          {mappedTopRegistrars.length >= 1 && mappedTopRegistrars.map((symbol, index) => {
-            return (
-              <LinkButton
-                key={index}
-                selected={symbol == ticker}
-                to={symbol}
-              >
-                {symbol}
-              </LinkButton>
-            )
-          })}
-        </div>
-      </TokensBar>
-      <MidWrapper>
-        {/*special wrapper for the chart because the chart has no border-radius*/}
-        <ChartWrapper theme={theme}>
-          <TVChartContainer widgetOptions={widgetOptions}/>
-        </ChartWrapper>
-        <SynthStats ticker={ticker}/>
-      </MidWrapper>
-      <TableWrapper>
-        <TableNavigation>
-          <Button selected={showMarketHistory} onClick={() => toggleTabs('market')}>Market History</Button>
-          <Button selected={showAccountHistory} onClick={() => toggleTabs('account')}>Your Trades</Button>
-        </TableNavigation>
-        <Break />
-        {showMarketHistory && <MarketHistoryLarge ticker={ticker}/>}
-        {showAccountHistory && <AccountHistoryLarge ticker={ticker}/>}
-      </TableWrapper>
-    </Wrapper>
-  )
+	const toggleTabs = (type) => {
+		switch (type) {
+		case 'market':
+			setShowMarketHistory(true)
+			setShowAccountHistory(false)
+			break
+		case 'account':
+			setShowMarketHistory(false)
+			setShowAccountHistory(true)
+			break
+		default:
+			setShowMarketHistory(true)
+			setShowAccountHistory(false)
+		}
+	}
+
+	return (
+		<Wrapper>
+			<TokensBar>
+				<div style={{display: 'flex'}}>
+					{mappedTopRegistrars.length >= 1 && mappedTopRegistrars.map((symbol, index) => {
+						return (
+							<LinkButton
+								key={index}
+								selected={symbol === ticker}
+								to={symbol}
+							>
+								{symbol}
+							</LinkButton>
+						)
+					})}
+				</div>
+			</TokensBar>
+			<MidWrapper>
+				{/*special wrapper for the chart because the chart has no border-radius*/}
+				<ChartWrapper theme={theme}>
+					<TVChartContainer widgetOptions={widgetOptions}/>
+				</ChartWrapper>
+				<SynthStats ticker={ticker}/>
+			</MidWrapper>
+			<TableWrapper>
+				<TableNavigation>
+					<Button selected={showMarketHistory} onClick={() => toggleTabs('market')}>Market History</Button>
+					<Button selected={showAccountHistory} onClick={() => toggleTabs('account')}>Your Trades</Button>
+				</TableNavigation>
+				<Break />
+				{showMarketHistory && <MarketHistoryLarge ticker={ticker}/>}
+				{showAccountHistory && <AccountHistoryLarge ticker={ticker}/>}
+			</TableWrapper>
+		</Wrapper>
+	)
 }

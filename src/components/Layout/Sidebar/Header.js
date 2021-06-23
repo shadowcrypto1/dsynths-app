@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
-import Logo from "../../../assets/logo.png"
+import Logo from '../../../assets/logo.png'
 
 const Wrapper = styled.div`
   text-align: center;
@@ -12,9 +12,9 @@ const Wrapper = styled.div`
 `
 
 export const Header = () => {
-  return (
-    <Wrapper>
-      <img src={Logo} alt="dsynths logo"/>
-    </Wrapper>
-  )
+	return (
+		<Wrapper>
+			<img src={Logo} alt="dsynths logo"/>
+		</Wrapper>
+	)
 }

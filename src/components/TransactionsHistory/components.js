@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Card } from "../Card";
-import { Row } from "../Row";
-import { Loader } from "../Loader";
+import { Loader } from '../Loader'
 
 export const AutoColumn = styled.div`
   display: grid;
@@ -53,9 +51,9 @@ export const Wrapper = styled.div`
 `
 
 export const WrappedLoader = () => {
-  return (
-    <Wrapper>
-      <Loader size="40px"/>
-    </Wrapper>
-  )
+	return (
+		<Wrapper>
+			<Loader size="40px"/>
+		</Wrapper>
+	)
 }

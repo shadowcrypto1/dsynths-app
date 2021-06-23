@@ -60,7 +60,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.29.0",
     "eslint-plugin-react": "^7.24.0"
   }
 }
