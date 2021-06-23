@@ -2,15 +2,10 @@ import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
-const FORMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
 
 if (!INFURA_KEY || typeof INFURA_KEY === 'undefined') {
 	throw new Error('REACT_APP_INFURA_KEY must be a defined environment variable')
-}
-
-if (!FORMATIC_KEY || typeof FORMATIC_KEY === 'undefined') {
-	throw new Error('REACT_APP_FORTMATIC_KEY must be a defined environment variable')
 }
 
 if (!WALLETCONNECT_BRIDGE_URL || typeof WALLETCONNECT_BRIDGE_URL === 'undefined') {
