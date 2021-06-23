@@ -1,0 +1,9 @@
+public/charting_libary
+public/datafeeds
+src/static/charting_libary
+
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store

@@ -1,0 +1,15 @@
+/* Works on Firefox */
+* {
+  scrollbar-color: var(--c-bg6) transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--c-bg6);
+  border-radius: 8px;
+  border: 4px solid var(--c-bg0);
+}

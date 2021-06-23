@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import '~react-pro-sidebar/dist/css/styles.css';
+
+@import "./variables.css";
+@import "./scrollbar.css";
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: var(--bg-radiant);
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  -ms-box-sizing:border-box;
+
+  color: var(--font-text1);
+}
+
+#root {
+  height: 100%;
+}
