@@ -63,3 +63,25 @@ export const LinkButton = styled(Link)`
     cursor: pointer;
   }
 `
+
+export const TradeButtonTemplate = styled.button`
+  min-height: 50px;
+  line-height: 50px;
+  border: 1px solid var(--c-bg3);
+  border-radius: 5px;
+  font-size: 20px;
+  text-align: center;
+  background: var(--c-bg1);
+
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+export const LongButton = styled(TradeButtonTemplate)`
+  background: linear-gradient(225deg,#0779e4 -.01%,#ea2c62 100%);
+`
+
+export const ShortButton = styled(TradeButtonTemplate)`
+  background: linear-gradient(135deg,#0779e4 -.01%,#ea2c62 75%);
+`

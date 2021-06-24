@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Card } from '../../components/Card'
+import { Card } from '../../Card'
+import { LongButton, ShortButton } from '../../Button'
 
-import { getSymbolVariants } from '../../utils/registrars'
-import { getRegistrars } from '../../web3/apollo/controllers'
-import { formatDollarAmount, formatAmount } from '../../utils/numbers'
+import { getSymbolVariants } from '../../../utils/registrars'
+import { getRegistrars } from '../../../web3/apollo/controllers'
+import { formatDollarAmount, formatAmount } from '../../../utils/numbers'
 
-const StatsWrapper = styled(Card)`
-  display: block;
-  justify-content: center;
+const Wrapper = styled(Card)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
-const HeaderWrapper = styled.div`
+const Header = styled.div`
   height: 15%;
   width: 100%;
   padding: 0 10px;
@@ -27,18 +29,32 @@ const HeaderWrapper = styled.div`
   grid-template-columns: 1fr 2fr;
 `
 
+const Body = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  padding: 5px 10px;
+`
+
+const Footer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin: 10px 10px;
+`
+
 const Ticker = styled.div`
   display: inline-block;
   font-size: 40px;
   text-align: center;
 `
 
-const ContractWrapper = styled.div`
+const NameWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const ContractName = styled.a`
+const Name = styled.a`
   display: block;
   text-decoration: none;
   font-size: 12px;
@@ -50,12 +66,7 @@ const ContractName = styled.a`
   }
 `
 
-const BodyWrapper = styled.div`
-  display: flex-block;
-  padding: 5px 10px;
-`
-
-const StatBox = styled.div`
+const StatRow = styled.div`
   display: flex;
   justify-content: space-between;
   height: 50px;
@@ -73,9 +84,7 @@ const StatLabel = styled.div`
   font-weight: bold;
 `
 
-const StatValue = styled.div`
-
-`
+const StatValue = styled.div``
 
 const fetchRegistrarStats = async (ticker) => {
 	try {
@@ -87,7 +96,7 @@ const fetchRegistrarStats = async (ticker) => {
 	}
 }
 
-export const SynthStats = ({ ticker }) => {
+export const Widget = ({ ticker }) => {
 	const [ showStats, setShowStats ] = useState(false)
 
   // const [ symbols, setSymbols ] = useState([])
@@ -135,40 +144,44 @@ export const SynthStats = ({ ticker }) => {
 	}, [ticker])
 
 	return (
-		<StatsWrapper>
-			<HeaderWrapper>
+		<Wrapper>
+			<Header>
 				<Ticker>{ticker}</Ticker>
-				<ContractWrapper>
+				<NameWrapper>
 					{showStats && names.map((name, index) => (
-						<ContractName
+						<Name
 							key={index}
 							target="_blank"
 							rel="noopener noreferrer"
 							href={`https://etherscan.io/token/${contracts[index]}`}
 						>
 							{name}
-						</ContractName>
+						</Name>
 					))}
-				</ContractWrapper>
-			</HeaderWrapper>
-			<BodyWrapper>
-				<StatBox>
+				</NameWrapper>
+			</Header>
+			<Body>
+				<StatRow>
 					<StatLabel>Total Accrued Fees</StatLabel>
 					<StatValue>{formatDollarAmount(totalFeesDAI)}</StatValue>
-				</StatBox>
-        <StatBox>
+				</StatRow>
+        <StatRow>
           <StatLabel>Total Synth Volume</StatLabel>
           <StatValue>{formatAmount(totalVolumeRegistrar)}</StatValue>
-        </StatBox>
-				<StatBox>
+        </StatRow>
+				<StatRow>
 					<StatLabel>Total Volume DAI</StatLabel>
 					<StatValue>{formatDollarAmount(totalVolumeDAI)}</StatValue>
-				</StatBox>
-				<StatBox>
+				</StatRow>
+				<StatRow>
 					<StatLabel>Total Transactions</StatLabel>
 					<StatValue>{formatAmount(txCount)}</StatValue>
-				</StatBox>
-			</BodyWrapper>
-		</StatsWrapper>
+				</StatRow>
+			</Body>
+      <Footer>
+        <LongButton>Long</LongButton>
+        <ShortButton>Short</ShortButton>
+      </Footer>
+    </Wrapper>
 	)
 }

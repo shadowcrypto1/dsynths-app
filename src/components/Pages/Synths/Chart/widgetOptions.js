@@ -1,5 +1,3 @@
-import { intervalMapping } from '../../utils/stocks'
-
 export function getLanguageFromURL() {
 	const regex = new RegExp('[\\?&]lang=([^&#]*)')
 	const results = regex.exec(window.location.search)
@@ -9,11 +7,12 @@ export function getLanguageFromURL() {
 export const widgetOptions = ({
 	theme = 'light',
 	datafeed = null,
+	ticker = 'GME'
 } = {}) => {
 	if (!datafeed) throw new Error('Datafeed param is not provided')
 	return {
 		debug: false,
-		symbol: 'dGME-L',
+		symbol: ticker,
 		interval: 'D',
 		container_id: 'tv_chart_container',
 		datafeed: datafeed,
@@ -33,7 +32,6 @@ export const widgetOptions = ({
 			'use_localstorage_for_settings',
 		],
 		theme: theme,
-		supported_resolutions: Object.keys(intervalMapping),
 		client_id: 'tradingview.com',
 		user_id: 'public_user_id',
 		fullscreen: false,

@@ -2,21 +2,20 @@ import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { ExternalLink } from 'react-external-link'
 
-import { Break } from '../Break'
-
+import { Break } from '../../../Break'
 import {
 	AutoColumn,
 	HeaderItem,
 	TableText,
 	FullRow,
 	WrappedLoader,
-} from './components'
+} from './Components'
 
-import { truncateAddress } from '../../utils/account'
-import { formatTime } from '../../utils/date'
-import { getSymbolVariants } from '../../utils/registrars'
-import { formatDollarAmount, formatAmount } from '../../utils/numbers'
-import { getTransactions } from '../../web3/apollo/controllers'
+import { truncateAddress } from '../../../../utils/account'
+import { formatTime } from '../../../../utils/date'
+import { getSymbolVariants } from '../../../../utils/registrars'
+import { formatDollarAmount, formatAmount } from '../../../../utils/numbers'
+import { getTransactions } from '../../../../web3/apollo/controllers'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -103,7 +102,7 @@ const DataRow = ({ transaction }) => {
 	)
 }
 
-export const MarketHistoryLarge = ({ ticker }) => {
+export const MarketHistory = ({ ticker }) => {
 	const [ loading, setLoading ] = useState(true)
 	const [ transactions, setTransactions ] = useState([])
 

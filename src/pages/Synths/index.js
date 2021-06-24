@@ -1,20 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { ThemeContext } from '../../context/ThemeContext'
-
-import { TVChartContainer } from '../../components/TVChartContainer'
-import { MarketHistoryLarge, AccountHistoryLarge } from '../../components/TransactionsHistory'
-import { SynthStats } from '../../components/SynthStats'
+import { Chart } from '../../components/Pages/Synths/Chart/Chart'
+import { AccountHistory } from '../../components/Pages/Synths/TransactionsTable/AccountHistory'
+import { MarketHistory } from '../../components/Pages/Synths/TransactionsTable/MarketHistory'
+import { Widget } from '../../components/Pages/Synths/Widget'
+import { TopRegistrars } from '../../components/Pages/Synths/TopRegistrars'
 
 import { Card } from '../../components/Card'
 import { Button, LinkButton } from '../../components/Button'
 import { Break } from '../../components/Break'
-
-import { useTopRegistrars } from '../../hooks/registrars'
-import { widgetOptions as getWidgetOptions } from './widgetOptions'
-import Datafeed from './datafeed'
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,24 +25,12 @@ const Wrapper = styled.div`
   }
 `
 
-const TokensBar = styled(Card)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-`
-
 const MidWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 10px;
   width: 100%;
   height: 500px;
-`
-
-const ChartWrapper = styled(Card)`
-  padding: 5px; /* additional padding because the chart instance has no border-radius */
-  background: ${props => props.theme === 'light' ? '#FFFFFF' : '#131722'}
 `
 
 const TableWrapper = styled(Card)`
@@ -66,28 +50,14 @@ const TableNavigation = styled.div`
 `
 
 export default function () {
-	const { theme } = useContext(ThemeContext)
 	let { ticker } = useParams()
 	ticker = (ticker) ? ticker.toUpperCase() : 'GME'
-
-	const datafeed = new Datafeed({ ticker })
-	const widgetOptions = getWidgetOptions({ theme, datafeed })
 
 	const [ showMarketHistory, setShowMarketHistory ] = useState(true)
 	const [ showAccountHistory, setShowAccountHistory ] = useState(false)
 
-	// topRegistrars is just temporary
-	const topRegistrars = useTopRegistrars()
-	const mappedTopRegistrars = topRegistrars.reduce((acc, obj) => {
-		const tickerOnly = obj.symbol.split('-').shift(0).substring(1) // dGME-L becomes GME and dLBS becomes LBS
-		if (acc.includes(tickerOnly)) return acc
-		acc.push(tickerOnly)
-		return acc
-	}, [])
-
 	useEffect(() => {
 		document.title = `${ticker} Info | dSynths.io`
-
 	}, [ticker])
 
 	const toggleTabs = (type) => {
@@ -108,27 +78,10 @@ export default function () {
 
 	return (
 		<Wrapper>
-			<TokensBar>
-				<div style={{display: 'flex'}}>
-					{mappedTopRegistrars.length >= 1 && mappedTopRegistrars.map((symbol, index) => {
-						return (
-							<LinkButton
-								key={index}
-								selected={symbol === ticker}
-								to={symbol}
-							>
-								{symbol}
-							</LinkButton>
-						)
-					})}
-				</div>
-			</TokensBar>
+      <TopRegistrars />
 			<MidWrapper>
-				{/*special wrapper for the chart because the chart has no border-radius*/}
-				<ChartWrapper theme={theme}>
-					<TVChartContainer widgetOptions={widgetOptions}/>
-				</ChartWrapper>
-				<SynthStats ticker={ticker}/>
+				<Chart ticker={ticker}/>
+				<Widget ticker={ticker}/>
 			</MidWrapper>
 			<TableWrapper>
 				<TableNavigation>
@@ -136,8 +89,8 @@ export default function () {
 					<Button selected={showAccountHistory} onClick={() => toggleTabs('account')}>Your Trades</Button>
 				</TableNavigation>
 				<Break />
-				{showMarketHistory && <MarketHistoryLarge ticker={ticker}/>}
-				{showAccountHistory && <AccountHistoryLarge ticker={ticker}/>}
+				{showMarketHistory && <MarketHistory ticker={ticker}/>}
+				{showAccountHistory && <AccountHistory ticker={ticker}/>}
 			</TableWrapper>
 		</Wrapper>
 	)

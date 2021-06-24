@@ -3,20 +3,20 @@ import styled from 'styled-components'
 import { ExternalLink } from 'react-external-link'
 import { useWeb3React } from '@web3-react/core'
 
-import { Break } from '../Break'
+import { Break } from '../../../Break'
 import {
 	AutoColumn,
 	HeaderItem,
 	TableText,
 	FullRow,
 	WrappedLoader,
-} from './components'
+} from './Components'
 
-import { isAddress } from '../../utils/account'
-import { formatTime } from '../../utils/date'
-import { getSymbolVariants } from '../../utils/registrars'
-import { formatDollarAmount, formatAmount } from '../../utils/numbers'
-import { getTransactionsForAccount } from '../../web3/apollo/controllers'
+import { isAddress } from '../../../../utils/account'
+import { formatTime } from '../../../../utils/date'
+import { getSymbolVariants } from '../../../../utils/registrars'
+import { formatDollarAmount, formatAmount } from '../../../../utils/numbers'
+import { getTransactionsForAccount } from '../../../../web3/apollo/controllers'
 
 const ResponsiveGrid = styled.div`
   display: grid;
@@ -101,7 +101,7 @@ const DataRow = ({ transaction }) => {
 	)
 }
 
-export const AccountHistoryLarge = ({ ticker }) => {
+export const AccountHistory = ({ ticker }) => {
 	const { active, account } = useWeb3React()
 
 	const [ tableText, setTableText ] = useState('')
@@ -136,7 +136,7 @@ export const AccountHistoryLarge = ({ ticker }) => {
 	if (loading) return <WrappedLoader />
 
 	return (
-	// No Card: should be provided by parent
+		// No Card: should be provided by parent
 		<AutoColumn gap="8px">
 			<ResponsiveGrid>
 				<HeaderItem>Action</HeaderItem>
@@ -154,10 +154,10 @@ export const AccountHistoryLarge = ({ ticker }) => {
 					<Break />
 				</Fragment>
 			)) : (
-				<React.Fragment>
+				<Fragment>
 					<FullRow />
 					<FullRow>{tableText}</FullRow>
-				</React.Fragment>
+				</Fragment>
 			)}
 			{/* TODO: add pagination*/}
 		</AutoColumn>

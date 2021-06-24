@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Loader } from '../Loader'
+import { Loader } from '../../../Loader'
 
 export const AutoColumn = styled.div`
   display: grid;

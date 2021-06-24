@@ -1,4 +1,4 @@
-import { getStockCandles } from '../../utils/stocks'
+import { getStockCandles } from '../../../../utils/stocks'
 
 export default class Datafeed {
 	constructor({ ticker }) {
