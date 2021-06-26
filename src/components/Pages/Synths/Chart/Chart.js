@@ -10,7 +10,7 @@ import Datafeed from './datafeed'
 
 const ChartWrapper = styled(Card)`
   padding: 5px; /* additional padding because the chart instance has no border-radius */
-  background: ${props => props.theme === 'light' ? '#FFFFFF' : '#131722'}
+  background: ${props => props.theme === 'light' ? '#FFFFFF' : 'var(--c-bg0)'}
 `
 
 export const Chart = ({ ticker }) => {
@@ -21,7 +21,7 @@ export const Chart = ({ ticker }) => {
 
   return (
     <ChartWrapper theme={theme}>
-      <TVChartContainer widgetOptions={widgetOptions} ticker={ticker}/>
+      {/*<TVChartContainer widgetOptions={widgetOptions} ticker={ticker}/>*/}
     </ChartWrapper>
   )
 }

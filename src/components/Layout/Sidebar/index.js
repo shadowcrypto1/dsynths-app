@@ -11,14 +11,14 @@ import {
 } from 'react-pro-sidebar'
 
 import { Header } from './Header'
-import Footer from './Footer'
+import { Footer } from './Footer'
 
 import { navigationMapping } from '../../../constants'
 
 import './index.css'
 
 export const Sidebar = ({ toggled, handleToggleSidebar }) => {
-	const location = useLocation()
+	const { pathname } = useLocation()
 
 	return (
 		<ProSidebar
@@ -35,11 +35,11 @@ export const Sidebar = ({ toggled, handleToggleSidebar }) => {
 					{navigationMapping.map((item, index) => (
 						<MenuItem
 							key={index}
-							icon={item.icon}
-							active={location.pathname.split('/')[1] === item.route}
+							// icon={item.icon}
+							active={pathname === item.route}
 						>
 							{item.title}
-							<Link to={`/${item.route}`} />
+							<Link to={`${item.route}`} />
 						</MenuItem>
 					))}
 				</Menu>

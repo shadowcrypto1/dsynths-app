@@ -72,10 +72,15 @@ export const TradeButtonTemplate = styled.button`
   font-size: 20px;
   text-align: center;
   background: var(--c-bg1);
+  color: #FFFFFF;
 
   &:hover {
     cursor: pointer;
   }
+`
+
+export const TradeButton = styled(TradeButtonTemplate)`
+  background: linear-gradient(225deg,#0779e4 -.01%,#ea2c62 100%);
 `
 
 export const LongButton = styled(TradeButtonTemplate)`

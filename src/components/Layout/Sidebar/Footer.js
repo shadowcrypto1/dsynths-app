@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   overflow: hidden;
 `
 
-export default function Footer () {
+export const Footer = () => {
 	return (
 		<Wrapper>
 			<ThemeToggle />

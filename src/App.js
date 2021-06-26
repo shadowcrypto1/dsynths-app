@@ -5,7 +5,7 @@ import { ModalProvider } from 'styled-react-modal'
 import { ThemeProvider } from './context/ThemeContext'
 import Router from './Router'
 
-import { getLibrary } from './web3/utils'
+import { getLibrary } from './web3/utils/library'
 
 import './styles/index.css'
 

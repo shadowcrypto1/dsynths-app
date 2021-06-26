@@ -10,10 +10,11 @@ import { ThemeButton } from '../../components/Button'
 import { Close } from '../../components/Icons/Close'
 import { Loader } from '../../components/Loader'
 
-import { useEagerConnect, useInactiveListener } from '../hooks'
+import { useEagerConnect } from '../hooks/useEagerConnect'
+import { useInactiveListener } from '../hooks/useInactiveListener'
 import { connectorsByName, supportedChainIds } from '../connectors'
-import { truncateAddress } from '../../utils/account'
-import { getErrorMessage } from '../utils'
+import { truncateAddress } from '../utils/account'
+import { getErrorMessage } from '../utils/error'
 
 const StyledModal = Modal.styled`
   background-color: var(--c-bg0);
@@ -109,6 +110,9 @@ export const ConnectButton = () => {
 
 	useEffect(() => {
     if (!error) return // on init
+    
+    resetWalletConnector()
+    console.log(getErrorMessage(error))
 
 		if (
 			error instanceof UserRejectedRequestErrorInjected ||
@@ -127,9 +131,6 @@ export const ConnectButton = () => {
       handleConnectEvents({ payload: 'noEthereumProviderError' })
       return
     }
-
-		resetWalletConnector()
-    console.log(getErrorMessage(error))
     // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [error])
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { Layout } from './components/Layout'
-import SynthsPage from './pages/Synths'
+import TradeClassic from './pages/Trade/Classic'
 
 import './styles/index.css'
 
@@ -13,12 +13,12 @@ export default function App() {
 				<Switch>
 					<Route
 						exact
-						path="/synths/:ticker"
+						path="/trade/classic"
 						component={() => (
-							<SynthsPage />
+							<TradeClassic />
 						)}
 					/>
-					<Redirect from="*" to="/synths/GME" />
+					<Redirect from="*" to="/trade/classic?ticker=GME" />
 				</Switch>
 			</Layout>
 		</BrowserRouter>
