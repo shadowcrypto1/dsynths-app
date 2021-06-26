@@ -21,7 +21,7 @@ export const Chart = ({ ticker }) => {
 
   return (
     <ChartWrapper theme={theme}>
-      {/*<TVChartContainer widgetOptions={widgetOptions} ticker={ticker}/>*/}
+      <TVChartContainer widgetOptions={widgetOptions} ticker={ticker}/>
     </ChartWrapper>
   )
 }
