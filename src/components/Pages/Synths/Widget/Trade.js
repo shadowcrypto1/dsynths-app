@@ -102,7 +102,10 @@ const getTradeProps = async (ticker) => {
     const symbolMapping = getSymbolVariants(ticker, 'stock')
     const data = await getRegistrars(symbolMapping)
 
-    let result = {}
+    let result = {
+      long: {},
+      short: {}
+    }
     for (let i = 0; i < data.length; i++) {
       const type = (data[i].symbol.split('-').length > 1)
         ? data[i].symbol.slice(-1) === 'L' ? 'long' : 'short'
@@ -168,7 +171,12 @@ export const Trade = ({ toggle, ticker }) => {
     const obj = await getTradeProps(ticker)
     setTradeProps(obj)
     setToSymbol(obj['long'].symbol)
-    setAvailableTypes(Object.keys(obj))
+
+    const types = Object.keys(obj).reduce((acc, type) => {
+      if (Object.keys(obj[type]).length > 0) acc.push(type)
+      return acc
+    }, [])
+    setAvailableTypes(types)
   }
 
   const handleTypeSwitch = (type) => {
@@ -260,16 +268,26 @@ export const Trade = ({ toggle, ticker }) => {
   return (
     <Wrapper>
       <DirectionWrapper>
-        {availableTypes && availableTypes.map((type, index) => (
+        {(availableTypes && availableTypes.includes('long')) && (
           <TypeItem
-            key={index}
-            active={currentType === type}
-            onClick={() => handleTypeSwitch(type)}
-            type={type}
+            key={'long'}
+            active={currentType === 'long'}
+            onClick={() => handleTypeSwitch('long')}
+            type={'long'}
           >
-            {type.toUpperCase()}
+            LONG
           </TypeItem>
-        ))}
+        )}
+        {(availableTypes && availableTypes.includes('short')) && (
+          <TypeItem
+            key={'short'}
+            active={currentType === 'short'}
+            onClick={() => handleTypeSwitch('short')}
+            type={'short'}
+          >
+            SHORT
+          </TypeItem>
+        )}
       </DirectionWrapper>
       {Object.keys(tradeProps) && (
         <TradeWrapper>
