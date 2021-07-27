@@ -4,11 +4,13 @@ import { isAddress } from "@ethersproject/address"
 import { BigNumber } from '@ethersproject/bignumber'
 
 import { useTokenContract } from './useContract'
+import { useCorrectNetworkURL } from './useCorrectNetworkURL'
 
 export const useTokenBalance = (tokenAddress, isToken) => {
   const { account, library } = useWeb3React()
   const [ balance, setBalance ] = useState(BigNumber.from('0'))
   const contract = useTokenContract(tokenAddress)
+  const isNetworkCorrect = useCorrectNetworkURL()
 
   useEffect(() => {
     let mounted = true
@@ -27,7 +29,7 @@ export const useTokenBalance = (tokenAddress, isToken) => {
       }
     }
 
-    if (account && library && contract) {
+    if (account && library && contract && isNetworkCorrect) {
       fetchBalance()
     } else {
       mounted && setBalance(BigNumber.from('0'))

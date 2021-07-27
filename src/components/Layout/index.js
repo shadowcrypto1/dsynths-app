@@ -24,6 +24,18 @@ const Footer = styled.div`
   background: transparent;
 `
 
+const Disclaimer = styled.div`
+  display: block;
+  position: absolute;
+  width: 100%;
+  line-height: 20px;
+  min-height: 20px;
+  font-size: 12px;
+  background: rgba(209, 0, 28, 0.5);
+  text-align: center;
+  align-text: center;
+`
+
 export const Layout = ({ children }) => {
   const size = useWindowSize()
 	const [toggled, setToggled] = useState(false)
@@ -37,6 +49,7 @@ export const Layout = ({ children }) => {
       {size.width > 600 && <DesktopNavbar handleToggled={handleToggled}/>}
       {size.width <= 600 && <MobileNavbar handleToggled={handleToggled}/>}
 			<Main>
+        <Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>
 				{children}
         <Footer />
 			</Main >

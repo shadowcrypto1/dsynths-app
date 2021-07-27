@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 
 import { Wallet as WalletIcon } from '../../Icons'
 import { useTokenBalance } from '../../../hooks/useTokenBalance'
+import { useWindowSize } from '../../../hooks/useWindowSize'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const InfoWrapper = styled.div`
 
 const BarWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
@@ -66,39 +67,38 @@ const Balance = styled.div`
 
 const IconWrapper = styled(ReactImageFallback)`
   display:block;
-  width: 30px;
+  width: ${props => props.small ? '20px' : '30px'};
   height: auto;
   margin: 13px 9px 13px 14px;
 `
 
 const Symbol = styled.div`
-  width: fit-content;
+  display: inline-block;
+  width: auto;
   height: 30px;
-  font-size: 24px;
+  font-size: ${props => props.small ? '18px' : '24px'};
   line-height: 30px;
-  display: flex;
   align-items: center;
-  text-align: right;
-  margin: 13px 13px 13px 0px;
+  text-align: left;
   color: #AFAFAF;
+  white-space: nowrap;
 `
 
 const VertLine = styled.div`
   border-left: 1px solid #484848;
   height: 33px;
-  margin: 11px 12px 12px 0px;
+  margin: 12px;
 `
 
 const MaxButton = styled.div`
   width: 32px;
   height: 18px;
-  font-size: 14px;
+  font-size: ${props => props.small ? '11px' : '14px'};
   line-height: 18px;
   display: flex;
   align-items: center;
   text-align: right;
   color: #C4C4C4;
-  margin: 19px 0;
 
   &:hover {
     cursor: pointer;
@@ -110,13 +110,13 @@ const AmountField = styled.input`
   justify-content: flex-end;
   text-align: right;
   align-text: right;
-  max-width: 120px;
   line-height: 16px;
-  padding-right: 20px;
+  margin: 0px 20px;
   background: transparent;
   border: none;
-  font-size: 13px;
+  font-size: ${props => props.small ? '11px' : '13px'};
   color: #CDCDCD;
+  width: 100%;
 
   &:focus {
     outline: none;
@@ -149,11 +149,17 @@ export const InputBar = ({
   const { account } = useWeb3React()
   const balance = useTokenBalance(contract, isToken)
   const [formattedBalance, setFormattedBalance] = useState('0.00')
+  const { width } = useWindowSize()
+  const [ small, setSmall ] = useState(width < 500)
 
   useEffect(() => {
     const result = (balance && balance > 0) ? formatUnits(balance, decimals) : '0.00'
     setFormattedBalance && setFormattedBalance(result)
   }, [balance])
+
+  useEffect(() => {
+    setSmall(width < 500)
+  }, [width])
 
   return (
     <Wrapper>
@@ -169,10 +175,16 @@ export const InputBar = ({
           src={`/img/tickers/${ticker}.png`}
           fallbackImage={'/img/fallback/ticker.png'}
           alt={`${ticker}_logo`}
+          small={small}
         />
-        <Symbol>{symbol}</Symbol>
+        <Symbol small={small}>{symbol}</Symbol>
         <VertLine/>
-        <MaxButton onClick={() => setAmount(formattedBalance)}>MAX</MaxButton>
+        {width >= 500 && (
+          <MaxButton
+            onClick={() => setAmount(formattedBalance)}
+            small={small}
+          >MAX</MaxButton>
+        )}
         <AmountField
           onChange={(evt) => setAmount(evt.currentTarget.value)}
           type={'number'}
@@ -182,6 +194,7 @@ export const InputBar = ({
           autoCorrect={'off'}
           spellcheck={false}
           step={'any'}
+          small={small}
         />
       </BarWrapper>
     </Wrapper>

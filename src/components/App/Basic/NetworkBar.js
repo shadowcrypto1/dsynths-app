@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
-  min-height: 80px;
+  height: auto;
   padding: 18px 9px;
 
   background-color: rgba(91, 96, 204, 0.15);
@@ -58,9 +58,13 @@ export const NetworkBar = () => {
   const { chainId } = useWeb3React()
   const rpcChangerCallback = useRpcChangerCallback()
 
+  if (!chainId) {
+    return null
+  }
+
   return (
     <Wrapper >
-      <Title>Change Network for more Assets</Title>
+      <Title>Switch Network for more Assets</Title>
       <BoxWrapper>
       {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
         const displayValue = (name === 'MAINNET') ? 'ETH' : name

@@ -121,15 +121,18 @@ export const DesktopNavbar = ({ handleToggled }) => {
       <NavWrapper>
         <NavItem to='/' selected={pathname === '/'}>Home</NavItem>
         <NavItem to='/exchange' selected={pathname === '/exchange'}>Exchange</NavItem>
-        <NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
+        {/*<NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
         <NavItem to='/stats' selected={pathname === '/stats'}>Stats</NavItem>
-        <NavItem to='/faq' selected={pathname === '/faq'}>FAQ</NavItem>
+        <NavItem to='/faq' selected={pathname === '/faq'}>FAQ</NavItem>*/}
       </NavWrapper>
       <ButtonsWrapper>
         <Web3Status/>
-        <NetworkButton style={{ marginLeft: '10px' }}>
-          <span style={{color: '#8A8E9B'}}>Network: </span>{_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId)}
-        </NetworkButton>
+        {/*<NetworkButton style={{ marginLeft: '10px' }}>
+          <span style={{color: '#8A8E9B'}}>Network: </span>
+            {_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId)
+              ?? networkName
+            }
+        </NetworkButton>*/}
         {size.width < 920 && (
           <NavToggle style={{ marginLeft: '10px', alignSelf: 'center' }} onClick={() => handleToggled(true)}/>
         )}
