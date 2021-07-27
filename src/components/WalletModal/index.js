@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import Modal from 'styled-react-modal'
-import { UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import { NoEthereumProviderError, UserRejectedRequestError as UserRejectedRequestErrorInjected } from '@web3-react/injected-connector'
 import { WalletConnectConnector, UserRejectedRequestError as UserRejectedRequestErrorWalletConnect } from '@web3-react/walletconnect-connector'
 import styled from 'styled-components'
@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import { useModalOpen } from '../../state/application/hooks'
 import { setOpenModal } from '../../state/application/actions'
 import { connectorsByName } from '../../connectors'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
 
 import {
   Close as CloseIcon,
@@ -78,7 +77,7 @@ const ErrorBox = styled.div`
 `
 
 export const WalletModal = () => {
-  const { active, account, connector, activate, error } = useActiveWeb3React()
+  const { active, account, connector, activate, error } = useWeb3React()
   const dispatch = useDispatch()
   const isOpen = useModalOpen() && !(account && active)
   const [ errorBoxText, setErrorBoxText ] = useState('')

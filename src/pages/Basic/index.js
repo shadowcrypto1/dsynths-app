@@ -191,7 +191,7 @@ export default function () {
             </SearchContainerMobile>
           )}
           <ChartContainer isDesktop={width >= 985}>
-            {/*<LineChart baseSymbol={base.symbol}/>*/}
+            <LineChart baseSymbol={base.symbol}/>
           </ChartContainer>
           <TypeWrapper>
             <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>

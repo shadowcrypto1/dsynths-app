@@ -4,18 +4,9 @@ import { isMobile } from 'react-device-detect'
 
 import { injected } from '../connectors'
 import { useMarketState } from '../state/market/hooks'
-import { NetworkContextName } from '../constants/misc'
-
-// import { useActiveWeb3React } from './useWeb3'
-
-export function useActiveWeb3React() {
-  const context = useWeb3React()
-  const contextNetwork = useWeb3React(NetworkContextName)
-  return context.active ? context : contextNetwork
-}
 
 export function useEagerConnect() {
-  const { activate, active } = useActiveWeb3React()
+  const { activate, active } = useWeb3React()
   const [tried, setTried] = useState(false)
 
   useEffect(() => {
@@ -25,10 +16,12 @@ export function useEagerConnect() {
           setTried(true)
         })
       } else {
+        setTried(true)
+
         if (isMobile && window.ethereum) {
-          activate(injected, undefined, true).catch(() => {
-            setTried(true)
-          })
+          // activate(injected, undefined, true).catch(() => {
+          //   setTried(true)
+          // })
         } else {
           setTried(true)
         }
@@ -46,7 +39,7 @@ export function useEagerConnect() {
 }
 
 export function useInactiveListener(suppress = false) {
-  const { active, error, activate } = useActiveWeb3React()
+  const { active, error, activate } = useWeb3React()
   const marketState = useMarketState()
 
   useEffect(() => {

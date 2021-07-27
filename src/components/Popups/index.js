@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import PopupItem from './PopupItem'
 import { useActivePopups } from '../../state/application/hooks'
@@ -31,7 +30,7 @@ const ContainerSmall = styled(Container)`
 
 export default function Popups() {
   const activePopups = useActivePopups()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const { width } = useWindowSize()
 
   return (

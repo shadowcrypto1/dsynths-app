@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 import { retry, RetryableError } from '../../utils/retry'
@@ -33,7 +32,7 @@ const RETRY_OPTIONS_BY_CHAIN_ID = {
 const DEFAULT_RETRY_OPTIONS = { n: 1, minWait: 0, maxWait: 0 }
 
 export default function Updater() {
-  const { chainId, library } = useActiveWeb3React()
+  const { chainId, library } = useWeb3React()
   const lastBlockNumber = useBlockNumber()
 
   const dispatch = useDispatch()

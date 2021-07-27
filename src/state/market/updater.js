@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
 
 import { useParsedQueryString } from '../../hooks/useParsedQueryString'
 import { replaceMarketState } from './actions'
@@ -14,7 +13,7 @@ const Field = {
 }
 
 export default function Updater() {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const dispatch = useDispatch()
   const parsedQs = useParsedQueryString()
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { UnsupportedChainIdError } from '@web3-react/core'
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
 
 import { WalletModal } from '../WalletModal'
 import { setOpenModal } from '../../state/application/actions'
@@ -51,7 +50,7 @@ export const Web3Status = () => {
 }
 
 function StatusButton() {
-  const { account, active, connector, error, deactivate } = useActiveWeb3React()
+  const { account, active, connector, error, deactivate } = useWeb3React()
   const dispatch = useDispatch()
 
   const onClickProxy = () => {

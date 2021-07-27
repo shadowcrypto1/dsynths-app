@@ -1,16 +1,15 @@
 import { useCallback } from 'react'
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import qs from 'query-string'
-import { useActiveWeb3React } from './useWeb3'
 
 import { useMarketState } from '../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../constants'
 import { RpcParams } from '../constants/rpc'
 
 export const useRpcChangerCallback = () => {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
   const { location, push, replace } = useHistory()
   const { networkName: fallbackNetworkName } = useMarketState()
 

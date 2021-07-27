@@ -1,8 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from './useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID } from '../constants'
 import { useTokenContract } from './useContract'
@@ -26,7 +25,7 @@ export function useApproveCallback({
   symbol,
   type,
 }) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
   const spenderContract = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID[chainId]
   const tokenAddress = isToken ? address : undefined
   const currentAllowance = useTokenAllowance(tokenAddress, spenderContract)

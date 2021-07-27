@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from './useWeb3'
+import { useWeb3React } from '@web3-react/core'
 import { isAddress } from "@ethersproject/address"
 import { BigNumber } from '@ethersproject/bignumber'
 
 import { useTokenContract } from './useContract'
 
 export const useTokenBalance = (tokenAddress, isToken) => {
-  const { account, library } = useActiveWeb3React()
+  const { account, library } = useWeb3React()
   const [ balance, setBalance ] = useState(BigNumber.from('0'))
   const contract = useTokenContract(tokenAddress)
 

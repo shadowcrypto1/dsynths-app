@@ -3,9 +3,8 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import ReactImageFallback from "react-image-fallback"
 import { formatUnits } from "@ethersproject/units"
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import { RotateCw } from 'react-feather'
-import { useActiveWeb3React } from '../../../hooks/useWeb3'
 
 import { TradeButton } from './Button'
 import { InputBar } from './Input'
@@ -75,7 +74,7 @@ const NoteWrapper = styled.div`
 
 export const Trade = ({ type }) => {
   const dispatch = useDispatch()
-  const { account, active, chainId } = useActiveWeb3React()
+  const { account, active, chainId } = useWeb3React()
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
 

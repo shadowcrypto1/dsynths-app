@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { supportedChainId } from '../../utils/supportedChainId'
 import { updateBlockNumber, updateChainId } from './actions'
@@ -9,7 +8,7 @@ import useIsWindowVisible from '../../hooks/useIsWindowVisible'
 import useDebounce from '../../hooks/useDebounce'
 
 export default function Updater() {
-  const { library, chainId } = useActiveWeb3React()
+  const { library, chainId } = useWeb3React()
   const dispatch = useDispatch()
 
   const windowVisible = useIsWindowVisible()

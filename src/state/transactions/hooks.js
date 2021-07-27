@@ -1,12 +1,11 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { addTransaction } from './actions'
 
 export function useTransactionAdder() {
-  const { chainId, account } = useActiveWeb3React()
+  const { chainId, account } = useWeb3React()
   const dispatch = useDispatch()
 
   return useCallback((response, { summary, approval }) => {
@@ -23,7 +22,7 @@ export function useTransactionAdder() {
 
 // returns all the transactions for the current chain
 export function useAllTransactions() {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
 
   const state = useSelector((state) => state.transactions)
   return chainId ? state[chainId] ?? {} : {}

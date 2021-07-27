@@ -3,8 +3,7 @@ import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { DSynthsLogo, NavToggle } from '../../Icons'
-// import { MainConnectButton } from '../../../web3/components/MainConnectButton'
-
+import { Web3Status } from '../../Web3Status'
 import { useWindowSize } from '../../../hooks/useWindowSize'
 
 const Wrapper = styled.nav`
@@ -36,7 +35,7 @@ export const MobileNavbar = ({ handleToggled }) => {
   return (
     <Wrapper>
       <StyledLogo/>
-      {/*<MainConnectButton/>*/}
+      <Web3Status/>
       <NavToggle onClick={() => handleToggled(true)}/>
     </Wrapper>
   )

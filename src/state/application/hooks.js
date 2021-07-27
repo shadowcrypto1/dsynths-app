@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { addPopup, removePopup } from './actions'
 
@@ -12,7 +11,7 @@ export function useModalOpen() {
 }
 
 export function useBlockNumber() {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   return useSelector((state) => {
     return state.application.blockNumber[chainId ?? -1]
   })

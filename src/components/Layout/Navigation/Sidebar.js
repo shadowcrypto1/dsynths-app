@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import { DSynthsLogo, DSynthsText, NavToggle } from '../../Icons'
-// import { MainConnectButton } from '../../../web3/components/MainConnectButton'
 
 const Wrapper = styled.nav`
   position: absolute;

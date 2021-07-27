@@ -1,6 +1,5 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { NetworkConnector } from './NetworkConnector.js'
 
 import { SUPPORTED_CHAINS_BY_NAME, SUPPORTED_CHAIN_IDS } from '../constants'
 
@@ -19,11 +18,6 @@ const NETWORK_URLS = {
 	[SUPPORTED_CHAINS_BY_NAME.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
 	[SUPPORTED_CHAINS_BY_NAME.XDAI]: 'https://rpc.xdaichain.com',
 }
-
-export const network = new NetworkConnector({
-  urls: NETWORK_URLS,
-  defaultChainId: 1,
-})
 
 export const injected = new InjectedConnector({
 	supportedChainIds: SUPPORTED_CHAIN_IDS,

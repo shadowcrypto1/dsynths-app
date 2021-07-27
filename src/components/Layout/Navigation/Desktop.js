@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import _ from 'lodash'
-import { useActiveWeb3React } from '../../../hooks/useWeb3'
 
 import { DSynthsLogo, DSynthsText, NavToggle } from '../../Icons'
 import { Web3Status } from '../../Web3Status'
@@ -109,7 +108,7 @@ const NetworkButton = styled(ThemedButton)`
 
 export const DesktopNavbar = ({ handleToggled }) => {
   const { pathname } = useLocation()
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const { networkName } = useMarketState()
   const size = useWindowSize()
 

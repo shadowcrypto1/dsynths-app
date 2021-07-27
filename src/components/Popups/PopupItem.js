@@ -3,8 +3,7 @@ import { X, CheckCircle, AlertCircle, Loader, ArrowUpRight } from 'react-feather
 import { useSpring } from '@react-spring/web'
 import { animated } from 'react-spring'
 import styled from 'styled-components'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { PopupContent } from '../../state/application/actions'
 import { useRemovePopup } from '../../state/application/hooks'
@@ -93,7 +92,7 @@ const Fader = styled.div`
 const AnimatedFader = animated(Fader)
 
 export default function PopupItem({ removeAfterMs, content, popKey }) {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const removePopup = useRemovePopup()
   const removeThisPopup = useCallback(() => removePopup(popKey), [popKey, removePopup])
 

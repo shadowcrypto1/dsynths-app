@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from '../../../hooks/useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
 import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
@@ -56,7 +55,7 @@ const Box = styled.div`
 `
 
 export const NetworkBar = () => {
-  const { chainId } = useActiveWeb3React()
+  const { chainId } = useWeb3React()
   const rpcChangerCallback = useRpcChangerCallback()
 
   return (

@@ -1,9 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
-// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '@web3-react/core'
 import Web3 from 'web3'
-import { useActiveWeb3React } from './useWeb3'
 
 import { useAMMContract } from './useContract'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
@@ -32,7 +31,7 @@ export function useSyncCallback({
   outputAmount,
   type
 }) {
-  const { account, chainId } = useActiveWeb3React()
+  const { account, chainId } = useWeb3React()
   const signatureUrls = useSignatureUrls()
   const action = useActionState()
 

@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { BigNumber } from '@ethersproject/bignumber'
-// import { useWeb3React } from '@web3-react/core'
-import { useActiveWeb3React } from './useWeb3'
+import { useWeb3React } from '@web3-react/core'
 
 import { useTokenContract } from './useContract'
 
 export function useTokenAllowance(tokenAddress, spenderAddress) {
-  const { account, library, chainId } = useActiveWeb3React()
+  const { account, library, chainId } = useWeb3React()
   const contract = useTokenContract(tokenAddress)
   const [ allowance, setAllowance ] = useState(BigNumber.from('0'))
 
