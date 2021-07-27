@@ -1,35 +1,46 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Sidebar } from './Sidebar'
-import { Main } from './Main'
+import { DesktopNavbar } from './Navigation/Desktop'
+import { MobileNavbar } from './Navigation/Mobile'
+import { Sidebar } from './Navigation/Sidebar'
+
+import { useWindowSize } from '../../hooks/useWindowSize'
 
 const Wrapper = styled.div`
+  display: block;
   height: 100%;
-  display: flex;
-  position: relative;
-  overflow: hidden;
+`
+
+const Main = styled.div`
+  display: block;
+  height: calc(100vh - 70px - 40px);
+`
+
+const Footer = styled.div`
+  display: block;
+  width: 100%;
+  height: 40px;
+  background: transparent;
 `
 
 export const Layout = ({ children }) => {
+  const size = useWindowSize()
 	const [toggled, setToggled] = useState(false)
 
-	// Open/close sidebar
-	const handleToggleSidebar = (value) => {
-		setToggled(value)
-	}
+  const handleToggled = (state) => {
+    setToggled(state)
+  }
 
 	return (
 		<Wrapper>
-			<Sidebar
-				toggled={toggled}
-				handleToggleSidebar={handleToggleSidebar}
-			/>
-			<Main
-				handleToggleSidebar={handleToggleSidebar}
-			>
+      {size.width > 600 && <DesktopNavbar handleToggled={handleToggled}/>}
+      {size.width <= 600 && <MobileNavbar handleToggled={handleToggled}/>}
+			<Main>
 				{children}
+        <Footer />
 			</Main >
+      <Sidebar toggled={toggled} handleToggled={handleToggled}/>
 		</Wrapper>
 	)
 }

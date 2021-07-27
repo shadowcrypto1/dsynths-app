@@ -1,15 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-@import '~react-pro-sidebar/dist/css/styles.css';
-
-@import "./variables.css";
+@import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
 @import "./scrollbar.css";
 
 body {
   margin: 0;
   height: 100vh;
-  background: var(--bg-radiant);
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Cairo', sans-serif;
+  font-style: normal;
+  font-weight: normal;
   font-size: 1rem;
+  color: #FFFFFF;
+
+  background: radial-gradient(100% 100% at 50% 100%, #66539D 0%, #0B1321 59.9%); /* fallback for slow connections */
+  background: url('/img/background_stars.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 * {
@@ -20,8 +26,6 @@ body {
   -moz-box-sizing:border-box;
   -webkit-box-sizing:border-box;
   -ms-box-sizing:border-box;
-
-  color: var(--font-text1);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -37,5 +41,5 @@ input[type=number] {
 }
 
 #root {
-  height: 100%;
+  height: 100vh;
 }

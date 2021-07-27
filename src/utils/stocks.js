@@ -62,7 +62,8 @@ export const getStockCandles = async (symbol, resolution, from, to) => {
 		})
 
 		if (data.s === 'no_data' || data.s !== 'ok') {
-			console.info('[data] has returned 0 values for the requested range, this is either a bug or the requested dataset is out of range')
+			console.info('[data] has returned 0 values for the requested range, this is either a bug or the requested dataset is out of range:')
+			console.info(data)
 			return []
 		}
 
