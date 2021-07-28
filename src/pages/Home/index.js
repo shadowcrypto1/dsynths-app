@@ -107,7 +107,7 @@ const TradeButton = styled(Link)`
   width: 175px;
   height: 45px;
   line-height: 45px;
-  font-size: 20px;
+  font-size: 18px;
   color: #FFFFFF;
   background: linear-gradient(90deg, #8354AA 5.14%, #6ED2EA 92.71%);
   border-radius: 20px;
