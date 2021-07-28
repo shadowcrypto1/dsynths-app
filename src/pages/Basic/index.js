@@ -46,6 +46,18 @@ const HeroContainer = styled.div`
   overflow-y: hidden;
 `
 
+const Disclaimer = styled.div`
+  display: block;
+  position: absolute;
+  width: 100%;
+  line-height: 20px;
+  min-height: 20px;
+  font-size: 12px;
+  background: rgba(209, 0, 28, 0.5);
+  text-align: center;
+  align-text: center;
+`
+
 const HeroTitle = styled.div`
   display: block;
   text-align: center;
@@ -165,6 +177,7 @@ export default function () {
   if (status === 'OK') {
     return (
       <React.Fragment>
+        <Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>
         {width >= 985 && (
           <SearchContainerDesktop size={width}>
             <SearchBar isDesktop={width >= 985}/>

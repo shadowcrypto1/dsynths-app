@@ -13,6 +13,7 @@ import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
 
 const Wrapper = styled.nav`
   display: grid;
+  position: sticky;
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
   height: 60px;
@@ -21,7 +22,7 @@ const Wrapper = styled.nav`
   padding: 0px 30px;
 `
 
-const LogoWrapper = styled.div`
+const LogoWrapper = styled(Link)`
   display: flex;
   justify-content: flex-start;
   flex-grow: row nowrap;
@@ -114,7 +115,7 @@ export const DesktopNavbar = ({ handleToggled }) => {
 
   return (
     <Wrapper>
-      <LogoWrapper>
+      <LogoWrapper to='/'>
         <DSynthsLogo style={{marginRight: '6px'}}/>
         <DSynthsText/>
       </LogoWrapper>

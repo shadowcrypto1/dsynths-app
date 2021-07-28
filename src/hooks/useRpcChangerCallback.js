@@ -12,16 +12,6 @@ export const useRpcChangerCallback = () => {
   const { replace } = useHistory()
   const { networkName: fallbackNetworkName } = useMarketState()
 
-  const onSuccessCallback = (networkName) => {
-    // Alter the current URL, but strip all params except for the networkName
-    // const queryParams = qs.parse(location.search)
-    // const query = { ...queryParams, network: networkName }
-    const query = { network: networkName }
-
-    // Dispatch changes by altering the url => following this is the useWeb3 instance refreshing the page
-    replace({ search: qs.stringify(query)})
-  }
-
   return useCallback((networkName) => {
     if (!chainId || !account || !window.ethereum) return
 
@@ -34,8 +24,7 @@ export const useRpcChangerCallback = () => {
       params: [{ chainId: RpcParams[targetChainId].chainId }],
     })
     .then((result) => {
-      console.log('Successfully switched network RPC, proceeding to alter URL')
-      onSuccessCallback(networkName)
+      console.log('Successfully switched network RPC')
     })
     .catch(err => {
       console.log('Something went wrong trying to change the network RPC: ')

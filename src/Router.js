@@ -11,6 +11,7 @@ import QuotesUpdater from './state/quotes/updater'
 import TransactionUpdater from './state/transactions/updater'
 
 import { Layout } from './components/Layout'
+import Home from './pages/Home'
 import Basic from './pages/Basic'
 
 function Updaters() {
@@ -34,10 +35,13 @@ export default function Router() {
 			<Updaters/>
 			<Layout>
 				<Switch>
+          <Route path={['/', '/home']} exact>
+            <Home/>
+          </Route>
 					<Route path='/exchange'>
 						<Basic/>
 					</Route>
-					<Redirect to='/exchange?symbol=GME&network=mainnet'/>
+					<Redirect to='/'/>
 				</Switch>
 			</Layout>
 		</BrowserRouter>

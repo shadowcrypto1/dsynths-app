@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
+import qs from 'query-string'
 
-import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
+import { useMarketState } from '../../../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
 
 const Wrapper = styled.div`
@@ -56,7 +58,14 @@ const Box = styled.div`
 
 export const NetworkBar = () => {
   const { chainId } = useWeb3React()
-  const rpcChangerCallback = useRpcChangerCallback()
+  const { location, push } = useHistory()
+  const { networkName } = useMarketState()
+
+  const handleClick = (newNetworkName) => {
+    const query = { network: newNetworkName }
+    push({ search: qs.stringify(query)})
+    window.location.reload() // TODO: think about whether we want this here.
+  }
 
   if (!chainId) {
     return null
@@ -64,15 +73,18 @@ export const NetworkBar = () => {
 
   return (
     <Wrapper >
-      <Title>Switch Network for more Assets</Title>
+      <Title>Select Network to Choose Assets From</Title>
       <BoxWrapper>
       {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
         const displayValue = (name === 'MAINNET') ? 'ETH' : name
+        const disabled = name === networkName
         return (
           <Box
             key={name}
-            onClick={() => rpcChangerCallback(name)}
-            disabled={SUPPORTED_CHAINS_BY_NAME[name] === chainId}
+            onClick={() => {
+              !disabled && handleClick(name)
+            }}
+            disabled={disabled}
             >{displayValue}
           </Box>
         )

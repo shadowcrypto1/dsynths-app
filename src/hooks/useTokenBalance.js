@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
+import { isAddress } from '@ethersproject/address'
 
 import { useTokenContract } from './useContract'
 import { useCorrectNetworkURL } from './useCorrectNetworkURL'
