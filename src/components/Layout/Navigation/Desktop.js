@@ -84,29 +84,28 @@ const ButtonsWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const ThemedButton = styled.button`
-  width: 150px;
+const NetworkBox = styled.button`
+  width: auto;
   height: 30px;
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
   border-radius: 6px;
-  font-size: 12.5px;
-  line-height: 16px;
+  font-size: 10px;
+  line-height: 10px;
   align-items: center;
-  text-align: center;
+  text-align: left;
   color: #FFFFFF;
+  pointer-events: none;
+  padding: 0 20px;
 
   &:hover {
     cursor: pointer;
     background: rgba(91, 96, 204, 0.25);
   }
-`
 
-const NetworkButton = styled(ThemedButton)`
   @media only screen and (max-width: 920px) {
     display: none;
   }
-  pointer-events: none;
 `
 
 export const DesktopNavbar = ({ handleToggled }) => {
@@ -130,12 +129,16 @@ export const DesktopNavbar = ({ handleToggled }) => {
       </NavWrapper>
       <ButtonsWrapper>
         <Web3Status/>
-        {/*<NetworkButton style={{ marginLeft: '10px' }}>
-          <span style={{color: '#8A8E9B'}}>Network: </span>
-            {_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId)
-              ?? networkName
-            }
-        </NetworkButton>*/}
+        <NetworkBox style={{ marginLeft: '10px' }}>
+          <div>
+            <span style={{color: '#8A8E9B'}}>Connected Network: </span>
+            <span>{_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId) ?? ''}</span>
+          </div>
+          <div>
+            <span style={{color: '#8A8E9B'}}>Viewing Network: </span>
+            <span>{networkName}</span>
+          </div>
+        </NetworkBox>
         {size.width < 920 && (
           <NavToggle style={{ marginLeft: '10px', alignSelf: 'center' }} onClick={() => handleToggled(true)}/>
         )}

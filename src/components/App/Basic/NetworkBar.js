@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useWeb3React } from '@web3-react/core'
 import qs from 'query-string'
 
@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   background-color: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
   border-radius: 6px;
+  margin-top: 10px;
 `
 
 const Title = styled.div`
@@ -61,19 +62,9 @@ export const NetworkBar = () => {
   const { location, push } = useHistory()
   const { networkName } = useMarketState()
 
-  const handleClick = (newNetworkName) => {
-    const query = { network: newNetworkName }
-    push({ search: qs.stringify(query)})
-    window.location.reload() // TODO: think about whether we want this here.
-  }
-
-  if (!chainId) {
-    return null
-  }
-
   return (
-    <Wrapper >
-      <Title>Select Network to Choose Assets From</Title>
+    <Wrapper>
+      <Title>View Assets on Network: </Title>
       <BoxWrapper>
       {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
         const displayValue = (name === 'MAINNET') ? 'ETH' : name
@@ -81,10 +72,8 @@ export const NetworkBar = () => {
         return (
           <Box
             key={name}
-            onClick={() => {
-              !disabled && handleClick(name)
-            }}
             disabled={disabled}
+            onClick={() => window.location.href=`${location.pathname}?network=${displayValue}`}
             >{displayValue}
           </Box>
         )

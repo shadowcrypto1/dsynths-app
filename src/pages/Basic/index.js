@@ -88,12 +88,6 @@ const SearchContainerDesktop = styled.div`
   right: 30px;
   width: ${({ size }) => (size > 1300) ? '340px' : (size > 1120) ? '250px' : '200px' };
   height: 30px;
-
-  & > * {
-    &:last-child {
-      margin-top: 10px;
-    }
-  }
 `
 
 const SearchContainerMobile = styled.div`
@@ -166,7 +160,8 @@ export default function () {
             <HeroTitle>Stock not found</HeroTitle>
             <HeroSubTitle>Try a different stock or switch networks!</HeroSubTitle>
             <SearchContainerMobile size={width}>
-              <SearchBar isDesktop={width >= 985}/>
+              <SearchBar focus={true}/>
+              <NetworkBar/>
             </SearchContainerMobile>
           </HeroContainer>
         </Wrapper>
@@ -180,8 +175,8 @@ export default function () {
         <Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>
         {width >= 985 && (
           <SearchContainerDesktop size={width}>
-            <SearchBar isDesktop={width >= 985}/>
-            <NetworkBar size={width}/>
+            <SearchBar focus={width >= 985}/>
+            <NetworkBar/>
           </SearchContainerDesktop>
         )}
         <Wrapper>
@@ -218,7 +213,7 @@ export default function () {
           <HeroTitle>Oh oh...</HeroTitle>
           <HeroSubTitle>Something went wrong, please try again later!</HeroSubTitle>
           <SearchContainerMobile size={width}>
-            <SearchBar isDesktop={width >= 985}/>
+            <SearchBar focus={true}/>
           </SearchContainerMobile>
         </HeroContainer>
       </Wrapper>

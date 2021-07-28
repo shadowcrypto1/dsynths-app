@@ -179,7 +179,7 @@ export const Trade = ({ type }) => {
         </TradeButton>
       ) : !correctNetworkURL ? (
         <TradeButton onClick={() => rpcChangerCallback()}>
-          SWITCH NETWORK
+          CHANGE WALLET NETWORK
         </TradeButton>
       ) : isClosed ? (
         <TradeButton disabled={true}>

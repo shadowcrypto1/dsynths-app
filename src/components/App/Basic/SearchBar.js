@@ -92,7 +92,7 @@ const NoResult = styled(OptionRow)`
   align-text: center;
 `
 
-export const SearchBar = ({ isDesktop }) => {
+export const SearchBar = ({ focus }) => {
   const { location, push } = useHistory()
   const conducted = useConductedState()
   const details = useDetailsState()
@@ -133,7 +133,7 @@ export const SearchBar = ({ isDesktop }) => {
   }, [snapshot.value])
 
   return (
-    <Wrapper isDesktop={isDesktop}>
+    <Wrapper>
       <InputWrapper>
         <Input
           {...valueProps}
@@ -142,7 +142,7 @@ export const SearchBar = ({ isDesktop }) => {
         />
         <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}}/>
       </InputWrapper>
-      {(snapshot.focus || isDesktop) && (
+      {(snapshot.focus || focus) && (
         <OptionsWrapper>
           {snapshot.options.map(option => (
             <OptionRow
@@ -150,14 +150,13 @@ export const SearchBar = ({ isDesktop }) => {
               {...optionProps}
               value={option.value}
               selected={option.value.toUpperCase() === base?.symbol.toUpperCase()}
-              isDesktop={isDesktop}
             >
               <div>{option.value}</div>
               <div>{option.name}</div>
             </OptionRow>
           ))}
           {!snapshot.options.length && (
-            <NoResult isDesktop={isDesktop}>No Results Found</NoResult>
+            <NoResult>No Results Found</NoResult>
           )}
         </OptionsWrapper>
       )}

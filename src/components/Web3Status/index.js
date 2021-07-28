@@ -20,8 +20,8 @@ const Button = styled.button`
   color: #FFFFFF;
 
   &:hover {
-    cursor: pointer;
-    background: rgba(91, 96, 204, 0.25);
+    /* cursor: pointer; */
+    /* background: rgba(91, 96, 204, 0.25); */
   }
 `
 
