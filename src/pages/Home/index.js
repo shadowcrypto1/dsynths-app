@@ -24,9 +24,9 @@ const DesktopLandingContainer = styled.div`
 const MobileLandingContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-between;
-  height: calc(100vh - 110px);
-  margin: 0px 8%;
+  justify-content: center;
+  height: auto;
+  margin: 10px 8%;
 `
 
 const DesktopLandingText = styled.div`
@@ -52,15 +52,17 @@ const HeroImage = styled.img`
 
 const HeroImageShadow = styled(HeroImage)`
   position: absolute;
-  top: 60px;
-  left: 60px;
+  top: 50px;
+  left: 50px;
   z-index: 999;
+  overflow: hidden;
 `
 
 const HeroImageMobile = styled(HeroImage)`
   margin-left: 50%;
   transform: translateX(-50%);
   margin-top: 10px;
+  max-height: 250px;
 `
 
 const HeroTitle = styled.div`
@@ -101,7 +103,7 @@ const TradeButton = styled(Link)`
   text-align: center;
   align-text: center;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0px 15px;
   margin-top: 30px;
   width: 175px;
@@ -115,6 +117,7 @@ const TradeButton = styled(Link)`
 `
 
 const TradeButtonMobile = styled(TradeButton)`
+  margin-top: 10px;
   width: 100%;
 `
 
