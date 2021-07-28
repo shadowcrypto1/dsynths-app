@@ -122,7 +122,7 @@ export const DesktopNavbar = ({ handleToggled }) => {
         <DSynthsText/>
       </LogoWrapper>
       <NavWrapper>
-        <NavItem to='/' selected={pathname === '/'}>Home</NavItem>
+        <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>
         <NavItem to='/exchange' selected={pathname === '/exchange'}>Exchange</NavItem>
         {/*<NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
         <NavItem to='/stats' selected={pathname === '/stats'}>Stats</NavItem>
