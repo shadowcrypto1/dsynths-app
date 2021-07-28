@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 
@@ -127,14 +127,21 @@ const TradeContainer = styled.div`
 `
 
 export default function () {
+
   const { width } = useWindowSize()
   const base = useBaseState()
   const [ type, setType ] = useState('LONG')
   const [ status, setStatus ] = useState('LOADING')
+  const mounted = useRef(false)
+
+  useLayoutEffect(() => {
+    mounted.current = true
+    return () => (mounted.current = false)
+  }, [])
 
   const debounceLoaderScreen = useCallback(debounce(status => {
-    setStatus(status)
-  }, 1500), [])
+    mounted.current && setStatus(status)
+  }, 1500), [mounted, setStatus])
 
   useEffect(() => {
     debounceLoaderScreen(base.status)

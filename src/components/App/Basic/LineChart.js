@@ -110,17 +110,20 @@ export const LineChart = ({ baseSymbol }) => {
   const [ changeLabel, setChangeLabel ] = useState(null)
 
   useEffect(() => {
+    let priceLabelResult = null
+    let changeLabelResult = null
+
     if (data && data.length > 1) {
       const currentPrice = data[data.length - 1].close
       const zeroDayPrice = data[0].close
       const change = ((currentPrice - zeroDayPrice) / zeroDayPrice * 100).toFixed(2)
 
-      setPriceLabel(`$${currentPrice}`)
-      setChangeLabel(`${change >= 0 ? '+' : ''}${change}% Past ${noun}`)
-    } else {
-      setPriceLabel(null)
-      setChangeLabel(null)
+      priceLabelResult = `$${currentPrice}`
+      changeLabelResult = `${change >= 0 ? '+' : ''}${change}% Past ${noun}`
     }
+
+    setPriceLabel && setPriceLabel(priceLabelResult)
+    setChangeLabel && setChangeLabel(changeLabelResult)
   }, [baseSymbol, data, noun])
 
   return (

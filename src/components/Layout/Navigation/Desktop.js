@@ -84,8 +84,11 @@ const ButtonsWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const NetworkBox = styled.button`
-  width: auto;
+const NetworkBox = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  max-width: 180px;
   height: 30px;
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
@@ -96,11 +99,17 @@ const NetworkBox = styled.button`
   text-align: left;
   color: #FFFFFF;
   pointer-events: none;
-  padding: 0 20px;
+  padding: 0 10px;
+
+  & > * {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 
   &:hover {
-    cursor: pointer;
-    background: rgba(91, 96, 204, 0.25);
+    /* cursor: pointer;
+    background: rgba(91, 96, 204, 0.25); */
   }
 
   @media only screen and (max-width: 920px) {
