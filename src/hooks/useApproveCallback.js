@@ -25,7 +25,7 @@ export function useApproveCallback({
   symbol,
   type,
 }) {
-  const { account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const spenderContract = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID[chainId]
   const tokenAddress = isToken ? address : undefined
   const currentAllowance = useTokenAllowance(tokenAddress, spenderContract)
@@ -42,7 +42,8 @@ export function useApproveCallback({
       : pendingApproval
         ? ApprovalState.PENDING
         : ApprovalState.NOT_APPROVED
-  }, [currentAllowance, pendingApproval, spenderContract])
+
+  }, [currentAllowance, pendingApproval, spenderContract, isToken])
 
   const TokenContractInstance = useTokenContract(address)
   const addTransaction = useTransactionAdder()

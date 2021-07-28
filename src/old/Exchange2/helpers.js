@@ -9,15 +9,15 @@ export const getMarketMaker = (networkName) => {
 }
 
 export const urls = [
-  "https://oracle1.deus.finance/mainnet/signatures.json", // TODO: add chains
-  "https://oracle3.deus.finance/mainnet/signatures.json",
+  'https://oracle1.deus.finance/mainnet/signatures.json', // TODO: add chains
+  'https://oracle3.deus.finance/mainnet/signatures.json',
 ]
 
 export const MIN_SIGNATURES = 2
 
 export const toWei = (number) => {
-  let result = Web3.utils.toWei(String(number), 'ether');
-  result = result.substr(0, result.length);
+  let result = Web3.utils.toWei(String(number), 'ether')
+  result = result.substr(0, result.length)
   return result.toString()
 }
 
@@ -77,13 +77,13 @@ export const buy = async (AMMContract, outputContract, outputAmount, account, on
     contractPayload.s,
    )
     .then(res => onSuccess(res))
-    .catch(err => onError(err));
+    .catch(err => onError(err))
 }
 
 export const approve = async (Contract, inputContract, account, spender, onSuccess, onError) => {
   return Contract.approve(spender, MaxUint256)
     .then(res => onSuccess(res))
-    .catch(err => onError(err));
+    .catch(err => onError(err))
 }
 
 // TODO: turn into hook
@@ -98,7 +98,7 @@ const getOracleData = async () => {
       if (response.status === 'fulfilled') return response.value
     })
   } catch (err) {
-    console.error(err);
+    console.error(err)
     return null
   }
 }
@@ -115,8 +115,8 @@ const parseOracleData = ({
   targetContract,
 }) => {
   try {
-    console.log('Parsing oracledata:');
-    console.log(data);
+    console.log('Parsing oracledata:')
+    console.log(data)
 
     let priceFeed = []
 
@@ -155,28 +155,28 @@ const createSellProps = (priceFeed) => {
 }
 
 function comparePrice(a, b) {
-  const A = parseInt(a.price);
-  const B = parseInt(b.price);
+  const A = parseInt(a.price)
+  const B = parseInt(b.price)
 
-  let comparison = 0;
+  let comparison = 0
   if (A > B) {
-    comparison = -1;
+    comparison = -1
   } else if (A < B) {
-    comparison = 1;
+    comparison = 1
   }
 
-  return comparison;
+  return comparison
 }
 
 function compareOrder(a, b) {
-  const A = a.index;
-  const B = b.index;
+  const A = a.index
+  const B = b.index
 
-  let comparison = 0;
+  let comparison = 0
   if (A > B) {
-    comparison = 1;
+    comparison = 1
   } else if (A < B) {
-    comparison = -1;
+    comparison = -1
   }
-  return comparison;
+  return comparison
 }

@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import ReactImageFallback from "react-image-fallback"
-import { formatUnits } from "@ethersproject/units"
 import { useWeb3React } from '@web3-react/core'
-import { RotateCw } from 'react-feather'
 
 import { TradeButton } from './Button'
 import { InputBar } from './Input'
@@ -14,21 +11,15 @@ import {
 } from '../../Icons'
 
 import { setOpenModal } from '../../../state/application/actions'
-import { useBaseState } from '../../../state/base/hooks'
-import { usePairState } from '../../../state/pair/hooks'
-import { useSynchronizerState } from '../../../state/synchronizer/hooks'
-import { resetState, setSyncOpen, setSyncClose, setApprove } from '../../../state/synchronizer/actions'
 import { flipAction } from '../../../state/action/actions'
 
 import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
 import { useAmountManager } from '../../../hooks/useAmountManager'
 import { useDataFields } from '../../../hooks/useDataFields'
-import { useTokenAllowance } from '../../../hooks/useTokenAllowance'
 import { useCorrectNetworkURL } from '../../../hooks/useCorrectNetworkURL'
 
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
 import { SyncState, useSyncCallback } from '../../../hooks/useSyncCallback'
-import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID } from '../../../constants'
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,7 +65,7 @@ const NoteWrapper = styled.div`
 
 export const Trade = ({ type }) => {
   const dispatch = useDispatch()
-  const { account, active, chainId } = useWeb3React()
+  const { account, active } = useWeb3React()
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
 

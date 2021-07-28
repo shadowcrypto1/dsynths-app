@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useEagerConnect, useInactiveListener } from '../../hooks/useWeb3'
 
 export default function Web3ReactManager({ children }) {
-  const { connector, chainId, active, networkError } = useWeb3React()
+  const { active, networkError } = useWeb3React()
 
   // try to eagerly connect to an injected provider, if it exists and has granted access already
   const triedEager = useEagerConnect()
@@ -28,7 +28,7 @@ export default function Web3ReactManager({ children }) {
 
   // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
   if (!active && networkError) {
-    console.error(networkError);
+    console.error(networkError)
     return (
       <>
         {console.log('An unknown error occured')}

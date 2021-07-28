@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo, useContext } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import SelectSearch, { useSelect } from 'react-select-search'
+import { useSelect } from 'react-select-search'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
 
@@ -94,7 +93,7 @@ const NoResult = styled(OptionRow)`
 `
 
 export const SearchBar = ({ isDesktop }) => {
-  const { location, push, replace } = useHistory()
+  const { location, push } = useHistory()
   const conducted = useConductedState()
   const details = useDetailsState()
   const base = useBaseState()
@@ -130,6 +129,7 @@ export const SearchBar = ({ isDesktop }) => {
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
     push({ search: qs.stringify(query)})
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snapshot.value])
 
   return (
@@ -169,13 +169,13 @@ function fuzzySearch(options) {
   const fuse = new Fuse(options, {
     keys: [ 'name', 'value' ],
     threshold: 0.3,
-  });
+  })
 
   return (value) => {
     if (!value.length) {
-      return options;
+      return options
     }
 
-    return fuse.search(value);
+    return fuse.search(value)
   }
 }

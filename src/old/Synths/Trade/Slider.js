@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Slider } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Slider } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,22 +15,22 @@ const CustomSlider = withStyles({
   thumb: {
     height: 15,
     width: 15,
-    backgroundColor: "white",
-    border: "3px solid black",
-    "&:focus, &:hover": {
-      boxShadow: "0px 0px 0px 8px rgba(84, 199, 97, 0.05)"
+    backgroundColor: 'white',
+    border: '3px solid black',
+    '&:focus, &:hover': {
+      boxShadow: '0px 0px 0px 8px rgba(84, 199, 97, 0.05)'
     },
-    "&$active": {
-      boxShadow: "0px 0px 0px 12px rgba(84, 199, 97, 0.05)"
+    '&$active': {
+      boxShadow: '0px 0px 0px 12px rgba(84, 199, 97, 0.05)'
     }
   },
   track: {
-    color: "#5551FF50",
+    color: '#5551FF50',
     height: 4,
     borderRadius: 4
   },
   rail: {
-    color: "#5551FF30",
+    color: '#5551FF30',
     height: 8,
     borderRadius: 4
   },
@@ -45,7 +45,7 @@ export default function SliderComponent ({ onChange }) {
       <CustomSlider
         defaultValue={0}
         onChangeCommitted={onChangeCommitted}
-        valueLabelDisplay={"off"}
+        valueLabelDisplay={'off'}
         step={25}
         marks={[25, 50, 75, 100]}
         min={0}

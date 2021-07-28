@@ -34,7 +34,7 @@ export const getStockSymbols = async () => {
 		return await new Promise((resolve, reject) => {
 			MISSING_KEY_ERROR && reject(MISSING_KEY_ERROR)
 			FinnhubQueue.add(() => {
-				finnhubClient.stockSymbols('US', (error, data, response) => {
+				finnhubClient.stockSymbols('US', (error, data) => {
 					if (error) reject(error)
 					resolve(data)
 				})
@@ -54,7 +54,7 @@ export const getStockCandles = async (symbol, resolution, from, to) => {
 		const data = await new Promise((resolve, reject) => {
 			MISSING_KEY_ERROR && reject(MISSING_KEY_ERROR)
 			FinnhubQueue.add(() => {
-				finnhubClient.stockCandles(symbol, interval, from, to, {}, (error, data, response) => {
+				finnhubClient.stockCandles(symbol, interval, from, to, {}, (error, data) => {
 					if (error) reject(error)
 					resolve(data)
 				})

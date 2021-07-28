@@ -11,11 +11,11 @@ export const fetchQuotes = createAsyncThunk(
   async (networkName) => {
     if (!networkName) return {}
     try {
-      console.log('Fetching quotes on network: ', networkName);
+      console.log('Fetching quotes on network: ', networkName)
       const result = await makeHttpRequest(`https://oracle1.deus.finance/${networkName.toLowerCase()}/price.json`)
       return result || {}
     } catch (err) {
-      console.error(err);
+      console.error(err)
       return {}
     }
   }
@@ -27,7 +27,7 @@ const quotesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchQuotes.pending, (state,) => {
+      .addCase(fetchQuotes.pending, (state, action) => {
         state.data = {}
         state.status = 'LOADING'
       })

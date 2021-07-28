@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import qs from 'query-string'
 
 import { useMarketState } from '../state/market/hooks'
@@ -10,11 +9,10 @@ import { RpcParams } from '../constants/rpc'
 
 export const useRpcChangerCallback = () => {
   const { account, chainId } = useWeb3React()
-  const { location, push, replace } = useHistory()
+  const { replace } = useHistory()
   const { networkName: fallbackNetworkName } = useMarketState()
 
   const onSuccessCallback = (networkName) => {
-
     // Alter the current URL, but strip all params except for the networkName
     // const queryParams = qs.parse(location.search)
     // const query = { ...queryParams, network: networkName }
@@ -43,5 +41,6 @@ export const useRpcChangerCallback = () => {
       console.log('Something went wrong trying to change the network RPC: ')
       console.error(err)
     })
-  }, [chainId, account])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainId, account, fallbackNetworkName])
 }

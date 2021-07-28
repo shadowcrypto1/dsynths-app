@@ -1,5 +1,5 @@
-import { debounce } from "lodash"
-import { useEffect, useCallback, useMemo, useState } from 'react'
+import { debounce } from 'lodash'
+import { useEffect, useCallback, useState } from 'react'
 
 import { useBaseState } from '../state/base/hooks'
 import { useActionState } from '../state/action/hooks'
@@ -26,6 +26,7 @@ export const useAmountManager = (price, type, fee) => {
       // console.log(`${type}: Price has changed, updating outputAmount`);
       handleInput(inputAmount)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [symbol, price])
 
   useEffect(() => {
@@ -34,6 +35,8 @@ export const useAmountManager = (price, type, fee) => {
     const tempInput = inputAmount
     setInputAmount(outputAmount)
     setOutputAmount(tempInput)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action])
 
   const debounceInput = useCallback(

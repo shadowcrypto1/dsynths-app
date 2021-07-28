@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ReactImageFallback from "react-image-fallback"
+import ReactImageFallback from 'react-image-fallback'
 import { useWeb3React } from '@web3-react/core'
-import { formatUnits } from "@ethersproject/units"
+import { formatUnits } from '@ethersproject/units'
 import { lighten, darken } from 'polished'
 
 import { TradeButton } from './Button'
@@ -228,26 +228,26 @@ export const Form = ({
     switch (true) {
       case payload.connectWallet:
         setTradeButtonText('CONNECT WALLET')
-        break;
+        break
       case payload.networkError:
         // TODO: fix this, as it never triggers because unsupported networks are rejected by default @ connectors.js
         setTradeButtonText('WRONG NETWORK')
-        break;
+        break
       case payload.marketClosed:
         setTradeButtonText('MARKET IS CLOSED')
-        break;
+        break
       case payload.noBalance:
         setTradeButtonText('INSUFFICIENT BALANCE')
-        break;
+        break
       case payload.oracleError:
         setTradeButtonText('ORACLE ERROR')
-        break;
+        break
       case payload.approve:
         setTradeButtonText('APPROVE')
-        break;
+        break
       case payload.trade:
         setTradeButtonText(isLong ? 'LONG' : 'SHORT')
-        break;
+        break
       default:
         setTradeButtonText(isLong ? 'LONG' : 'SHORT')
     }
@@ -323,7 +323,7 @@ export const Form = ({
       if (!Number.isFinite(result) || result === 0) return cleanUp()
       newOutputAmount = result.toFixed(5).toString()
     } catch (err) {
-      console.log(err); // catch oracleError
+      console.log(err) // catch oracleError
       newOutputAmount = '0'
     }
     cleanUp()
@@ -345,12 +345,12 @@ export const Form = ({
 
   const handlePayload = () => {
     const onSuccess = (res) => {
-      console.log(res);
+      console.log(res)
       // do something
     }
 
     const onError = (err) => {
-      console.log(err);
+      console.log(err)
       // do something
     }
 
@@ -361,7 +361,7 @@ export const Form = ({
       if (Number(inputAmount) > 0 && Number(inputAmount) <= Number(inputBalance)) {
         buy(AMMContract, outputContract, outputAmount, account, onSuccess, onError)
       } else {
-        console.log('inputamount is insufficient');
+        console.log('inputamount is insufficient')
       }
     }
   }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { ResponsiveContainer, YAxis, Tooltip, AreaChart, Area } from 'recharts'
+import { ResponsiveContainer, YAxis, AreaChart, Area } from 'recharts'
 
 import { useLineChart } from '../../../hooks/useLineChart'
 
@@ -121,7 +121,7 @@ export const LineChart = ({ baseSymbol }) => {
       setPriceLabel(null)
       setChangeLabel(null)
     }
-  }, [baseSymbol, data])
+  }, [baseSymbol, data, noun])
 
   return (
     <Wrapper ref={wrapperRef}>

@@ -32,7 +32,6 @@ export const useDataFields = (type) => {
           inputContract: pair.contract,
           inputDecimals: pair.decimals,
           inputIsToken: pair.isToken,
-          inputIsToken: pair.isToken,
           outputTicker: base.symbol,
           outputSymbol: base[capType].symbol,
           outputContract: base[capType].contract,
@@ -54,6 +53,8 @@ export const useDataFields = (type) => {
           outputIsToken: pair.isToken,
           quote,
         }
+      default:
+        throw new Error('Action is not defined')
     }
   }, [action, base, pair, type])
 }

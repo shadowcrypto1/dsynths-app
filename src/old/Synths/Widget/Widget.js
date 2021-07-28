@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ReactImageFallback from "react-image-fallback";
+import ReactImageFallback from 'react-image-fallback'
 
 import { Card } from '../../../Card'
 import { Stats } from './Stats'

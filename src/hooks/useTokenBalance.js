@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
-import { isAddress } from "@ethersproject/address"
 import { BigNumber } from '@ethersproject/bignumber'
 
 import { useTokenContract } from './useContract'
@@ -36,7 +35,8 @@ export const useTokenBalance = (tokenAddress, isToken) => {
     }
 
     return () => mounted = false
-  }, [account, library, contract])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, library, tokenAddress, isToken, isNetworkCorrect])
 
   return balance
 }

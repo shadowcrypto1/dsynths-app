@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
@@ -50,7 +50,7 @@ export const Web3Status = () => {
 }
 
 function StatusButton() {
-  const { account, active, connector, error, deactivate } = useWeb3React()
+  const { account, active, error } = useWeb3React()
   const dispatch = useDispatch()
 
   const onClickProxy = () => {

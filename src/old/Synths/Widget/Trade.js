@@ -190,11 +190,11 @@ export const Trade = ({ toggle, ticker }) => {
   const handleTypeSwitch = (type) => {
     if (type === currentType) return
 
-    let newAvailableFromBalance;
-    let newFromSymbol;
-    let newFromAmount;
-    let newToSymbol;
-    let newToAmount;
+    let newAvailableFromBalance
+    let newFromSymbol
+    let newFromAmount
+    let newToSymbol
+    let newToAmount
 
     if (fromSymbol == 'DAI') {
       newAvailableFromBalance = daiBalance
@@ -220,11 +220,11 @@ export const Trade = ({ toggle, ticker }) => {
   }
 
   const handleDirectionSwitch = async () => {
-    let newAvailableFromBalance;
-    let newFromSymbol;
-    let newFromAmount;
-    let newToSymbol;
-    let newToAmount;
+    let newAvailableFromBalance
+    let newFromSymbol
+    let newFromAmount
+    let newToSymbol
+    let newToAmount
 
     if (fromSymbol == 'DAI') {
       newAvailableFromBalance = (currentType === 'long' ? longBalance : shortBalance)
@@ -316,7 +316,7 @@ export const Trade = ({ toggle, ticker }) => {
                 <SwapArrow/>
               </ArrowCircle>
             </ArrowWrapper>
-            <InputBoxSimple label={"To"} value={toAmount} symbol={toSymbol}/>
+            <InputBoxSimple label={'To'} value={toAmount} symbol={toSymbol}/>
           </InputWrapper>
           <Slider onChange={sliderOnChange} />
           {showTradeButton && <LongButton>{currentDirection.toUpperCase()} {currentType.toUpperCase()}</LongButton>}
@@ -325,7 +325,7 @@ export const Trade = ({ toggle, ticker }) => {
       )}
       <Footer>
         <BackButton onClick={toggle}>
-          <ReturnArrow style={{verticalAlign: "middle", marginRight: "5px"}}/>
+          <ReturnArrow style={{verticalAlign: 'middle', marginRight: '5px'}}/>
           Show {ticker} Stats
         </BackButton>
       </Footer>

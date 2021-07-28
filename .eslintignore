@@ -2,3 +2,4 @@ public/charting_library
 public/datafeeds
 src/static/charting_library
 build
+node_modules

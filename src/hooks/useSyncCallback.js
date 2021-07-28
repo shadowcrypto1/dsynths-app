@@ -1,11 +1,10 @@
 import { useCallback, useMemo } from 'react'
-import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useWeb3React } from '@web3-react/core'
 import Web3 from 'web3'
 
 import { useAMMContract } from './useContract'
-import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
+import { useTransactionAdder } from '../state/transactions/hooks'
 import { useActionState } from '../state/action/hooks'
 import { useSignatureUrls } from './useSignatureUrls'
 import { makeHttpRequest } from  '../utils/http'
@@ -53,7 +52,7 @@ export function useSyncCallback({
   const addTransaction = useTransactionAdder()
 
   const sync = useCallback(async () => {
-    if (syncState == SyncState.PENDING) {
+    if (syncState === SyncState.PENDING) {
       console.error('tx is already pending')
       return
     }
@@ -153,12 +152,12 @@ export function useSyncCallback({
         })
       })
       .catch(error => {
-        console.debug('Transaction has failed: ', error)
+        console.error('Transaction has failed: ', error)
       })
     } catch (err) {
       console.error(err)
     }
-  }, [syncState, AMMContractInstance, addTransaction, chainId, outputContract, outputAmount, action])
+  }, [syncState, AMMContractInstance, addTransaction, chainId, outputContract, outputAmount, action, signatureUrls])
 
   return [syncState, sync]
 }
@@ -167,12 +166,12 @@ function toWei(number, decimals = 18) {
   let value = String(number)
 
   // Deal with super low amounts by removing any number >= decimals
-  const indexDot = value.indexOf(".")
+  const indexDot = value.indexOf('.')
   if (indexDot !== -1 || value.substring(indexDot + 1).length > decimals) {
     value = value.substring(0, indexDot) + value.substring(indexDot, indexDot + decimals + 1)
   }
 
-  let result = Web3.utils.toWei(String(value), 'ether');
+  let result = Web3.utils.toWei(String(value), 'ether')
   result = result.substr(0, result.length - (18 - decimals))
 
   return result.toString()
@@ -193,7 +192,7 @@ async function getSignatures(urls) {
       throw new Error(`response.status returns unfulfilled: ${response}`)
     })
   } catch (err) {
-    console.error(err);
+    console.error(err)
     return null
   }
 }
@@ -249,28 +248,28 @@ function createSellParams (priceFeed) {
 }
 
 function comparePrice(a, b) {
-  const A = parseInt(a.price);
-  const B = parseInt(b.price);
+  const A = parseInt(a.price)
+  const B = parseInt(b.price)
 
-  let comparison = 0;
+  let comparison = 0
   if (A > B) {
-    comparison = -1;
+    comparison = -1
   } else if (A < B) {
-    comparison = 1;
+    comparison = 1
   }
 
-  return comparison;
+  return comparison
 }
 
 function compareOrder(a, b) {
-  const A = a.index;
-  const B = b.index;
+  const A = a.index
+  const B = b.index
 
-  let comparison = 0;
+  let comparison = 0
   if (A > B) {
-    comparison = 1;
+    comparison = 1
   } else if (A < B) {
-    comparison = -1;
+    comparison = -1
   }
-  return comparison;
+  return comparison
 }

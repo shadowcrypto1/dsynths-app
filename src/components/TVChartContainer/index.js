@@ -37,7 +37,7 @@ export const TVChartContainer = ({ widgetOptions, ticker }) => {
 	}, [theme, ticker])
 
 	return (
-		<div style={{height: "100%"}}
+		<div style={{height: '100%'}}
 			className="TVChartContainer"
 			id={widgetOptions.container_id}
 		/>

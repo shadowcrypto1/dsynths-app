@@ -35,7 +35,7 @@ export default function Updater() {
       return
     }
 
-    console.log(`Found ${baseSymbol} in the conducted/detailed registry`);
+    console.log(`Found ${baseSymbol} in the conducted/detailed registry`)
 
     dispatch(updateSymbol({
       symbol: baseSymbol,
@@ -66,7 +66,7 @@ export default function Updater() {
       return
     }
 
-    console.log(`Found ${baseSymbol} in the quote registry`);
+    console.log(`Found ${baseSymbol} in the quote registry`)
 
     dispatch(
       updateQuote({

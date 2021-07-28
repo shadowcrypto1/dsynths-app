@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ReactImageFallback from "react-image-fallback"
-import { formatUnits } from "@ethersproject/units"
-import { useWeb3React } from '@web3-react/core'
+import ReactImageFallback from 'react-image-fallback'
+import { formatUnits } from '@ethersproject/units'
 
 import { Wallet as WalletIcon } from '../../Icons'
 import { useTokenBalance } from '../../../hooks/useTokenBalance'
@@ -146,10 +145,9 @@ export const InputBar = ({
   label,
   setAmount,
 }) => {
-  const { account } = useWeb3React()
   const balance = useTokenBalance(contract, isToken)
-  const [formattedBalance, setFormattedBalance] = useState('0.00')
   const { width } = useWindowSize()
+  const [formattedBalance, setFormattedBalance] = useState('0.00')
   const [ small, setSmall ] = useState(width < 500)
 
   useEffect(() => {

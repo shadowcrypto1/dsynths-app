@@ -10,9 +10,9 @@ function waitRandom(min, max){
  * This error is thrown if the function is cancelled before completing
  */
 class CancelledError extends Error {
-  static isCancelledError = true
   constructor() {
     super('Cancelled')
+    this.isCancelledError = true
   }
 }
 
@@ -20,7 +20,10 @@ class CancelledError extends Error {
  * Throw this error if the function should retry
  */
 export class RetryableError extends Error {
-  static isRetryableError = true
+  constructor() {
+    super()
+    this.isRetryableError = true
+  }
 }
 
 /**

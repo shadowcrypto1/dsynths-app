@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { isMobile } from 'react-device-detect'
 
 import { injected } from '../connectors'
-import { useMarketState } from '../state/market/hooks'
 
 export function useEagerConnect() {
   const { activate, active } = useWeb3React()
@@ -33,7 +32,6 @@ export function useEagerConnect() {
 
 export function useInactiveListener(suppress = false) {
   const { active, error, activate } = useWeb3React()
-  const marketState = useMarketState()
 
   useEffect(() => {
     const { ethereum } = window

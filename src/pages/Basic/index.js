@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import styled from 'styled-components'
-import { debounce } from "lodash"
+import { debounce } from 'lodash'
 
 import {
   LineChart,
@@ -35,16 +35,6 @@ const LoaderWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`
-
-const MidWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: clamp(250px, 90%, 512px);
-  margin: 0 auto;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 40px;
 `
 
 const HeroContainer = styled.div`
@@ -141,8 +131,9 @@ export default function () {
   }, 1500), [])
 
   useEffect(() => {
-    // debounceLoaderScreen(base.status)
-    setStatus(base.status)
+    debounceLoaderScreen(base.status)
+    // setStatus(base.status)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.status])
 
   if (status === 'LOADING') {

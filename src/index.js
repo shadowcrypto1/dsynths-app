@@ -18,8 +18,8 @@ ReactDOM.render(
 			<Web3ReactProvider getLibrary={getLibrary}>
         <Web3ReactManager>
           <ModalProvider>
-            <Popups/>
-  					<Router/>
+          	<Popups/>
+						<Router/>
           </ModalProvider>
         </Web3ReactManager>
 			</Web3ReactProvider>

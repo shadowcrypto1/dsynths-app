@@ -9,7 +9,7 @@ const initialState = {
 
 export default createReducer(initialState, (builder) =>
   builder
-    .addCase(resetState, (state, action) => {
+    .addCase(resetState, () => {
       return initialState
     })
     .addCase(setApprove, (state, {payload}) => {

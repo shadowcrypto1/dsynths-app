@@ -1,14 +1,13 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { isAddress } from '@ethersproject/address'
 import { Contract } from '@ethersproject/contracts'
 import { AddressZero } from '@ethersproject/constants'
-import Web3 from 'web3'
 
 import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID } from '../constants'
 import ERC20ABI from '../constants/abi/ERC20ABI.json'
 import AMMABI from '../constants/abi/AMMABI.json'
-import wxDAIABI from '../constants/abi/wxDAIABI.json'
+// import wxDAIABI from '../constants/abi/wxDAIABI.json'
 
 export const useContract = (address, ABI, withSignerIfPossible = true) => {
   const { library, account, chainId } = useWeb3React()
@@ -20,7 +19,7 @@ export const useContract = (address, ABI, withSignerIfPossible = true) => {
       console.error('Failed to get contract: ', err)
       return null
     }
-  }, [address, library, chainId])
+  }, [address, library, chainId, ABI, withSignerIfPossible, account])
 }
 
 export const useTokenContract = (tokenAddress, withSignerIfPossible) => {

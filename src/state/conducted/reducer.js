@@ -11,11 +11,11 @@ export const fetchConducted = createAsyncThunk(
   async (networkName) => {
     if (!networkName) return []
     try {
-      console.log('Fetching conducted tokens on network: ', networkName);
+      console.log('Fetching conducted tokens on network: ', networkName)
       const result = await makeHttpRequest(`https://oracle1.deus.finance/${networkName.toLowerCase()}/conducted.json`)
       return result?.tokens ?? []
     } catch (err) {
-      console.error(err);
+      console.error(err)
       return []
     }
   }

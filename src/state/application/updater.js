@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useWeb3React } from '@web3-react/core'
 
 import { supportedChainId } from '../../utils/supportedChainId'

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
@@ -14,25 +14,25 @@ const getParams = (timeframe) => {
         resolution: '15',
         from: dayjs().utc().subtract(1, 'day').unix() - 1
       }
-      break;
+      break
     case 'w':
       result = {
         resolution: '60',
         from: dayjs().utc().subtract(7, 'days').unix()
       }
-      break;
+      break
     case 'm':
       result = {
         resolution: '60',
         from: dayjs().utc().subtract(30, 'days').unix()
       }
-      break;
+      break
     case 'y':
       result = {
         resolution: 'D',
         from: dayjs().utc().subtract(1, 'year').unix()
       }
-      break;
+      break
     default:
       result = {
         resolution: '60',
@@ -44,23 +44,22 @@ const getParams = (timeframe) => {
 }
 
 export const useLineChart = (baseSymbol, timeframe) => {
-  const isMounted = useRef(false)
   const [ hasNoData, setHasNoData ] = useState(false)
   const [ data, setData ] = useState([])
 
-  const fetchPrices = async (timeframe) => {
+  const fetchPrices = useCallback(async () => {
+    let mounted = true
+    
     const { resolution, from, to} = getParams(timeframe)
     const result = await getStockCandles(baseSymbol, resolution, from, to)
-    if (isMounted.current) {
-       setData(result)
-       setHasNoData(!result.length)
-    }
-  }
+    mounted && setData(result)
+    mounted && setHasNoData(!result.length)
+
+    return () => mounted = false
+  }, [baseSymbol, timeframe])
 
   useEffect(() => {
-    isMounted.current = true
-    fetchPrices(timeframe)
-    return () => { isMounted.current = false }
+    fetchPrices()
   }, [baseSymbol, timeframe])
 
   return {

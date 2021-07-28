@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
-import { X, CheckCircle, AlertCircle, Loader, ArrowUpRight } from 'react-feather'
+import { X, CheckCircle, AlertCircle, ArrowUpRight } from 'react-feather'
 import { useSpring } from '@react-spring/web'
 import { animated } from 'react-spring'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 
-import { PopupContent } from '../../state/application/actions'
 import { useRemovePopup } from '../../state/application/hooks'
-
 import { getExplorerLink } from '../../utils/getExplorerLink'
 
 const Wrapper = styled.div`

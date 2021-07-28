@@ -10,11 +10,11 @@ export const fetchDetails = createAsyncThunk(
   'details/fetchDetails',
   async () => {
     try {
-      console.log('Fetching registrar details');
+      console.log('Fetching registrar details')
       const result = await makeHttpRequest('https://oracle1.deus.finance/registrar-detail.json')
       return result || {}
     } catch (err) {
-      console.error(err);
+      console.error(err)
       return {}
     }
   }

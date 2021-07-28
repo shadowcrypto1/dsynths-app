@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BigNumber } from '@ethersproject/bignumber'
 import { useWeb3React } from '@web3-react/core'
 
@@ -6,7 +6,7 @@ import { useTokenContract } from './useContract'
 import { useCorrectNetworkURL } from './useCorrectNetworkURL'
 
 export function useTokenAllowance(tokenAddress, spenderAddress) {
-  const { account, library, chainId } = useWeb3React()
+  const { account, library } = useWeb3React()
   const contract = useTokenContract(tokenAddress)
   const [ allowance, setAllowance ] = useState(BigNumber.from('0'))
   const isNetworkCorrect = useCorrectNetworkURL()
@@ -30,7 +30,7 @@ export function useTokenAllowance(tokenAddress, spenderAddress) {
     }
 
     return () => mounted = false
-  }, [account, library, tokenAddress, spenderAddress, contract])
+  }, [account, library, tokenAddress, spenderAddress, contract, isNetworkCorrect])
 
   return allowance
 }
