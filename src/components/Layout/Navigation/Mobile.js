@@ -16,11 +16,9 @@ const Wrapper = styled.nav`
   align-items: center;
 
   & > *:nth-child(1){
-    margin-left: 5px;
     min-width: 60px;
   }
   & > *:nth-child(3){
-    margin-right: 5px;
     min-width: 60px;
   }
 `
