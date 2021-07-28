@@ -139,10 +139,12 @@ export const DesktopNavbar = ({ handleToggled }) => {
       <ButtonsWrapper>
         <Web3Status/>
         <NetworkBox style={{ marginLeft: '10px' }}>
-          <div>
-            <span style={{color: '#8A8E9B'}}>Connected Network: </span>
-            <span>{_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId) ?? ''}</span>
-          </div>
+          {chainId && (
+            <div>
+              <span style={{color: '#8A8E9B'}}>Connected Network: </span>
+              <span>{_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId) ?? '-'}</span>
+            </div>
+          )}
           <div>
             <span style={{color: '#8A8E9B'}}>Viewing Network: </span>
             <span>{networkName}</span>
