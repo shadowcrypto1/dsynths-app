@@ -18,11 +18,6 @@ const Button = styled.button`
   align-items: center;
   text-align: center;
   color: #FFFFFF;
-
-  &:hover {
-    /* cursor: pointer; */
-    /* background: rgba(91, 96, 204, 0.25); */
-  }
 `
 
 const Connected = styled(Button)`
@@ -38,6 +33,10 @@ const Error = styled(Button)`
 const Connect = styled(Button)`
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
+  &:hover {
+    cursor: pointer;
+    background: rgba(91, 96, 204, 0.25);
+  }
 `
 
 export const Web3Status = () => {
