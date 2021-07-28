@@ -64,7 +64,6 @@ const NavItem = styled(Link)`
   display: flex;
   font-size: 14px;
   line-height: 18px;
-  border-bottom: ${props => props.selected && '1px solid #9277E0'};
   padding: 4px 17px;
   align-items: center;
   text-align: center;
@@ -74,6 +73,9 @@ const NavItem = styled(Link)`
 
   ${({ selected}) => selected && `
     pointer-events: none;
+    text-decoration: underline;
+    text-decoration-color: #9277E0;
+    text-underline-offset: 7px;
   `}
 `
 
