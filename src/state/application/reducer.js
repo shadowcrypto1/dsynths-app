@@ -32,7 +32,7 @@ export default createReducer(initialState, (builder) =>
       }
     })
     .addCase(addPopup, (state, { payload }) => {
-      const { content, key, removeAfterMs = 25000 } = payload
+      const { content, key, removeAfterMs = 5000 } = payload
       state.popupList = (key ? state.popupList.filter((popup) => popup.key !== key) : state.popupList).concat([
         {
           key: key || nanoid(),

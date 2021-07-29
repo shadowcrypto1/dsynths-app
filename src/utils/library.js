@@ -1,4 +1,5 @@
-import { Web3Provider } from '@ethersproject/providers'
+import { Web3Provider, JsonRpcProvider } from '@ethersproject/providers'
+import { getNetworkLibrary } from '../connectors'
 
 export const getLibrary = (provider) => {
   const library = new Web3Provider(

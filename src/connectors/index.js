@@ -1,7 +1,10 @@
+import { Web3Provider } from '@ethersproject/providers'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
+import { NetworkConnector } from './NetworkConnector'
 import { SUPPORTED_CHAINS_BY_NAME, SUPPORTED_CHAIN_IDS } from '../constants'
+import { getLibrary } from '../utils/library'
 
 const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
 const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
@@ -19,13 +22,23 @@ const NETWORK_URLS = {
 	[SUPPORTED_CHAINS_BY_NAME.XDAI]: 'https://rpc.xdaichain.com',
 }
 
+export const network = new NetworkConnector({
+  urls: NETWORK_URLS,
+  defaultChainId: 100,
+})
+
+let networkLibrary
+export const getNetworkLibrary = () => {
+	return (networkLibrary = networkLibrary ?? new Web3Provider(network.provider))
+}
+
 export const injected = new InjectedConnector({
 	supportedChainIds: SUPPORTED_CHAIN_IDS,
 })
 
 // mainnet only
 export const walletconnect = new WalletConnectConnector({
-	rpc: { 1: NETWORK_URLS[1] },
+	rpc: NETWORK_URLS,
 	bridge: WALLETCONNECT_BRIDGE_URL,
 	qrcode: true,
 	pollingInterval: 15000,

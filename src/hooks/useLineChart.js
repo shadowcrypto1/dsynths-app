@@ -47,13 +47,23 @@ export const useLineChart = (baseSymbol, timeframe) => {
   const [ hasNoData, setHasNoData ] = useState(false)
   const [ data, setData ] = useState([])
 
+  // const fetchPrices = useCallback(async () => {
+  //   let mounted = true
+  //
+  //   const { resolution, from, to} = getParams(timeframe)
+  //   const result = await getStockCandles(baseSymbol, resolution, from, to)
+  //   mounted && setData(result)
+  //   mounted && setHasNoData(!result.length)
+  //
+  //   return () => mounted = false
+
   const fetchPrices = useCallback(async () => {
     let mounted = true
-    
-    const { resolution, from, to} = getParams(timeframe)
-    const result = await getStockCandles(baseSymbol, resolution, from, to)
-    mounted && setData(result)
-    mounted && setHasNoData(!result.length)
+
+    // const { resolution, from, to} = getParams(timeframe)
+    // const result = await getStockCandles(baseSymbol, resolution, from, to)
+    mounted && setData([])
+    mounted && setHasNoData(![].length)
 
     return () => mounted = false
   }, [baseSymbol, timeframe])

@@ -5,6 +5,7 @@ import Web3 from 'web3'
 
 import { useAMMContract } from './useContract'
 import { useTransactionAdder } from '../state/transactions/hooks'
+import { useAddPopup } from '../state/application/hooks'
 import { useActionState } from '../state/action/hooks'
 import { useSignatureUrls } from './useSignatureUrls'
 import { makeHttpRequest } from  '../utils/http'
@@ -24,6 +25,8 @@ export function calculateGasMargin(value) {
 export function useSyncCallback({
   inputSymbol,
   inputAmount,
+  inputContract,
+  inputDecimals,
   outputSymbol,
   outputContract,
   outputDecimals,
@@ -33,20 +36,14 @@ export function useSyncCallback({
   const { account, chainId } = useWeb3React()
   const signatureUrls = useSignatureUrls()
   const action = useActionState()
+  const addPopup = useAddPopup()
 
   const syncState = useMemo(() => {
     if (!account || !chainId) return SyncState.IDLE
+    if (!inputContract || !inputAmount || !inputDecimals) return SyncState.IDLE
     if (!outputContract || !outputAmount || !outputDecimals) return SyncState.IDLE
     if (!action) return SyncState.IDLE
-
-    return SyncState.IDLE
-
-    // return (currentAllowance.gt(0))
-    //   ? ApprovalState.APPROVED
-    //   : pendingApproval
-    //     ? ApprovalState.PENDING
-    //     : ApprovalState.NOT_APPROVED
-  }, [signatureUrls, action, outputContract]) // currentAllowance, pendingApproval, spenderContract
+  }, [signatureUrls, action, outputContract])
 
   const AMMContractInstance = useAMMContract()
   const addTransaction = useTransactionAdder()
@@ -64,6 +61,21 @@ export function useSyncCallback({
 
     if (!chainId) {
       console.error('no chainId')
+      return
+    }
+
+    if (!inputContract) {
+      console.error('inputContract is null')
+      return
+    }
+
+    if (!inputAmount) {
+      console.error('inputContract is null')
+      return
+    }
+
+    if (!inputDecimals) {
+      console.error('inputDecimals is null')
       return
     }
 
@@ -92,24 +104,29 @@ export function useSyncCallback({
       return
     }
 
+    const targetContract = (action === 'OPEN') ? outputContract : inputContract
+    const targetAmount = (action === 'OPEN') ? outputAmount : inputAmount
+    const targetDecimals = (action === 'OPEN') ? outputDecimals : inputDecimals
+
     try {
-      const signatures = await getSignatures(signatureUrls)
-      if (!signatures) {
-        console.error('Signatures returned null: ', signatures)
+      const signaturesPerNode = await getSignatures(signatureUrls)
+      if (!signaturesPerNode) {
+        console.error('signaturesPerNode returned null: ', signaturesPerNode)
         return
       }
 
-      const txParams = parseSignatures(signatures, action, outputContract)
-      if (!txParams) {
-        console.error('txParams returned null: ', txParams)
+      const { data, price } = parseSignatures(signaturesPerNode, action, targetContract)
+      if (!data || (action === 'OPEN' && !price)) {
+        console.error('data returned null: ', data)
         return
       }
 
-      const blockNosMapping = txParams.map(node => node.blockNo.toString())
-      const priceMapping = txParams.map(node => node.price)
-      const vMapping = txParams.map(node => node.signs.buy.v.toString())
-      const rMapping = txParams.map(node => node.signs.buy.r.toString())
-      const sMapping = txParams.map(node => node.signs.buy.s.toString())
+      const signsMethod = (action === 'OPEN') ? 'buy' : 'sell'
+      const blockNosMapping = data.map(node => node.blockNo.toString())
+      const priceMapping = data.map(node => node.price)
+      const vMapping = data.map(node => node.signs[signsMethod].v.toString())
+      const rMapping = data.map(node => node.signs[signsMethod].r.toString())
+      const sMapping = data.map(node => node.signs[signsMethod].s.toString())
 
       /**
        * https://github.com/deusfinance/synchronizer-contracts/blob/master/contracts/Synchronizer.sol#L121
@@ -124,38 +141,94 @@ export function useSyncCallback({
        * @param r {bytes32[]}
        * @param s {bytes32[]}
        */
-      const contractPayload = Object.entries({
+      let contractPayload = Object.values({
         _user: account,
-        multiplier: txParams[0].multiplier.toString(),
-        registrar: outputContract,
-        amount: toWei(outputAmount, outputDecimals), // stringified in the toWei function
-        fee: txParams[0].fee.toString(),
+        multiplier: data[0].multiplier.toString(),
+        registrar: targetContract,
+        amount: toWei(targetAmount, targetDecimals), // stringified in the toWei function
+        fee: data[0].fee.toString(),
         blockNos: blockNosMapping,
         prices: priceMapping,
         v: vMapping,
         r: rMapping,
         s: sMapping,
-      }).map(([key, value] = []) => value)
-
-      const method = action === 'OPEN' ? 'buyFor' : 'sellFor'
-      const estimatedGas = await AMMContractInstance.estimateGas[method](...contractPayload)
-
-      return AMMContractInstance[method](...contractPayload, {
-        gasLimit: calculateGasMargin(estimatedGas),
       })
-      .then(response => {
+
+      const method = (action === 'OPEN')
+        ? chainId === 1 ? 'buyFor' : 'buy'
+        : chainId === 1 ? 'sellFor' : 'sell'
+
+      const payload = (chainId === 1)
+        ? contractPayload
+        : contractPayload.slice(1) // remove _user for the XDAI proxy AMM
+
+      const receiptCallback = (response) => {
+        console.log(response);
         addTransaction(response, {
           summary: {
             header: `${action} - ${type.toUpperCase()}`,
             body: `Trade ${outputAmount} ${outputSymbol} for ${inputAmount} ${inputSymbol}`
           },
         })
-      })
-      .catch(error => {
-        console.error('Transaction has failed: ', error)
-      })
-    } catch (err) {
-      console.error(err)
+      }
+
+      const hashCallback = (hash) => {
+        console.log(hash);
+        addPopup({
+          txn: {
+            hash,
+            success: true,
+            summary: {
+              header: `${action} - ${type.toUpperCase()}`,
+              body: `Transaction submitted`
+            },
+          },
+        }, hash)
+      }
+
+      if (chainId === 1) {
+        let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({ from: account })
+        return AMMContractInstance.methods[method](...payload).send({
+          from: account,
+          gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
+        })
+          .on('transactionHash', hashCallback)
+          .once('receipt', receiptCallback)
+          .on('error', (error) => {throw error});
+
+      } else if (chainId === 100) {
+
+        let options = {}
+        if (action === 'OPEN') {
+          let xdaiAmount = await AMMContractInstance.methods.calculateXdaiAmount(price, data[0].fee.toString(), toWei(targetAmount, targetDecimals)).call()
+          let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({
+            from: account,
+            value: xdaiAmount,
+          })
+          options = {
+            from: account,
+            value: xdaiAmount,
+            gasPrice: Web3.utils.toWei("20", "Gwei"),
+            gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
+          }
+        } else {
+          let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({ from: account })
+          options = {
+            from: account,
+            gasPrice: Web3.utils.toWei("20", "Gwei"),
+            gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
+          }
+        }
+
+        return AMMContractInstance.methods[method](...payload).send(options)
+          .on('transactionHash', hashCallback)
+          .once('receipt', receiptCallback)
+          .on('error', (error) => {throw error});
+      }
+
+    } catch (error) {
+      // TODO: make failed popup
+      console.error('Transaction has failed: ', error)
     }
   }, [syncState, AMMContractInstance, addTransaction, chainId, outputContract, outputAmount, action, signatureUrls])
 
@@ -183,7 +256,7 @@ async function getSignatures(urls) {
     if (!urls || !urls.length) throw new Error('URLs are missing')
 
     const responses = await Promise.allSettled(
-      urls.map(url => makeHttpRequest(url))
+      urls.map(url => makeHttpRequest(url, { cache: "no-cache" }))
     )
 
     // TODO: add feedback mechanism to admins in case a node is down
@@ -203,16 +276,16 @@ async function getSignatures(urls) {
  * @param targetContract {String} contract of synthetic to buy/sell
  * @output
  */
-function parseSignatures (data, action, targetContract) {
+function parseSignatures (signaturesPerNode, action, targetContract) {
   try {
     // console.log('Parsing signatures:');
     // console.log(data);
 
     let priceFeed = []
-    for (let i = 0; i < data.length; i++) {
-      if (targetContract in data[i]) {
-        let node = data[i]
-        node['index'] = i
+    for (let i = 0; i < signaturesPerNode.length; i++) {
+      let node = signaturesPerNode[i]
+      if (targetContract in node) {
+        node[targetContract]['index'] = i
         priceFeed.push(node[targetContract])
       }
     }
@@ -236,15 +309,19 @@ function parseSignatures (data, action, targetContract) {
 }
 
 function createBuyParams (priceFeed) {
-  // console.log('Preparing buy properties to conduct transaction')
-  let data = priceFeed.sort(comparePrice)
-  return data.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+  let result = priceFeed.sort(comparePrice)
+  let maxPrice = result[0].price
+  return {
+    price: maxPrice,
+    data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+  }
 }
 
 function createSellParams (priceFeed) {
-  // console.log('Preparing sell properties to conduct transaction')
-  let data = priceFeed.sort(comparePrice).reverse()
-  return data.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+  let result = priceFeed.sort(comparePrice).reverse()
+  return {
+    data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+  }
 }
 
 function comparePrice(a, b) {

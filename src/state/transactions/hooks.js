@@ -12,11 +12,24 @@ export function useTransactionAdder() {
     if (!account) return
     if (!chainId) return
 
-    const { hash } = response
-    if (!hash) {
+    // blockHash: "0xdb7277b50e6f956f82b2c2fea89407cb766b90d612123b86d830b9c2d0902957"
+    // blockNumber: 12921366
+    // contractAddress: null
+    // cumulativeGasUsed: 9385809
+    // effectiveGasPrice: "0x826299e00"
+    // events: {0: {…}, 1: {…}, Buy: {…}}
+    // from: "0x1164fe7a76d22eaa66f6a0adce3e3a30d9957a5f"
+    // gasUsed: 109265
+    // status: true
+    // to: "0x7a27a7bf25d64faa090404f94606c580ce8e1d37"
+    // transactionHash: "0xa01b175f3f20b0ee9f5ee78a4807eb1d8b62a22fbe1681419dcc068f3b91017e"
+
+    const { hash, transactionHash } = response
+    if (!hash && !transactionHash) {
       throw new Error('No transaction hash found.')
     }
-    dispatch(addTransaction({ hash, from: account, chainId, approval, summary }))
+    const finalHash = hash ?? transactionHash
+    dispatch(addTransaction({ hash: finalHash, from: account, chainId, approval, summary }))
   }, [dispatch, chainId, account])
 }
 

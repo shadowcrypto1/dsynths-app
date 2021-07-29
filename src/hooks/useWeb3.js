@@ -1,11 +1,26 @@
 import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3React as useWeb3ReactCore} from '@web3-react/core'
 import { isMobile } from 'react-device-detect'
 
 import { injected } from '../connectors'
+import { NetworkContextName } from '../constants/misc'
+
+export function useWeb3React() {
+  // const context = useWeb3ReactCore()
+  // const contextNetwork = useWeb3ReactCore(NetworkContextName)
+  // return context.active ? context : contextNetwork
+
+  // replace with address to impersonate
+   const impersonate = false
+   const context = useWeb3ReactCore()
+   const contextNetwork = useWeb3ReactCore(NetworkContextName)
+   return context.active
+     ? { ...context, account: impersonate || context.account }
+     : { ...contextNetwork, account: impersonate || contextNetwork.account }
+}
 
 export function useEagerConnect() {
-  const { activate, active } = useWeb3React()
+  const { activate, active } = useWeb3ReactCore()
   const [tried, setTried] = useState(false)
 
   useEffect(() => {
@@ -31,7 +46,7 @@ export function useEagerConnect() {
 }
 
 export function useInactiveListener(suppress = false) {
-  const { active, error, activate } = useWeb3React()
+  const { active, error, activate } = useWeb3ReactCore()
 
   useEffect(() => {
     const { ethereum } = window

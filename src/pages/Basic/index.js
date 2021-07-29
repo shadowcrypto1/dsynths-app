@@ -144,8 +144,8 @@ export default function () {
   }, 1500), [mounted, setStatus])
 
   useEffect(() => {
-    debounceLoaderScreen(base.status)
-    // setStatus(base.status)
+    // debounceLoaderScreen(base.status)
+    setStatus(base.status)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.status])
 

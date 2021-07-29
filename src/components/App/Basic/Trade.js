@@ -129,6 +129,8 @@ export const Trade = ({ type }) => {
   const [syncState, syncCallback] = useSyncCallback({
     inputSymbol,
     inputAmount,
+    inputContract,
+    inputDecimals,
     outputSymbol,
     outputContract,
     outputDecimals,
