@@ -34,8 +34,10 @@ export default async function ({
     }
 
     const method = (action === 'OPEN') ? 'buyFor' : 'sellFor'
-    let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({ from: account })
-    return AMMContractInstance.methods[method](...payload).send({
+    let mappedPayload = Object.values(payload)
+
+    let estimatedGas = await AMMContractInstance.methods[method](...mappedPayload).estimateGas({ from: account })
+    return AMMContractInstance.methods[method](...mappedPayload).send({
       from: account,
       gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
     })
