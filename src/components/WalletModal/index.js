@@ -77,7 +77,7 @@ const ErrorBox = styled.div`
 `
 
 export const WalletModal = () => {
-  const { active, account, connector, activate, error } = useWeb3React()
+  const { active, account, connector, activate, error, chainId } = useWeb3React()
   const dispatch = useDispatch()
   const isOpen = useModalOpen() && !(account && active)
   const [ errorBoxText, setErrorBoxText ] = useState('')
@@ -109,10 +109,18 @@ export const WalletModal = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error])
 
+  // handle logic to recognize the connector currently being activated
+  useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined)
+    }
+  }, [activatingConnector, connector, chainId])  
+
   const closeModalProxy = () => {
     dispatch(setOpenModal(false))
     setDisplayErrorBox(false)
   }
+  
 
   function handleConnectEvents ({ payload }) {
     if (payload === 'default') {
@@ -140,6 +148,7 @@ export const WalletModal = () => {
 
   // walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
   function resetWalletConnector () {
+    console.log('caleld');
     if (
       connector &&
       connector instanceof WalletConnectConnector &&

@@ -18,23 +18,8 @@ export default function Web3ReactManager({ children }) {
     }
   }, [triedEager, networkActive, networkError, activateNetwork, active])
 
-  // handle logic to recognize the connector currently being activated
-  // const [activatingConnector, setActivatingConnector] = useState()
-
-  // useEffect(() => {
-  //   if (activatingConnector && activatingConnector === connector) {
-  //     setActivatingConnector(undefined)
-  //   }
-  // }, [activatingConnector, connector, chainId])
-
   // when there's no account connected, react to logins (broadly speaking) on the injected provider, if it exists
   useInactiveListener(!triedEager)
-
-  // leave this commented out, as we still want to render the page regardless of mobile injection
-  // on page load, do nothing until we've tried to connect to the injected connector
-  // if (!triedEager) {
-  //   return null
-  // }
 
   // if the account context isn't active, and there's an error on the network context, it's an irrecoverable error
   if (!active && !networkActive && networkError) {

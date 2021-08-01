@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 import { WalletModal } from '../WalletModal'
 import { setOpenModal } from '../../state/application/actions'
@@ -49,11 +50,28 @@ export const Web3Status = () => {
 }
 
 function StatusButton() {
-  const { account, active, error } = useWeb3React()
+  const { account, active, error, connector, deactivate } = useWeb3React()
   const dispatch = useDispatch()
 
   const onClickProxy = () => {
-    (!account || !active) && dispatch(setOpenModal(true))
+    if (!account || !active) {
+      dispatch(setOpenModal(true))
+    } else {
+      deactivate()
+      resetWalletConnector()
+      dispatch(setOpenModal(false))
+    }
+  }
+
+  // walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
+  function resetWalletConnector () {
+    if (
+      connector &&
+      connector instanceof WalletConnectConnector &&
+      connector.walletConnectProvider?.wc?.uri
+    ) {
+      connector.walletConnectProvider = undefined
+    }
   }
 
   if (account) {
