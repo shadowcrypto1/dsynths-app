@@ -80,7 +80,8 @@ const CustomResponsiveContainer = styled(ResponsiveContainer)`
     position: relative;
 
     &:after {
-      content: "No Data Available";
+      // content: "No Data Available";
+      content: 'Widget currently disabled';
       display: flex;
       justify-content: center;
       width: 100%;
