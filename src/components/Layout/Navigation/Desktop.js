@@ -22,16 +22,13 @@ const Wrapper = styled.nav`
   padding: 0px 30px;
 `
 
-const LogoWrapper = styled(Link)`
+const LogoWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-grow: row nowrap;
   align-items: center;
   min-width: 200px;
   min-height: 43px;
-  &:hover {
-    cursor: pointer;
-  }
 `
 
 const NavWrapper = styled.div`
@@ -125,9 +122,11 @@ export const DesktopNavbar = ({ handleToggled }) => {
 
   return (
     <Wrapper>
-      <LogoWrapper to='/'>
-        <DSynthsLogo style={{marginRight: '6px'}}/>
-        <DSynthsText/>
+      <LogoWrapper>
+        <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>
+          <DSynthsLogo style={{marginRight: '6px'}}/>
+          <DSynthsText/>
+        </NavItem>
       </LogoWrapper>
       <NavWrapper>
         <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>

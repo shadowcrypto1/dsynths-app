@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 
 import { useMarketState } from '../market/hooks'
 import { updatePair } from './actions'
-import { parsePairCurrency } from '../market/updater'
 
 import { PAIR_INFO_BY_CHAIN_ID, SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 

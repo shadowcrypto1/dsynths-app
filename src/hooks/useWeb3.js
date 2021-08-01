@@ -11,12 +11,12 @@ export function useWeb3React() {
   // return context.active ? context : contextNetwork
 
   // replace with address to impersonate
-   const impersonate = false
-   const context = useWeb3ReactCore()
-   const contextNetwork = useWeb3ReactCore(NetworkContextName)
-   return context.active
-     ? { ...context, account: impersonate || context.account }
-     : { ...contextNetwork, account: impersonate || contextNetwork.account }
+  const impersonate = false
+  const context = useWeb3ReactCore()
+  const contextNetwork = useWeb3ReactCore(NetworkContextName)
+  return context.active
+    ? { ...context, account: impersonate || context.account }
+    : { ...contextNetwork, account: impersonate || contextNetwork.account }
 }
 
 export function useEagerConnect() {

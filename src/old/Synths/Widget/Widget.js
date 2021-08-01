@@ -66,64 +66,64 @@ const Name = styled.a`
 `
 
 const fetchRegistrars = async (ticker) => {
-	try {
-		const symbolMapping = getSymbolVariants(ticker, 'stock')
-		return await getRegistrars(symbolMapping)
-	} catch (err) {
-		console.error(err)
-		return []
-	}
+  try {
+    const symbolMapping = getSymbolVariants(ticker, 'stock')
+    return await getRegistrars(symbolMapping)
+  } catch (err) {
+    console.error(err)
+    return []
+  }
 }
 
 export const Widget = ({ ticker }) => {
   const [ showStats, setShowStats ] = useState(false)
-	const [ showTrade, setShowTrade ] = useState(true)
+  const [ showTrade, setShowTrade ] = useState(true)
 
   const [ symbols, setSymbols ] = useState([])
-	const [ names, setNames ] = useState([])
-	const [ contracts, setContracts ] = useState([])
-	const [ totalFeesDAI, setTotalFeesDAI ] = useState(0)
-	const [ totalVolumeDAI, setTotalVolumeDAI ] = useState(0)
-	const [ totalVolumeRegistrar, setTotalVolumeRegistrar ] = useState(0)
-	const [ txCount, setTxCount ] = useState(0)
+  const [ names, setNames ] = useState([])
+  const [ contracts, setContracts ] = useState([])
+  const [ totalFeesDAI, setTotalFeesDAI ] = useState(0)
+  const [ totalVolumeDAI, setTotalVolumeDAI ] = useState(0)
+  const [ totalVolumeRegistrar, setTotalVolumeRegistrar ] = useState(0)
+  const [ txCount, setTxCount ] = useState(0)
 
-	const createStats = async () => {
-		const registrars = await fetchRegistrars(ticker)
-		const stats = registrars.reduce((acc, obj) => {
+  const createStats = async () => {
+    const registrars = await fetchRegistrars(ticker)
+    const stats = registrars.reduce((acc, obj) => {
       acc.symbols.push(obj.symbol)
-			acc.names.push(obj.name)
-			acc.contracts.push(obj.id)
-			acc.totalFeesDAI += Number(obj.totalFeesDAI)
-			acc.totalVolumeDAI += Number(obj.totalVolumeDAI)
-			acc.totalVolumeRegistrar += Number(obj.totalVolumeRegistrar)
-			acc.txCount += Number(obj.txCount)
-			return acc
-		}, {
+      acc.names.push(obj.name)
+      acc.contracts.push(obj.id)
+      acc.totalFeesDAI += Number(obj.totalFeesDAI)
+      acc.totalVolumeDAI += Number(obj.totalVolumeDAI)
+      acc.totalVolumeRegistrar += Number(obj.totalVolumeRegistrar)
+      acc.txCount += Number(obj.txCount)
+      return acc
+    }, {
       symbols: [],
-			names: [],
-			contracts: [],
-			totalFeesDAI: 0,
-			totalVolumeDAI: 0,
-			totalVolumeRegistrar: 0,
-			txCount: 0,
-		})
+      names: [],
+      contracts: [],
+      totalFeesDAI: 0,
+      totalVolumeDAI: 0,
+      totalVolumeRegistrar: 0,
+      txCount: 0,
+    })
     setSymbols(stats.symbols)
-		setNames(stats.names)
-		setContracts(stats.contracts)
-		setTotalFeesDAI(stats.totalFeesDAI)
-		setTotalVolumeDAI(stats.totalVolumeDAI)
-		setTotalVolumeRegistrar(stats.totalVolumeRegistrar)
-		setTxCount(stats.txCount)
-	}
+    setNames(stats.names)
+    setContracts(stats.contracts)
+    setTotalFeesDAI(stats.totalFeesDAI)
+    setTotalVolumeDAI(stats.totalVolumeDAI)
+    setTotalVolumeRegistrar(stats.totalVolumeRegistrar)
+    setTxCount(stats.txCount)
+  }
 
-	useEffect(() => {
-		createStats()
+  useEffect(() => {
+    createStats()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ticker])
+  }, [ticker])
 
-	return (
-		<Wrapper>
-			<Header>
+  return (
+    <Wrapper>
+      <Header>
         <TickerWrapper>
   				<Ticker>{ticker}</Ticker>
           <TickerLogo
@@ -132,19 +132,19 @@ export const Widget = ({ ticker }) => {
             alt={`${ticker}_logo`}
           />
         </TickerWrapper>
-				<NameWrapper>
-					{names.map((name, index) => (
-						<Name
-							key={index}
-							target="_blank"
-							rel="noopener noreferrer"
-							href={`https://etherscan.io/token/${contracts[index]}`}
-						>
-							{name}
-						</Name>
-					))}
-				</NameWrapper>
-			</Header>
+        <NameWrapper>
+          {names.map((name, index) => (
+            <Name
+              key={index}
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://etherscan.io/token/${contracts[index]}`}
+            >
+              {name}
+            </Name>
+          ))}
+        </NameWrapper>
+      </Header>
       {showStats && <Stats
         ticker={ticker}
         toggle={() => {
@@ -164,5 +164,5 @@ export const Widget = ({ ticker }) => {
         ticker={ticker}
       />}
     </Wrapper>
-	)
+  )
 }

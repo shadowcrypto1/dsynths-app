@@ -44,21 +44,21 @@ export default function Updater() {
   const addPopup = useAddPopup()
 
   const getReceipt = useCallback((hash) => {
-      if (!library || !chainId) throw new Error('No library or chainId')
-      const retryOptions = RETRY_OPTIONS_BY_CHAIN_ID[chainId] ?? DEFAULT_RETRY_OPTIONS
-      return retry(
-        () =>
-          library.getTransactionReceipt(hash).then((receipt) => {
-            if (receipt === null) {
-              console.debug('Retrying for hash', hash)
-              throw new RetryableError()
-            }
-            return receipt
-          }),
-        retryOptions
-      )
-    },
-    [chainId, library]
+    if (!library || !chainId) throw new Error('No library or chainId')
+    const retryOptions = RETRY_OPTIONS_BY_CHAIN_ID[chainId] ?? DEFAULT_RETRY_OPTIONS
+    return retry(
+      () =>
+        library.getTransactionReceipt(hash).then((receipt) => {
+          if (receipt === null) {
+            console.debug('Retrying for hash', hash)
+            throw new RetryableError()
+          }
+          return receipt
+        }),
+      retryOptions
+    )
+  },
+  [chainId, library]
   )
 
   useEffect(() => {
@@ -88,16 +88,14 @@ export default function Updater() {
                 })
               )
 
-              addPopup(
-                {
-                  txn: {
-                    hash,
-                    success: receipt.status === 1,
-                    summary: transactions[hash]?.summary,
-                  },
+              addPopup({
+                content: {
+                  hash: hash,
+                  success: receipt.status === 1,
+                  summary: transactions[hash]?.summary,
                 },
-                hash
-              )
+                key: hash,
+              })
 
               // The receipt was fetched before the block, fast forward to that block to trigger balance updates
               if (receipt.blockNumber > lastBlockNumber) {

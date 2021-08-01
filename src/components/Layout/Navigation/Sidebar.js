@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styled, { css } from 'styled-components'
 
-import { DSynthsLogo, DSynthsText, NavToggle } from '../../Icons'
-
 const Wrapper = styled.nav`
   position: absolute;
   background-color: black;

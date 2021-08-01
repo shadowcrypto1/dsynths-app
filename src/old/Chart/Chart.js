@@ -17,7 +17,7 @@ export const Chart = ({ ticker }) => {
   const { theme } = useContext(ThemeContext)
 
   const datafeed = new Datafeed({ ticker })
-	const widgetOptions = getWidgetOptions({ theme, datafeed, ticker })
+  const widgetOptions = getWidgetOptions({ theme, datafeed, ticker })
 
   return (
     <ChartWrapper theme={theme}>

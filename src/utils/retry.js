@@ -35,11 +35,11 @@ export class RetryableError extends Error {
  */
 export function retry(fn, { n, minWait, maxWait }) {
   let completed = false
-  let rejectCancelled;
+  let rejectCancelled
   const promise = new Promise(async (resolve, reject) => {
     rejectCancelled = reject
     while (true) {
-      let result;
+      let result
       try {
         result = await fn()
         if (!completed) {

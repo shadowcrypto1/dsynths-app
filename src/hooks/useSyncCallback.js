@@ -1,5 +1,4 @@
 import { useCallback, useMemo } from 'react'
-import { BigNumber } from '@ethersproject/bignumber'
 import { useWeb3React } from '@web3-react/core'
 import Web3 from 'web3'
 
@@ -9,6 +8,7 @@ import { useAddPopup } from '../state/application/hooks'
 import { useActionState } from '../state/action/hooks'
 import { useSignatureUrls } from './useSignatureUrls'
 import { makeHttpRequest } from  '../utils/http'
+import { syncMainnet, syncXDAI } from '../synchronizer'
 
 export const MIN_SIGNATURES = 2
 export const EXPECTED_SIGNATURES = 2 // // TODO: hook this with './useSignatureUrls'
@@ -16,10 +16,6 @@ export const EXPECTED_SIGNATURES = 2 // // TODO: hook this with './useSignatureU
 export const SyncState = {
   PENDING: 'PENDING',
   IDLE: 'IDLE',
-}
-
-export function calculateGasMargin(value) {
-  return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000))
 }
 
 export function useSyncCallback({
@@ -37,17 +33,18 @@ export function useSyncCallback({
   const signatureUrls = useSignatureUrls()
   const action = useActionState()
   const addPopup = useAddPopup()
-
+  
   const syncState = useMemo(() => {
     if (!account || !chainId) return SyncState.IDLE
     if (!inputContract || !inputAmount || !inputDecimals) return SyncState.IDLE
     if (!outputContract || !outputAmount || !outputDecimals) return SyncState.IDLE
     if (!action) return SyncState.IDLE
-  }, [signatureUrls, action, outputContract])
 
+  }, [signatureUrls, action, outputContract])
+  
   const AMMContractInstance = useAMMContract()
   const addTransaction = useTransactionAdder()
-
+  
   const sync = useCallback(async () => {
     if (syncState === SyncState.PENDING) {
       console.error('tx is already pending')
@@ -70,7 +67,7 @@ export function useSyncCallback({
     }
 
     if (!inputAmount) {
-      console.error('inputContract is null')
+      console.error('inputAmount is null')
       return
     }
 
@@ -108,17 +105,70 @@ export function useSyncCallback({
     const targetAmount = (action === 'OPEN') ? outputAmount : inputAmount
     const targetDecimals = (action === 'OPEN') ? outputDecimals : inputDecimals
 
+    const submitCallback = (hash) => {
+      console.log(hash)
+      // start listening for receipt
+      addTransaction({
+        hash: hash,
+        summary: {
+          chainId: chainId,
+          hash: hash,
+          action: action,
+          type: type,
+          eventName: 'transaction',
+          params: {
+            inputAmount,
+            inputSymbol,
+            outputAmount,
+            outputSymbol,
+          }
+        }
+      })
+
+      // transaction submitted // TODO: beautify this
+      addPopup({
+        content: {
+          success: true,
+          summary: {
+            eventName: 'message',
+            message: 'Trade transaction submitted',
+          },
+        },
+        removeAfterMs: 5000,
+      })
+    }
+
+    const errorCallback = (error) => {
+      console.error('Failed to conduct transaction: ', error)
+      if (error?.code === 4001) return  // user rejected tx
+      addPopup({
+        content: {
+          success: false,
+          summary: {
+            eventName: 'message',
+            message: 'Failed to conduct transaction for an unknown reason, check the logs for more information.',
+          },
+        },
+        removeAfterMs: 15000,
+      })
+    }
+
     try {
       const signaturesPerNode = await getSignatures(signatureUrls)
       if (!signaturesPerNode) {
         console.error('signaturesPerNode returned null: ', signaturesPerNode)
-        return
+        return errorCallback('Unable to fetch oracle signatures')
       }
 
       const { data, price } = parseSignatures(signaturesPerNode, action, targetContract)
-      if (!data || (action === 'OPEN' && !price)) {
-        console.error('data returned null: ', data)
-        return
+      if (!data) {
+        console.error('oracle data is corrupted: ', data)
+        return errorCallback('Unable to parse oracle signature data')
+      }
+
+      if (action === 'OPEN' && !price) {
+        console.error('oracle price is corrupted: ', price)
+        return errorCallback('Unable to parse oracle signature prices')
       }
 
       const signsMethod = (action === 'OPEN') ? 'buy' : 'sell'
@@ -141,7 +191,7 @@ export function useSyncCallback({
        * @param r {bytes32[]}
        * @param s {bytes32[]}
        */
-      let contractPayload = Object.values({
+      let payload = {
         _user: account,
         multiplier: data[0].multiplier.toString(),
         registrar: targetContract,
@@ -152,92 +202,27 @@ export function useSyncCallback({
         v: vMapping,
         r: rMapping,
         s: sMapping,
-      })
-
-      const method = (action === 'OPEN')
-        ? chainId === 1 ? 'buyFor' : 'buy'
-        : chainId === 1 ? 'sellFor' : 'sell'
-
-      const payload = (chainId === 1)
-        ? contractPayload
-        : contractPayload.slice(1) // remove _user for the XDAI proxy AMM
-
-      const receiptCallback = (response) => {
-        console.log(response);
-        addTransaction(response, {
-          summary: {
-            header: `${action} - ${type.toUpperCase()}`,
-            body: `Trade ${outputAmount} ${outputSymbol} for ${inputAmount} ${inputSymbol}`
-          },
-        })
       }
 
-      const hashCallback = (hash) => {
-        console.log(hash);
-        addPopup({
-          txn: {
-            hash,
-            success: true,
-            summary: {
-              header: `${action} - ${type.toUpperCase()}`,
-              body: `Transaction submitted`
-            },
-          },
-        }, hash)
+      switch (chainId) {
+      case 1:
+        return syncMainnet({AMMContractInstance, action, payload, account, submitCallback, errorCallback})
+      case 100:
+        return syncXDAI({AMMContractInstance, price, action, payload, account, submitCallback, errorCallback})
+      default:
+        return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
       }
-
-      if (chainId === 1) {
-        let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({ from: account })
-        return AMMContractInstance.methods[method](...payload).send({
-          from: account,
-          gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
-        })
-          .on('transactionHash', hashCallback)
-          .once('receipt', receiptCallback)
-          .on('error', (error) => {throw error});
-
-      } else if (chainId === 100) {
-
-        let options = {}
-        if (action === 'OPEN') {
-          let xdaiAmount = await AMMContractInstance.methods.calculateXdaiAmount(price, data[0].fee.toString(), toWei(targetAmount, targetDecimals)).call()
-          let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({
-            from: account,
-            value: xdaiAmount,
-          })
-          options = {
-            from: account,
-            value: xdaiAmount,
-            gasPrice: Web3.utils.toWei("20", "Gwei"),
-            gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
-          }
-        } else {
-          let estimatedGas = await AMMContractInstance.methods[method](...payload).estimateGas({ from: account })
-          options = {
-            from: account,
-            gasPrice: Web3.utils.toWei("20", "Gwei"),
-            gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
-          }
-        }
-
-        return AMMContractInstance.methods[method](...payload).send(options)
-          .on('transactionHash', hashCallback)
-          .once('receipt', receiptCallback)
-          .on('error', (error) => {throw error});
-      }
-
     } catch (error) {
-      // TODO: make failed popup
-      console.error('Transaction has failed: ', error)
+      console.error(error)
+      return errorCallback('An unexpected error occured, please check the logs')
     }
-  }, [syncState, AMMContractInstance, addTransaction, chainId, outputContract, outputAmount, action, signatureUrls])
+  }, [syncState, AMMContractInstance, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
 
   return [syncState, sync]
 }
 
 function toWei(number, decimals = 18) {
   let value = String(number)
-
   // Deal with super low amounts by removing any number >= decimals
   const indexDot = value.indexOf('.')
   if (indexDot !== -1 || value.substring(indexDot + 1).length > decimals) {
@@ -246,7 +231,6 @@ function toWei(number, decimals = 18) {
 
   let result = Web3.utils.toWei(String(value), 'ether')
   result = result.substr(0, result.length - (18 - decimals))
-
   return result.toString()
 }
 
@@ -256,11 +240,11 @@ async function getSignatures(urls) {
     if (!urls || !urls.length) throw new Error('URLs are missing')
 
     const responses = await Promise.allSettled(
-      urls.map(url => makeHttpRequest(url, { cache: "no-cache" }))
+      urls.map(url => makeHttpRequest(url, { cache: 'no-cache' }))
     )
 
     // TODO: add feedback mechanism to admins in case a node is down
-    return responses.map((response, i) => {
+    return responses.map((response) => {
       if (response.status === 'fulfilled') return response.value
       throw new Error(`response.status returns unfulfilled: ${response}`)
     })
@@ -294,12 +278,12 @@ function parseSignatures (signaturesPerNode, action, targetContract) {
     }
 
     switch (action) {
-      case 'OPEN':
-        return createBuyParams(priceFeed)
-      case 'CLOSE':
-        return createSellParams(priceFeed)
-      default:
-        throw new Error('Action param is invalid: ', action)
+    case 'OPEN':
+      return createBuyParams(priceFeed)
+    case 'CLOSE':
+      return createSellParams(priceFeed)
+    default:
+      throw new Error('Action param is invalid: ', action)
     }
 
   } catch (err) {

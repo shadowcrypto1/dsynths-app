@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { DSynthsLogo, NavToggle } from '../../Icons'
 import { Web3Status } from '../../Web3Status'
-import { useWindowSize } from '../../../hooks/useWindowSize'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -30,9 +29,6 @@ const LogoWrapper = styled(Link)`
 `
 
 export const MobileNavbar = ({ handleToggled }) => {
-  const { pathname } = useLocation()
-  const size = useWindowSize()
-
   return (
     <Wrapper>
       <LogoWrapper to='/'>

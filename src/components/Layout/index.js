@@ -26,21 +26,21 @@ const Footer = styled.div`
 
 export const Layout = ({ children }) => {
   const size = useWindowSize()
-	const [toggled, setToggled] = useState(false)
+  const [toggled, setToggled] = useState(false)
 
   const handleToggled = (state) => {
     setToggled(state)
   }
 
-	return (
-		<Wrapper>
+  return (
+    <Wrapper>
       {size.width > 600 && <DesktopNavbar handleToggled={handleToggled}/>}
       {size.width <= 600 && <MobileNavbar handleToggled={handleToggled}/>}
-			<Main>
-				{children}
+      <Main>
+        {children}
         <Footer />
-			</Main >
+      </Main >
       <Sidebar toggled={toggled} handleToggled={handleToggled}/>
-		</Wrapper>
-	)
+    </Wrapper>
+  )
 }

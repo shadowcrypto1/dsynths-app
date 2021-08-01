@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { BigNumber } from '@ethersproject/bignumber'
-import { isAddress } from '@ethersproject/address'
 
 import { useTokenContract } from './useContract'
 import { useCorrectNetworkURL } from './useCorrectNetworkURL'
+import { useBlockNumber } from '../state/application/hooks'
 
 export const useTokenBalance = (tokenAddress, isToken) => {
   const { account, library } = useWeb3React()
   const [ balance, setBalance ] = useState(BigNumber.from('0'))
   const contract = useTokenContract(tokenAddress)
   const isNetworkCorrect = useCorrectNetworkURL()
+  const blockNumber = useBlockNumber()
 
   useEffect(() => {
     let mounted = true
@@ -37,7 +38,7 @@ export const useTokenBalance = (tokenAddress, isToken) => {
 
     return () => mounted = false
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, library, tokenAddress, isToken, isNetworkCorrect])
+  }, [account, library, tokenAddress, isToken, isNetworkCorrect, blockNumber])
 
   return balance
 }

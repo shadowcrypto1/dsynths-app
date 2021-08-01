@@ -151,7 +151,7 @@ export const InputBar = ({
   const [ small, setSmall ] = useState(width < 500)
 
   useEffect(() => {
-    const result = (balance && balance > 0) ? formatUnits(balance, decimals) : '0.00'
+    const result = (balance && balance.gt(0)) ? formatUnits(balance, decimals) : '0.00'
     setFormattedBalance && setFormattedBalance(result)
   }, [balance])
 

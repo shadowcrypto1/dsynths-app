@@ -4,11 +4,11 @@ import { ExternalLink } from 'react-external-link'
 
 import { Break } from '../../../Break'
 import {
-	AutoColumn,
-	HeaderItem,
-	TableText,
-	FullRow,
-	WrappedLoader,
+  AutoColumn,
+  HeaderItem,
+  TableText,
+  FullRow,
+  WrappedLoader,
 } from './Components'
 
 import { formatTime } from '../../../../utils/date'
@@ -52,103 +52,103 @@ const ResponsiveGrid = styled.div`
 `
 
 const DataRow = ({ transaction }) => {
-	const { id, timestamp, method, from, registrarSymbol: symbol } = transaction
-	const registrarAmount = Math.abs(transaction.registrarAmount)
-	const collateralAmount = Math.abs(transaction.collateralAmount)
+  const { id, timestamp, method, from, registrarSymbol: symbol } = transaction
+  const registrarAmount = Math.abs(transaction.registrarAmount)
+  const collateralAmount = Math.abs(transaction.collateralAmount)
 
-	let splitSymbol = symbol.split('-') // dGME-L => [dGME, L]
-	const ticker = splitSymbol[0].substring(1) // [ dGME, L] => GME
-	const direction = splitSymbol[1]
+  let splitSymbol = symbol.split('-') // dGME-L => [dGME, L]
+  const ticker = splitSymbol[0].substring(1) // [ dGME, L] => GME
+  const direction = splitSymbol[1]
 
-	let eventName
-	if (method === 'buy' && direction === 'L') {
-		eventName = 'Open Long'
-	} else if (method === 'buy' && direction === 'S') {
-		eventName = 'Open Short'
-	} else if (method === 'sell' && direction === 'L') {
-		eventName = 'Close Long'
-	} else {
-		eventName = 'Close Short'
-	}
+  let eventName
+  if (method === 'buy' && direction === 'L') {
+    eventName = 'Open Long'
+  } else if (method === 'buy' && direction === 'S') {
+    eventName = 'Open Short'
+  } else if (method === 'sell' && direction === 'L') {
+    eventName = 'Close Long'
+  } else {
+    eventName = 'Close Short'
+  }
 
-	return (
-		<ResponsiveGrid>
-			<TableText >
-				{eventName}
-			</TableText>
-			<TableText >
-				{`${formatAmount(registrarAmount)} ${ticker}`}
-			</TableText>
-			<TableText >
-				{`${formatDollarAmount(collateralAmount / registrarAmount)}`}
-			</TableText>
-			<TableText >
-				{`${formatDollarAmount(collateralAmount)}`}
-			</TableText>
-			<TableText >
-				<ExternalLink href={`https://etherscan.io/address/${from}`}>
-					{truncateAddress(from)}
-				</ExternalLink>
-			</TableText>
-			<TableText >
-				{formatTime(timestamp)}
-			</TableText>
-			<TableText >
-				<ExternalLink href={`https://etherscan.io/tx/${id}`}>
+  return (
+    <ResponsiveGrid>
+      <TableText >
+        {eventName}
+      </TableText>
+      <TableText >
+        {`${formatAmount(registrarAmount)} ${ticker}`}
+      </TableText>
+      <TableText >
+        {`${formatDollarAmount(collateralAmount / registrarAmount)}`}
+      </TableText>
+      <TableText >
+        {`${formatDollarAmount(collateralAmount)}`}
+      </TableText>
+      <TableText >
+        <ExternalLink href={`https://etherscan.io/address/${from}`}>
+          {truncateAddress(from)}
+        </ExternalLink>
+      </TableText>
+      <TableText >
+        {formatTime(timestamp)}
+      </TableText>
+      <TableText >
+        <ExternalLink href={`https://etherscan.io/tx/${id}`}>
           Hash
-				</ExternalLink>
-			</TableText>
-		</ResponsiveGrid>
-	)
+        </ExternalLink>
+      </TableText>
+    </ResponsiveGrid>
+  )
 }
 
 export const MarketHistory = ({ ticker }) => {
-	const [ loading, setLoading ] = useState(true)
-	const [ transactions, setTransactions ] = useState([])
+  const [ loading, setLoading ] = useState(true)
+  const [ transactions, setTransactions ] = useState([])
 
-	useEffect(() => {
-		fetchTransactions(ticker)
-	}, [ticker])
+  useEffect(() => {
+    fetchTransactions(ticker)
+  }, [ticker])
 
-	const fetchTransactions = async (ticker) => {
-		const symbolMapping = getSymbolVariants(ticker, 'stock')
-		try {
-			let data = await getTransactions(symbolMapping, 10)
-			setTransactions(data)
-			setLoading(false)
-		} catch (err) {
-			console.error(err)
-			setTransactions([])
-		}
-	}
+  const fetchTransactions = async (ticker) => {
+    const symbolMapping = getSymbolVariants(ticker, 'stock')
+    try {
+      let data = await getTransactions(symbolMapping, 10)
+      setTransactions(data)
+      setLoading(false)
+    } catch (err) {
+      console.error(err)
+      setTransactions([])
+    }
+  }
 
-	if (loading) return <WrappedLoader />
+  if (loading) return <WrappedLoader />
 
-	return (
-	// No Card: should be provided by parent
-		<AutoColumn gap="8px">
-			<ResponsiveGrid>
-				<HeaderItem>Action</HeaderItem>
-				<HeaderItem>Amount</HeaderItem>
-				<HeaderItem>Price [DAI]</HeaderItem>
-				<HeaderItem>Total [DAI]</HeaderItem>
-				<HeaderItem>Account</HeaderItem>
-				<HeaderItem>Age</HeaderItem>
-				<HeaderItem>Tx Hash</HeaderItem>
-			</ResponsiveGrid>
-			<Break />
-			{(transactions && transactions.length) ? transactions.map((tx, index) => (
-				<Fragment key={index}>
-					<DataRow transaction={tx} />
-					<Break />
-				</Fragment>
-			)) : (
-				<React.Fragment>
-					<FullRow />
-					<FullRow>No transactions found</FullRow>
-				</React.Fragment>
-			)}
-			{/* TODO: add pagination*/}
-		</AutoColumn>
-	)
+  return (
+  // No Card: should be provided by parent
+    <AutoColumn gap="8px">
+      <ResponsiveGrid>
+        <HeaderItem>Action</HeaderItem>
+        <HeaderItem>Amount</HeaderItem>
+        <HeaderItem>Price [DAI]</HeaderItem>
+        <HeaderItem>Total [DAI]</HeaderItem>
+        <HeaderItem>Account</HeaderItem>
+        <HeaderItem>Age</HeaderItem>
+        <HeaderItem>Tx Hash</HeaderItem>
+      </ResponsiveGrid>
+      <Break />
+      {(transactions && transactions.length) ? transactions.map((tx, index) => (
+        <Fragment key={index}>
+          <DataRow transaction={tx} />
+          <Break />
+        </Fragment>
+      )) : (
+        <React.Fragment>
+          <FullRow />
+          <FullRow>No transactions found</FullRow>
+        </React.Fragment>
+      )}
+      {/* TODO: add pagination*/}
+    </AutoColumn>
+  )
 }

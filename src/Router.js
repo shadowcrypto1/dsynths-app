@@ -30,20 +30,20 @@ function Updaters() {
 }
 
 export default function Router() {
-	return (
-		<BrowserRouter>
-			<Updaters/>
-			<Layout>
-				<Switch>
+  return (
+    <BrowserRouter>
+      <Updaters/>
+      <Layout>
+        <Switch>
           <Route path={['/', '/home']} exact>
             <Home/>
           </Route>
-					<Route path='/exchange'>
-						<Basic/>
-					</Route>
-					<Redirect to='/'/>
-				</Switch>
-			</Layout>
-		</BrowserRouter>
-	)
+          <Route path='/exchange'>
+            <Basic/>
+          </Route>
+          <Redirect to='/'/>
+        </Switch>
+      </Layout>
+    </BrowserRouter>
+  )
 }

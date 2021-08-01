@@ -27,7 +27,7 @@ const quotesSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchQuotes.pending, (state, action) => {
+      .addCase(fetchQuotes.pending, (state) => {
         state.data = {}
         state.status = 'LOADING'
       })
@@ -35,7 +35,7 @@ const quotesSlice = createSlice({
         state.data = payload
         state.status = 'OK'
       })
-      .addCase(fetchQuotes.rejected, (state, action) => {
+      .addCase(fetchQuotes.rejected, (state) => {
         state.data = {}
         state.status = 'ERROR'
       })

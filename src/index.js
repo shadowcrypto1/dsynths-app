@@ -16,19 +16,19 @@ import './styles/index.css'
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
 ReactDOM.render(
-	<React.StrictMode>
-		<ReduxProvider store={store}>
-			<Web3ReactProvider getLibrary={getLibrary}>
-				<Web3ProviderNetwork getLibrary={getLibrary}>
-	        <Web3ReactManager>
-	          <ModalProvider>
-	          	<Popups/>
-							<Router/>
-	          </ModalProvider>
-	        </Web3ReactManager>
-				</Web3ProviderNetwork>
-			</Web3ReactProvider>
-		</ReduxProvider>
-	</React.StrictMode>,
-	document.getElementById('root'),
+  <React.StrictMode>
+    <ReduxProvider store={store}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Web3ProviderNetwork getLibrary={getLibrary}>
+          <Web3ReactManager>
+            <ModalProvider>
+              <Popups/>
+              <Router/>
+            </ModalProvider>
+          </Web3ReactManager>
+        </Web3ProviderNetwork>
+      </Web3ReactProvider>
+    </ReduxProvider>
+  </React.StrictMode>,
+  document.getElementById('root'),
 )

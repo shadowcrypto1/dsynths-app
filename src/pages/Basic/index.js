@@ -126,7 +126,7 @@ const TradeContainer = styled.div`
   height: auto;
 `
 
-export default function () {
+export default function Basic() {
 
   const { width } = useWindowSize()
   const base = useBaseState()

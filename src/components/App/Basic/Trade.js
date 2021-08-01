@@ -1,7 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
+import { BigNumber } from '@ethersproject/bignumber'
+import Web3 from 'web3'
 
 import { TradeButton } from './Button'
 import { InputBar } from './Input'
@@ -13,6 +15,7 @@ import {
 import { setOpenModal } from '../../../state/application/actions'
 import { flipAction } from '../../../state/action/actions'
 
+import { useTokenBalance } from '../../../hooks/useTokenBalance'
 import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
 import { useAmountManager } from '../../../hooks/useAmountManager'
 import { useDataFields } from '../../../hooks/useDataFields'
@@ -68,7 +71,7 @@ export const Trade = ({ type }) => {
   const { account, active } = useWeb3React()
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
-
+  
   const {
     inputTicker,
     inputSymbol,
@@ -82,32 +85,38 @@ export const Trade = ({ type }) => {
     outputIsToken,
     quote,
   } = useDataFields(type)
-
+  
   const { price, fee, isClosed } = quote[type.toLowerCase()]
-
+  
   const {
     inputAmount,
     outputAmount,
     setInputAmount,
     setOutputAmount,
   } = useAmountManager(price, type, fee)
-
+  
   const priceFormatted = useCallback(() => {
     let formattedPrice = price ? price.toFixed(2) : 0
     switch (type) {
       case 'LONG':
         return `${formattedPrice} ${inputSymbol}/${outputSymbol}`
-      case 'SHORT':
-        return `${formattedPrice} ${outputSymbol}/${inputSymbol}`
-    }
-  }, [price])
-
-  const [approvalState, approveCallback] = useApproveCallback({
-    address: inputContract,
-    isToken: inputIsToken,
-    symbol: inputSymbol,
-    type: type,
-  })
+        case 'SHORT':
+          return `${formattedPrice} ${outputSymbol}/${inputSymbol}`
+        }
+      }, [price])
+      
+      const [approvalState, approveCallback] = useApproveCallback({
+        address: inputContract,
+        isToken: inputIsToken,
+        symbol: inputSymbol,
+        type: type,
+      })
+      
+  const balance = useTokenBalance(inputContract, inputIsToken)
+  const sufficientBalance = useMemo(() => {
+    if (!balance || balance.lte(0) || !inputAmount) return true // edge case where we ignore 0 balances (those are filtered by the syncCallback)
+    return (balance.gte(BigNumber.from(toWei(inputAmount, inputDecimals)))) ? true : false
+  }, [balance, inputAmount])
 
   const handleApprove = useCallback(async () => {
     await approveCallback()
@@ -201,7 +210,11 @@ export const Trade = ({ type }) => {
           <LoaderIcon size={'20px'} style={{marginRight: '5px'}}/>
           <span>{type.toUpperCase()} TRANSACTING</span>
         </TradeButton>
-      ) : (
+      ) : !sufficientBalance ? (
+        <TradeButton>
+          Insufficient Balance
+        </TradeButton>
+      ) : (        
         <TradeButton onClick={handleSync}>
           {type.toUpperCase()}
         </TradeButton>
@@ -209,3 +222,16 @@ export const Trade = ({ type }) => {
     </Wrapper>
   )
 }
+
+function toWei(number, decimals = 18) {
+  let value = String(number)
+  // Deal with super low amounts by removing any number >= decimals
+  const indexDot = value.indexOf('.')
+  if (indexDot !== -1 || value.substring(indexDot + 1).length > decimals) {
+    value = value.substring(0, indexDot) + value.substring(indexDot, indexDot + decimals + 1)
+  }
+
+  let result = Web3.utils.toWei(String(value), 'ether')
+  result = result.substr(0, result.length - (18 - decimals))
+  return result.toString()
+}  

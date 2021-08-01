@@ -7,7 +7,7 @@ const initialState = {
   contract: '',
   decimals: 18,
   symbol: '',
- }
+}
 
 export default createReducer(initialState, (builder) =>
   builder

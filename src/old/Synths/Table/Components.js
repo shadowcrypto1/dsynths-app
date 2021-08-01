@@ -51,9 +51,9 @@ export const Wrapper = styled.div`
 `
 
 export const WrappedLoader = () => {
-	return (
-		<Wrapper>
-			<Loader size="40px"/>
-		</Wrapper>
-	)
+  return (
+    <Wrapper>
+      <Loader size="40px"/>
+    </Wrapper>
+  )
 }

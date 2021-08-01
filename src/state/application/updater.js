@@ -18,15 +18,15 @@ export default function Updater() {
   })
 
   const blockNumberCallback = useCallback((blockNumber) => {
-      setState((state) => {
-        if (chainId === state.chainId) {
-          if (typeof state.blockNumber !== 'number') return { chainId, blockNumber }
-          return { chainId, blockNumber: Math.max(blockNumber, state.blockNumber) }
-        }
-        return state
-      })
-    },
-    [chainId, setState]
+    setState((state) => {
+      if (chainId === state.chainId) {
+        if (typeof state.blockNumber !== 'number') return { chainId, blockNumber }
+        return { chainId, blockNumber: Math.max(blockNumber, state.blockNumber) }
+      }
+      return state
+    })
+  },
+  [chainId, setState]
   )
 
   // Attach/detach listeners

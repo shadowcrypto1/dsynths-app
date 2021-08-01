@@ -65,7 +65,7 @@ function StatusButton() {
   } else if (error) {
     return (
       <Error onClick={onClickProxy}>
-       {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Connect to a wallet'}
+        {error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Connect to a wallet'}
       </Error>
     )
   } else {

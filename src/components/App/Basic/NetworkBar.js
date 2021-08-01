@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link, useHistory } from 'react-router-dom'
-import { useWeb3React } from '@web3-react/core'
-import qs from 'query-string'
+import { useHistory } from 'react-router-dom'
 
 import { useMarketState } from '../../../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
@@ -58,26 +56,25 @@ const Box = styled.div`
 `
 
 export const NetworkBar = () => {
-  const { chainId } = useWeb3React()
-  const { location, push } = useHistory()
+  const { location } = useHistory()
   const { networkName } = useMarketState()
 
   return (
     <Wrapper>
       <Title>View Assets on Network: </Title>
       <BoxWrapper>
-      {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
-        const displayValue = (name === 'MAINNET') ? 'ETH' : name
-        const disabled = name === networkName
-        return (
-          <Box
-            key={name}
-            disabled={disabled}
-            onClick={() => window.location.href=`${location.pathname}?network=${displayValue}`}
+        {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
+          const displayValue = (name === 'MAINNET') ? 'ETH' : name
+          const disabled = name === networkName
+          return (
+            <Box
+              key={name}
+              disabled={disabled}
+              onClick={() => window.location.href=`${location.pathname}?network=${displayValue}`}
             >{displayValue}
-          </Box>
-        )
-      })}
+            </Box>
+          )
+        })}
       </BoxWrapper>
     </Wrapper>
   )

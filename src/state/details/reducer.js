@@ -34,7 +34,7 @@ const detailsSlice = createSlice({
         state.data = payload
         state.status = 'OK'
       })
-      .addCase(fetchDetails.rejected, (state, action) => {
+      .addCase(fetchDetails.rejected, (state) => {
         state.data = {}
         state.status = 'ERROR'
       })

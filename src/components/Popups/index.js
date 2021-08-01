@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useWeb3React } from '@web3-react/core'
 
 import PopupItem from './PopupItem'
 import { useActivePopups } from '../../state/application/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
-import { SUPPORTED_CHAINS_NAME } from '../../constants'
 
 const Container = styled.div`
   display: flex;
@@ -30,16 +28,17 @@ const ContainerSmall = styled(Container)`
 
 export default function Popups() {
   const activePopups = useActivePopups()
-  const { chainId } = useWeb3React()
   const { width } = useWindowSize()
 
   return (
     <>
       {width >= 810 ? (
         <ContainerLarge size={width}>
-        {activePopups.map((item) => (
-          <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
-        ))}
+          {activePopups.map((item) => {
+            return (
+              <PopupItem key={item.key} content={item.content} popKey={item.key} removeAfterMs={item.removeAfterMs} />
+            )
+          })}
         </ContainerLarge>
       ) : (
         <ContainerSmall>

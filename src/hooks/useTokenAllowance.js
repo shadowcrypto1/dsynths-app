@@ -4,12 +4,14 @@ import { useWeb3React } from '@web3-react/core'
 
 import { useTokenContract } from './useContract'
 import { useCorrectNetworkURL } from './useCorrectNetworkURL'
+import { useBlockNumber } from '../state/application/hooks'
 
 export function useTokenAllowance(tokenAddress, spenderAddress) {
   const { account, library } = useWeb3React()
   const contract = useTokenContract(tokenAddress)
   const [ allowance, setAllowance ] = useState(BigNumber.from('0'))
   const isNetworkCorrect = useCorrectNetworkURL()
+  const blockNumber = useBlockNumber()
 
   useEffect(() => {
     let mounted = true
@@ -30,7 +32,7 @@ export function useTokenAllowance(tokenAddress, spenderAddress) {
     }
 
     return () => mounted = false
-  }, [account, library, tokenAddress, spenderAddress, contract, isNetworkCorrect])
+  }, [account, library, tokenAddress, spenderAddress, contract, isNetworkCorrect, blockNumber])
 
   return allowance
 }

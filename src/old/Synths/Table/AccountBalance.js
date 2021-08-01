@@ -5,11 +5,11 @@ import { useWeb3React } from '@web3-react/core'
 
 import { Break } from '../../../Break'
 import {
-	AutoColumn,
-	HeaderItem,
-	TableText,
-	FullRow,
-	WrappedLoader,
+  AutoColumn,
+  HeaderItem,
+  TableText,
+  FullRow,
+  WrappedLoader,
 } from './Components'
 
 import { formatTime } from '../../../../utils/date'
@@ -41,21 +41,21 @@ const ResponsiveGrid = styled.div`
 `
 
 export const AccountBalance = ({ ticker }) => {
-	return (
-		// No Card: should be provided by parent
-		<AutoColumn gap="8px">
-			<ResponsiveGrid>
-				<HeaderItem>Ticker</HeaderItem>
-				<HeaderItem>Direction</HeaderItem>
-				<HeaderItem>Balance</HeaderItem>
-				<HeaderItem>Value</HeaderItem>
-				<HeaderItem>Action</HeaderItem>
-			</ResponsiveGrid>
-			<Break />
-			<Fragment>
-				<FullRow />
-				<FullRow>Coming Soon</FullRow>
-			</Fragment>
-		</AutoColumn>
-	)
+  return (
+  // No Card: should be provided by parent
+    <AutoColumn gap="8px">
+      <ResponsiveGrid>
+        <HeaderItem>Ticker</HeaderItem>
+        <HeaderItem>Direction</HeaderItem>
+        <HeaderItem>Balance</HeaderItem>
+        <HeaderItem>Value</HeaderItem>
+        <HeaderItem>Action</HeaderItem>
+      </ResponsiveGrid>
+      <Break />
+      <Fragment>
+        <FullRow />
+        <FullRow>Coming Soon</FullRow>
+      </Fragment>
+    </AutoColumn>
+  )
 }

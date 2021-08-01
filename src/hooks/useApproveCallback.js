@@ -7,6 +7,7 @@ import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID } from '../constants'
 import { useTokenContract } from './useContract'
 import { useTokenAllowance } from './useTokenAllowance'
 import { useTransactionAdder, useHasPendingApproval } from '../state/transactions/hooks'
+import { useAddPopup } from '../state/application/hooks'
 
 export const ApprovalState = {
   UNKNOWN: 'UNKNOWN',
@@ -23,17 +24,17 @@ export function useApproveCallback({
   address,
   isToken,
   symbol,
-  type,
 }) {
   const { chainId } = useWeb3React()
-  const spenderContract = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID[chainId]
+  const spender = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID[chainId]
   const tokenAddress = isToken ? address : undefined
-  const currentAllowance = useTokenAllowance(tokenAddress, spenderContract)
-  const pendingApproval = useHasPendingApproval(address, spenderContract)
+  const currentAllowance = useTokenAllowance(tokenAddress, spender)
+  const pendingApproval = useHasPendingApproval(address, spender)
+  const addPopup = useAddPopup()
 
   // Check the current approval status
   const approvalState = useMemo(() => {
-    if (!spenderContract) return ApprovalState.UNKNOWN
+    if (!spender) return ApprovalState.UNKNOWN
     if (!currentAllowance) return ApprovalState.UNKNOWN
     if (!isToken) return ApprovalState.APPROVED
 
@@ -42,8 +43,7 @@ export function useApproveCallback({
       : pendingApproval
         ? ApprovalState.PENDING
         : ApprovalState.NOT_APPROVED
-
-  }, [currentAllowance, pendingApproval, spenderContract, isToken])
+  }, [currentAllowance, pendingApproval, spender, isToken])
 
   const TokenContractInstance = useTokenContract(address)
   const addTransaction = useTransactionAdder()
@@ -68,29 +68,59 @@ export function useApproveCallback({
       return
     }
 
-    if (!spenderContract) {
-      console.error('no spenderContract')
+    if (!spender) {
+      console.error('no spender')
       return
     }
 
-    const estimatedGas = await TokenContractInstance.estimateGas.approve(spenderContract, MaxUint256)
+    const estimatedGas = await TokenContractInstance.estimateGas.approve(spender, MaxUint256)
     return TokenContractInstance
-      .approve(spenderContract, MaxUint256, {
+      .approve(spender, MaxUint256, {
         gasLimit: calculateGasMargin(estimatedGas),
       })
       .then(response => {
-        addTransaction(response, {
+        console.log(response)
+        // start listening for receipt
+        addTransaction({
+          hash: response.hash,
           summary: {
-            header: type.toUpperCase(),
-            body: `Approve ${symbol}`
+            chainId: chainId,
+            hash: response.hash,
+            eventName: 'approval',
+            params: {
+              symbol,
+            }
           },
-          approval: { tokenAddress: address, spender: spenderContract },
+          approval: { tokenAddress: address, spender: spender },
+        })
+
+        // transaction submitted // TODO: beautify this
+        addPopup({
+          content: {
+            success: true,
+            summary: {
+              eventName: 'message',
+              message: 'Approval transaction submitted',
+            },
+          },
+          removeAfterMs: 5000,
         })
       })
       .catch(error => {
-        console.debug('Failed to approve token', error)
+        console.error('Failed to approve token for an unknown reason', error)
+        if (error.code === 4001) return  // user rejected tx
+        addPopup({
+          content: {
+            success: false,
+            summary: {
+              eventName: 'message',
+              message: 'Failed to approve token, check the logs for more information.',
+            },
+          },
+          removeAfterMs: 15000,
+        })
       })
-  }, [approvalState, tokenAddress, TokenContractInstance, spenderContract, addTransaction, chainId])
+  }, [approvalState, tokenAddress, TokenContractInstance, spender, addTransaction, chainId])
 
   return [approvalState, approve]
 }

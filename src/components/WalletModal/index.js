@@ -81,40 +81,40 @@ export const WalletModal = () => {
   const dispatch = useDispatch()
   const isOpen = useModalOpen() && !(account && active)
   const [ errorBoxText, setErrorBoxText ] = useState('')
-	const [ displayErrorBox, setDisplayErrorBox ] = useState(false)
+  const [ displayErrorBox, setDisplayErrorBox ] = useState(false)
   const [ activatingConnector, setActivatingConnector] = useState(undefined)
-	const [ cachedConnectorName, setCachedConnectorName ] = useState(undefined)
+  const [ cachedConnectorName, setCachedConnectorName ] = useState(undefined)
 
-	useEffect(() => {
+  useEffect(() => {
     if (!error) return
     resetWalletConnector()
     console.log(error)
-		if (
-			error instanceof UserRejectedRequestErrorInjected ||
+    if (
+      error instanceof UserRejectedRequestErrorInjected ||
       error instanceof UserRejectedRequestErrorWalletConnect
-		) {
-			handleConnectEvents({ payload: 'userRejected' })
+    ) {
+      handleConnectEvents({ payload: 'userRejected' })
       return
-		}
+    }
 
     if (error instanceof UnsupportedChainIdError) {
-			handleConnectEvents({ payload: 'networkError' })
+      handleConnectEvents({ payload: 'networkError' })
       return
-		}
+    }
 
     if (error instanceof NoEthereumProviderError) {
       handleConnectEvents({ payload: 'noEthereumProviderError' })
       return
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [error])
+  }, [error])
 
-	const closeModalProxy = () => {
-		dispatch(setOpenModal(false))
-		setDisplayErrorBox(false)
-	}
+  const closeModalProxy = () => {
+    dispatch(setOpenModal(false))
+    setDisplayErrorBox(false)
+  }
 
-	function handleConnectEvents ({ payload }) {
+  function handleConnectEvents ({ payload }) {
     if (payload === 'default') {
       return setDisplayErrorBox(false)
     }
@@ -136,18 +136,18 @@ export const WalletModal = () => {
       setErrorBoxText('This network is not supported')
       return
     }
-	}
+  }
 
-	// walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
-	function resetWalletConnector () {
-		if (
-			connector &&
+  // walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
+  function resetWalletConnector () {
+    if (
+      connector &&
       connector instanceof WalletConnectConnector &&
       connector.walletConnectProvider?.wc?.uri
-		) {
-			connector.walletConnectProvider = undefined
-		}
-	}
+    ) {
+      connector.walletConnectProvider = undefined
+    }
+  }
 
   return (
     <StyledModal
@@ -173,9 +173,9 @@ export const WalletModal = () => {
                   handleConnectEvents({ payload: 'default' })
                   activate(currentConnector)
                 }}
-                >
-                  {name}
-                  {activating && <LoaderIcon size="20px" />}
+              >
+                {name}
+                {activating && <LoaderIcon size="20px" />}
               </ConnectorWrapper>
             )
           })}

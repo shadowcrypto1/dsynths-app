@@ -47,7 +47,7 @@ export const TradeButton = styled.div`
   background: ${props => props.disabled
     ? 'rgba(255, 33, 33, 0.4)'
     : 'linear-gradient(91.77deg, #DA316B -97.86%, #1175DE 97.84%)'
-  };
+};
   border: 1px solid rgba(146, 119, 224, 0.5);
   border-radius: 10px;
   &:hover {

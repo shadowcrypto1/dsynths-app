@@ -121,57 +121,55 @@ const TradeButtonMobile = styled(TradeButton)`
   width: 100%;
 `
 
-export default function () {
+export default function Home() {
   const { width } = useWindowSize()
   return (
     <Wrapper>
-        {width > 850 ? (
-          <DesktopLandingContainer>
-            <DesktopLandingText>
-              <HeroTitle
-                fontsize={width > 1250 ? '45px' : width > 1050 ? '35px' : '30px'}
-              >Trading for Everyone</HeroTitle>
-              <HeroSubtitle
-                fontsize={width > 1250 ? '16px' : width > 1050 ? '15px' : '16px'}
-              >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
-              <TradeButton to={'/exchange'}>
-                <span>Start Trading</span>
-                <ArrowUpRight size={'20px'}/>
-              </TradeButton>
-            </DesktopLandingText>
-            <HeroImageContainer>
-              <HeroImage
-                src={'/img/home_hero.png'}
-                alt={`Home Hero Logo`}
-              />
-              <HeroImageShadow
-                src={'/img/home_hero_shadow.png'}
-                alt={`Home Hero Shadow`}
-              />
-            </HeroImageContainer>
-          </DesktopLandingContainer>
-        ) : (
-          <MobileLandingContainer>
-            <HeroTitleMobile>Trading for Everyone</HeroTitleMobile>
-            <HeroImageContainer>
-              <HeroImageMobile
-                src={'/img/home_hero.png'}
-                alt={`Home Hero Logo`}
-              />
-              <HeroImageShadow
-                src={'/img/home_hero_shadow.png'}
-                alt={`Home Hero Shadow`}
-              />
-            </HeroImageContainer>
-            <HeroSubtitleMobile>
-              Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
-            </HeroSubtitleMobile>
-            <TradeButtonMobile to={'/exchange'}>
+      {width > 850 ? (
+        <DesktopLandingContainer>
+          <DesktopLandingText>
+            <HeroTitle
+              fontsize={width > 1250 ? '45px' : width > 1050 ? '35px' : '30px'}
+            >Trading for Everyone</HeroTitle>
+            <HeroSubtitle
+              fontsize={width > 1250 ? '16px' : width > 1050 ? '15px' : '16px'}
+            >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
+            <TradeButton to={'/exchange'}>
               <span>Start Trading</span>
               <ArrowUpRight size={'20px'}/>
-            </TradeButtonMobile>
-          </MobileLandingContainer>
-        )}
+            </TradeButton>
+          </DesktopLandingText>
+          <HeroImageContainer>
+            <HeroImage
+              src={'/img/home_hero.png'}
+              alt={'Trade any type of synthetic asset across multiple chains'}
+            />
+            <HeroImageShadow
+              src={'/img/home_hero_shadow.png'}
+            />
+          </HeroImageContainer>
+        </DesktopLandingContainer>
+      ) : (
+        <MobileLandingContainer>
+          <HeroTitleMobile>Trading for Everyone</HeroTitleMobile>
+          <HeroImageContainer>
+            <HeroImageMobile
+              src={'/img/home_hero.png'}
+              alt={'Trade any type of synthetic asset across multiple chains'}
+            />
+            <HeroImageShadow
+              src={'/img/home_hero_shadow.png'}
+            />
+          </HeroImageContainer>
+          <HeroSubtitleMobile>
+              Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
+          </HeroSubtitleMobile>
+          <TradeButtonMobile to={'/exchange'}>
+            <span>Start Trading</span>
+            <ArrowUpRight size={'20px'}/>
+          </TradeButtonMobile>
+        </MobileLandingContainer>
+      )}
     </Wrapper>
   )
 }

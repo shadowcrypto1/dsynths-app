@@ -13,13 +13,13 @@ const Wrapper = styled(Card)`
   padding: 5px;
 `
 export const TopRegistrars = ({ ticker }) => {
-	const topRegistrars = useTopRegistrars()
-	const mappedTopRegistrars = topRegistrars.reduce((acc, obj) => {
-		const tickerOnly = obj.symbol.split('-').shift(0).substring(1) // dGME-L becomes GME and dLBS becomes LBS
-		if (acc.includes(tickerOnly)) return acc
-		acc.push(tickerOnly)
-		return acc
-	}, [])
+  const topRegistrars = useTopRegistrars()
+  const mappedTopRegistrars = topRegistrars.reduce((acc, obj) => {
+    const tickerOnly = obj.symbol.split('-').shift(0).substring(1) // dGME-L becomes GME and dLBS becomes LBS
+    if (acc.includes(tickerOnly)) return acc
+    acc.push(tickerOnly)
+    return acc
+  }, [])
   return (
     <Wrapper>
       {mappedTopRegistrars.length >= 1 && mappedTopRegistrars.map((symbol, index) => {

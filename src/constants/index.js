@@ -37,8 +37,8 @@ export const PAIR_INFO_BY_CHAIN_ID = {
 }
 
 export const SUPPORTED_CHAINS_BY_NAME = {
-	MAINNET: 1,
+  MAINNET: 1,
   XDAI: 100,
 }
 
-export const SUPPORTED_CHAIN_IDS = Object.entries(SUPPORTED_CHAINS_BY_NAME).map(([key, value] = []) => value)
+export const SUPPORTED_CHAIN_IDS = Object.values(SUPPORTED_CHAINS_BY_NAME)
