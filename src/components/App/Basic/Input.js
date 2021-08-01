@@ -170,9 +170,9 @@ export const InputBar = ({
       </InfoWrapper>
       <BarWrapper>
         <IconWrapper
-          src={`/img/tickers/${ticker}.png`}
+          src={`/img/tickers/${ticker.toUpperCase()}.png`}
           fallbackImage={'/img/fallback/ticker.png'}
-          alt={`${ticker}_logo`}
+          alt={`${ticker} Symbol Logo`}
           small={small}
         />
         <Symbol small={small}>{symbol}</Symbol>
