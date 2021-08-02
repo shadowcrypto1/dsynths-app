@@ -79,7 +79,7 @@ const ErrorBox = styled.div`
 export const WalletModal = () => {
   const { active, account, connector, activate, error, chainId } = useWeb3React()
   const dispatch = useDispatch()
-  const isOpen = useModalOpen() && !(account && active)
+  const isOpen = useModalOpen()
   const [ errorBoxText, setErrorBoxText ] = useState('')
   const [ displayErrorBox, setDisplayErrorBox ] = useState(false)
   const [ activatingConnector, setActivatingConnector] = useState(undefined)
@@ -120,26 +120,29 @@ export const WalletModal = () => {
     dispatch(setOpenModal(false))
     setDisplayErrorBox(false)
   }
-  
 
   function handleConnectEvents ({ payload }) {
     if (payload === 'default') {
+      dispatch(setOpenModal(false))
       return setDisplayErrorBox(false)
     }
 
     if (payload === 'userRejected') {
+      dispatch(setOpenModal(true))
       setDisplayErrorBox(true)
       setErrorBoxText('Error connecting')
       return
     }
 
     if (payload === 'noEthereumProviderError') {
+      dispatch(setOpenModal(true))
       setDisplayErrorBox(true)
       setErrorBoxText('Install Metamask first!')
       return
     }
 
     if (payload === 'networkError') {
+      dispatch(setOpenModal(true))
       setDisplayErrorBox(false)
       setErrorBoxText('This network is not supported')
       return
