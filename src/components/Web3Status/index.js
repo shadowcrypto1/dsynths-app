@@ -25,6 +25,10 @@ const Button = styled.button`
 const Connected = styled(Button)`
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
+  &:hover {
+    cursor: pointer;
+    background: rgba(91, 96, 204, 0.25);
+  }
 `
 
 const Error = styled(Button)`
