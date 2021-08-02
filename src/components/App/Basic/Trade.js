@@ -20,6 +20,7 @@ import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
 import { useAmountManager } from '../../../hooks/useAmountManager'
 import { useDataFields } from '../../../hooks/useDataFields'
 import { useCorrectNetworkURL } from '../../../hooks/useCorrectNetworkURL'
+import { useWindowSize } from '../../../hooks/useWindowSize'
 
 import { ApprovalState, useApproveCallback } from '../../../hooks/useApproveCallback'
 import { SyncState, useSyncCallback } from '../../../hooks/useSyncCallback'
@@ -71,6 +72,7 @@ export const Trade = ({ type }) => {
   const { account, active } = useWeb3React()
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
+  const { width } = useWindowSize()
   
   const {
     inputTicker,
@@ -189,7 +191,7 @@ export const Trade = ({ type }) => {
           CONNECT WALLET
         </TradeButton>
       ) : !correctNetworkURL ? (
-        <TradeButton onClick={() => rpcChangerCallback()}>
+        <TradeButton onClick={() => rpcChangerCallback()} size={(width < 500) ? '16px' : '24px'}>
           CHANGE WALLET NETWORK
         </TradeButton>
       ) : isClosed ? (
@@ -212,7 +214,7 @@ export const Trade = ({ type }) => {
         </TradeButton>
       ) : !sufficientBalance ? (
         <TradeButton>
-          Insufficient Balance
+          INSUFFICIENT BALANCE
         </TradeButton>
       ) : (        
         <TradeButton onClick={handleSync}>

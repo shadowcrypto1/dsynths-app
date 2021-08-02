@@ -7,6 +7,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { WalletModal } from '../WalletModal'
 import { setOpenModal } from '../../state/application/actions'
 import { truncateAddress } from '../../utils/account'
+import { injected } from '../../connectors'
 
 const Button = styled.button`
   width: 150px;
@@ -60,6 +61,11 @@ function StatusButton() {
       deactivate()
       resetWalletConnector()
       dispatch(setOpenModal(false))
+
+      if (connector !== injected) {
+        console.log(connector)
+        connector.close()
+      }
     }
   }
 

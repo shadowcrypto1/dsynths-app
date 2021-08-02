@@ -146,9 +146,8 @@ export const WalletModal = () => {
     }
   }
 
-  // walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
+  // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
   function resetWalletConnector () {
-    console.log('caleld');
     if (
       connector &&
       connector instanceof WalletConnectConnector &&
