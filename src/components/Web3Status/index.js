@@ -62,25 +62,11 @@ function StatusButton() {
     if (!account || !active) {
       dispatch(setOpenModal(true))
     } else {
-      deactivate()
-      resetWalletConnector()
       dispatch(setOpenModal(false))
-
+      deactivate()
       if (connector !== injected) {
-        console.log(connector)
         connector.close()
       }
-    }
-  }
-
-  // walletconnect has this bug where it doesn't reload after closing the window, remove connector in that case
-  function resetWalletConnector () {
-    if (
-      connector &&
-      connector instanceof WalletConnectConnector &&
-      connector.walletConnectProvider?.wc?.uri
-    ) {
-      connector.walletConnectProvider = undefined
     }
   }
 

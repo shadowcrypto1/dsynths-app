@@ -77,37 +77,13 @@ const ErrorBox = styled.div`
 `
 
 export const WalletModal = () => {
-  const { active, account, connector, activate, error, chainId } = useWeb3React()
+  const { connector, activate, chainId } = useWeb3React()
   const dispatch = useDispatch()
   const isOpen = useModalOpen()
   const [ errorBoxText, setErrorBoxText ] = useState('')
   const [ displayErrorBox, setDisplayErrorBox ] = useState(false)
   const [ activatingConnector, setActivatingConnector] = useState(undefined)
   const [ cachedConnectorName, setCachedConnectorName ] = useState(undefined)
-
-  useEffect(() => {
-    if (!error) return
-    resetWalletConnector()
-    console.log(error)
-    if (
-      error instanceof UserRejectedRequestErrorInjected ||
-      error instanceof UserRejectedRequestErrorWalletConnect
-    ) {
-      handleConnectEvents({ payload: 'userRejected' })
-      return
-    }
-
-    if (error instanceof UnsupportedChainIdError) {
-      handleConnectEvents({ payload: 'networkError' })
-      return
-    }
-
-    if (error instanceof NoEthereumProviderError) {
-      handleConnectEvents({ payload: 'noEthereumProviderError' })
-      return
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error])
 
   // handle logic to recognize the connector currently being activated
   useEffect(() => {
@@ -121,43 +97,24 @@ export const WalletModal = () => {
     setDisplayErrorBox(false)
   }
 
-  function handleConnectEvents ({ payload }) {
-    if (payload === 'default') {
-      dispatch(setOpenModal(false))
-      return setDisplayErrorBox(false)
+  const tryActivation = (connectorInstance) => {
+    // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
+    if (connectorInstance instanceof WalletConnectConnector && connectorInstance.walletConnectProvider?.wc?.uri) {
+      connectorInstance.walletConnectProvider = undefined
     }
 
-    if (payload === 'userRejected') {
-      dispatch(setOpenModal(true))
-      setDisplayErrorBox(true)
-      setErrorBoxText('Error connecting')
-      return
-    }
-
-    if (payload === 'noEthereumProviderError') {
-      dispatch(setOpenModal(true))
-      setDisplayErrorBox(true)
-      setErrorBoxText('Install Metamask first!')
-      return
-    }
-
-    if (payload === 'networkError') {
-      dispatch(setOpenModal(true))
-      setDisplayErrorBox(false)
-      setErrorBoxText('This network is not supported')
-      return
-    }
-  }
-
-  // if the connector is walletconnect and the user has already tried to connect, manually reset the connector
-  function resetWalletConnector () {
-    if (
-      connector &&
-      connector instanceof WalletConnectConnector &&
-      connector.walletConnectProvider?.wc?.uri
-    ) {
-      connector.walletConnectProvider = undefined
-    }
+    activate(connectorInstance, undefined, true)
+      .then(() => closeModalProxy())
+      .catch((error) => {
+        if (error instanceof UserRejectedRequestErrorInjected || error instanceof UserRejectedRequestErrorWalletConnect) { 
+          setErrorBoxText('Error connecting')
+        } else if (error instanceof UnsupportedChainIdError) {
+          setErrorBoxText('This network is not supported')
+        } else if (error instanceof NoEthereumProviderError) {
+          setErrorBoxText('Install Metamask first!')
+        }
+        setDisplayErrorBox(true)
+      })
   }
 
   return (
@@ -174,15 +131,14 @@ export const WalletModal = () => {
         <Body>
           {Object.keys(connectorsByName).map(name => {
             const currentConnector = connectorsByName[name]
-            const activating = currentConnector === activatingConnector
+            const activating = connector === currentConnector
             return (
               <ConnectorWrapper
                 key={name}
                 onClick={() => {
                   setActivatingConnector(currentConnector)
                   setCachedConnectorName(currentConnector)
-                  handleConnectEvents({ payload: 'default' })
-                  activate(currentConnector)
+                  tryActivation(currentConnector)
                 }}
               >
                 {name}
@@ -193,7 +149,7 @@ export const WalletModal = () => {
           {displayErrorBox && (
             <ConnectorWrapper error={true}>
               {errorBoxText}
-              <ErrorBox onClick={() => activate(cachedConnectorName)}>
+              <ErrorBox onClick={() => tryActivation(cachedConnectorName)}>
                 Try Again
               </ErrorBox>
             </ConnectorWrapper>
