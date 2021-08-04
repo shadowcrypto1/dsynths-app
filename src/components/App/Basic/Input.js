@@ -175,12 +175,6 @@ export const InputBar = ({
           alt={`${ticker} Symbol Logo`}
           small={small}
         />
-        <IconWrapper
-          src={`/images/tickers/XDAI.png`}
-          fallbackImage={'/images/fallback/ticker.png'}
-          alt={`${ticker} Symbol Logo`}
-          small={small}
-        />
         <Symbol small={small}>{symbol}</Symbol>
         <VertLine/>
         {width >= 500 && (
