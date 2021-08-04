@@ -44,33 +44,34 @@ const getParams = (timeframe) => {
 }
 
 export const useLineChart = (baseSymbol, timeframe) => {
-  const [ hasNoData, setHasNoData ] = useState(false)
+  const [ hasNoData, setHasNoData ] = useState(true)
   const [ data, setData ] = useState([])
-
-  // const fetchPrices = useCallback(async () => {
-  //   let mounted = true
-  //
-  //   const { resolution, from, to} = getParams(timeframe)
-  //   const result = await getStockCandles(baseSymbol, resolution, from, to)
-  //   mounted && setData(result)
-  //   mounted && setHasNoData(!result.length)
-  //
-  //   return () => mounted = false
 
   const fetchPrices = useCallback(async () => {
     let mounted = true
 
-    // const { resolution, from, to} = getParams(timeframe)
-    // const result = await getStockCandles(baseSymbol, resolution, from, to)
-    mounted && setData([])
-    mounted && setHasNoData(![].length)
+    const { resolution, from, to} = getParams(timeframe)
+    const result = await getStockCandles(baseSymbol, resolution, from, to)
+    mounted && setData(result)
+    mounted && setHasNoData(!result.length)
 
     return () => mounted = false
-  }, [baseSymbol, timeframe])
+  })
 
-  useEffect(() => {
-    fetchPrices()
-  }, [baseSymbol, timeframe])
+  // const fetchPrices = useCallback(async () => {
+  //   let mounted = true
+
+  //   // const { resolution, from, to} = getParams(timeframe)
+  //   // const result = await getStockCandles(baseSymbol, resolution, from, to)
+  //   mounted && setData([])
+  //   mounted && setHasNoData(![].length)
+
+  //   return () => mounted = false
+  // }, [baseSymbol, timeframe])
+
+  // useEffect(() => {
+  //   fetchPrices()
+  // }, [baseSymbol, timeframe])
 
   return {
     data,

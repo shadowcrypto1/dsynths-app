@@ -170,8 +170,8 @@ export const InputBar = ({
       </InfoWrapper>
       <BarWrapper>
         <IconWrapper
-          src={`/img/tickers/${ticker.toUpperCase()}.png`}
-          fallbackImage={'/img/fallback/ticker.png'}
+          src={`/images/tickers/${ticker.toUpperCase()}.png`}
+          fallbackImage={'/images/fallback/ticker.png'}
           alt={`${ticker} Symbol Logo`}
           small={small}
         />
@@ -184,7 +184,10 @@ export const InputBar = ({
           >MAX</MaxButton>
         )}
         <AmountField
-          onChange={(evt) => setAmount(evt.currentTarget.value)}
+          onChange={(evt) => {
+            alert(`the ticker is as follows: ${ticker.toUpperCase()}`)
+            setAmount(evt.currentTarget.value)
+          }}
           type={'number'}
           placeholder={'Enter an amount'}
           value={amount}

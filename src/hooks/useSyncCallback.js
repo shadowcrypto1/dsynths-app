@@ -33,18 +33,20 @@ export function useSyncCallback({
   const signatureUrls = useSignatureUrls()
   const action = useActionState()
   const addPopup = useAddPopup()
-  
+
   const syncState = useMemo(() => {
     if (!account || !chainId) return SyncState.IDLE
     if (!inputContract || !inputAmount || !inputDecimals) return SyncState.IDLE
     if (!outputContract || !outputAmount || !outputDecimals) return SyncState.IDLE
     if (!action) return SyncState.IDLE
 
+    // TODO: add pending
+    return SyncState.IDLE
   }, [signatureUrls, action, outputContract])
-  
+
   const AMMContractInstance = useAMMContract()
   const addTransaction = useTransactionAdder()
-  
+
   const sync = useCallback(async () => {
     if (syncState === SyncState.PENDING) {
       console.error('tx is already pending')
@@ -140,6 +142,9 @@ export function useSyncCallback({
 
     const errorCallback = (error) => {
       console.error('Failed to conduct transaction: ', error)
+      alert('the next alert originates from errorCallback')
+      alert(error)
+
       if (error?.code === 4001) return  // user rejected tx
       addPopup({
         content: {
@@ -214,6 +219,8 @@ export function useSyncCallback({
       }
     } catch (error) {
       console.error(error)
+      alert('the next error originates from catch')
+      alert(error)
       return errorCallback('An unexpected error occured, please check the logs')
     }
   }, [syncState, AMMContractInstance, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])

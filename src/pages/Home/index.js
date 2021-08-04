@@ -141,11 +141,11 @@ export default function Home() {
           </DesktopLandingText>
           <HeroImageContainer>
             <HeroImage
-              src={'/img/home_hero.png'}
+              src={'/images/home_hero.png'}
               alt={'Trade any type of synthetic asset across multiple chains'}
             />
             <HeroImageShadow
-              src={'/img/home_hero_shadow.png'}
+              src={'/images/home_hero_shadow.png'}
             />
           </HeroImageContainer>
         </DesktopLandingContainer>
@@ -154,11 +154,11 @@ export default function Home() {
           <HeroTitleMobile>Trading for Everyone</HeroTitleMobile>
           <HeroImageContainer>
             <HeroImageMobile
-              src={'/img/home_hero.png'}
+              src={'/images/home_hero.png'}
               alt={'Trade any type of synthetic asset across multiple chains'}
             />
             <HeroImageShadow
-              src={'/img/home_hero_shadow.png'}
+              src={'./images/home_hero_shadow.png'}
             />
           </HeroImageContainer>
           <HeroSubtitleMobile>
