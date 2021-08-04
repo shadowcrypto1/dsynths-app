@@ -90,7 +90,7 @@ export const WalletModal = () => {
     if (activatingConnector && activatingConnector === connector) {
       setActivatingConnector(undefined)
     }
-  }, [activatingConnector, connector, chainId])  
+  }, [activatingConnector, connector, chainId])
 
   const closeModalProxy = () => {
     dispatch(setOpenModal(false))
@@ -106,6 +106,7 @@ export const WalletModal = () => {
     activate(connectorInstance, undefined, true)
       .then(() => closeModalProxy())
       .catch((error) => {
+        console.error(error)
         if (error instanceof UserRejectedRequestErrorInjected || error instanceof UserRejectedRequestErrorWalletConnect) { 
           setErrorBoxText('Error connecting')
         } else if (error instanceof UnsupportedChainIdError) {

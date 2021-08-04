@@ -24,14 +24,20 @@ export function useEagerConnect() {
   const [tried, setTried] = useState(false)
 
   useEffect(() => {
-    if (isMobile && window.ethereum) return setTried(true)
     injected.isAuthorized().then((isAuthorized) => {
       if (isAuthorized) {
         activate(injected, undefined, true).catch(() => {
           setTried(true)
         })
+      } else {
+        if (isMobile && window.ethereum) {
+          activate(injected, undefined, true).catch(() => {
+            setTried(true)
+          })
+        } else {
+          setTried(true)
+        }
       }
-      setTried(true)
     })
   }, [activate])
 
