@@ -185,7 +185,6 @@ export const InputBar = ({
         )}
         <AmountField
           onChange={(evt) => {
-            alert(`the ticker is as follows: ${ticker.toUpperCase()}`)
             setAmount(evt.currentTarget.value)
           }}
           type={'number'}

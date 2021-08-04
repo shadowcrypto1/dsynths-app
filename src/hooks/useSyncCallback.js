@@ -143,8 +143,8 @@ export function useSyncCallback({
 
     const errorCallback = (error) => {
       console.error('Failed to conduct transaction: ', error)
-      alert('the next alert originates from errorCallback')
-      alert(error)
+      // alert('the next alert originates from errorCallback')
+      // alert(error)
 
       if (error?.code === 4001) return  // user rejected tx
       addPopup({
@@ -220,8 +220,8 @@ export function useSyncCallback({
       }
     } catch (error) {
       console.error(error)
-      alert('the next error originates from catch')
-      alert(error)
+      // alert('the next error originates from catch')
+      // alert(error)
       return errorCallback('An unexpected error occured, please check the logs')
     }
   }, [syncState, AMMContractInstance, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
