@@ -107,7 +107,7 @@ export const WalletModal = () => {
       .then(() => closeModalProxy())
       .catch((error) => {
         console.error(error)
-        if (error instanceof UserRejectedRequestErrorInjected || error instanceof UserRejectedRequestErrorWalletConnect) { 
+        if (error instanceof UserRejectedRequestErrorInjected || error instanceof UserRejectedRequestErrorWalletConnect) {
           setErrorBoxText('Error connecting')
         } else if (error instanceof UnsupportedChainIdError) {
           setErrorBoxText('This network is not supported')
