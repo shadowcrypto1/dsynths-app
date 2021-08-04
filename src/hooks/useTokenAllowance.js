@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BigNumber } from '@ethersproject/bignumber'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from './useWeb3'
 
 import { useTokenContract } from './useContract'
 import { useCorrectNetworkURL } from './useCorrectNetworkURL'

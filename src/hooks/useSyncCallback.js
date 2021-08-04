@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
 import Web3 from 'web3'
+import { useWeb3React } from './useWeb3'
 
 import { useAMMContract } from './useContract'
 import { useTransactionAdder } from '../state/transactions/hooks'

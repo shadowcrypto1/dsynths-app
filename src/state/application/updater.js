@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '../../hooks/useWeb3'
 
 import { supportedChainId } from '../../utils/supportedChainId'
 import { updateBlockNumber, updateChainId } from './actions'

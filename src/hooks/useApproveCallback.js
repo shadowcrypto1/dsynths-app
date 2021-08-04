@@ -1,7 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import { MaxUint256 } from '@ethersproject/constants'
 import { BigNumber } from '@ethersproject/bignumber'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from './useWeb3'
 
 import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID } from '../constants'
 import { useTokenContract } from './useContract'

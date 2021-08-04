@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
 import _ from 'lodash'
+import { useWeb3React } from '../../hooks/useWeb3'
 
 import { useParsedQueryString } from '../../hooks/useParsedQueryString'
 import { replaceMarketState } from './actions'
@@ -70,6 +71,6 @@ function parseNetworkName(urlParam, fallbackChainId) {
     }
   }
   // console.log(urlParam, fallbackChainId, _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId))
-  // return _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId) ?? 
+  // return _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId) ??
   return 'MAINNET'
 }

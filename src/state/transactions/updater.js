@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from '../../hooks/useWeb3'
 
 import { SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 import { retry, RetryableError } from '../../utils/retry'

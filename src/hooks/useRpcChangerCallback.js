@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
+import { useWeb3React } from './useWeb3'
 
 import { useMarketState } from '../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../constants'
