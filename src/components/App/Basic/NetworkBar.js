@@ -29,13 +29,15 @@ const Title = styled.div`
   margin-bottom: 11px;
 `
 
-const BoxWrapper = styled.div`
+const OptionsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 9px;
 `
 
-const Box = styled.div`
+const BoxWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   height: 22px;
   text-align: center;
   align-text: center;
@@ -49,10 +51,29 @@ const Box = styled.div`
     cursor: pointer;
   }
 
-  ${props => props.disabled && `
-    background: rgba(255, 255, 255, 0.36);
+  ${props => props.active && `
+    background: rgba(0, 209, 108, 0.15);
     pointer-events: none;
   `}
+`
+
+const CircleWrapper = styled.div`
+  color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const GreenCircle = styled.div`
+  justify-content: center;
+  align-items: center;
+  &:first-child {
+    height: 8px;
+    width: 8px;
+    margin-right: 8px;
+    background-color: green;
+    border-radius: 50%;
+  }
 `
 
 export const NetworkBar = () => {
@@ -61,21 +82,39 @@ export const NetworkBar = () => {
 
   return (
     <Wrapper>
-      <Title>View Assets on Network: </Title>
-      <BoxWrapper>
+      <Title>Switch Chain to Trade On:</Title>
+      <OptionsWrapper>
         {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
           const displayValue = (name === 'MAINNET') ? 'ETH' : name
-          const disabled = name === networkName
+          const active = name === networkName
           return (
-            <Box
+            <Option
               key={name}
-              disabled={disabled}
               onClick={() => window.location.href=`${location.pathname}?network=${displayValue}`}
+              active={active}
+              networkName={displayValue}
             >{displayValue}
-            </Box>
+            </Option>
           )
         })}
-      </BoxWrapper>
+      </OptionsWrapper>
     </Wrapper>
+  )
+}
+
+function Option ({ active, networkName, onClick}) {
+  return (
+    <BoxWrapper active={active} onClick={onClick}>
+      {active ? (
+        <CircleWrapper>
+          <GreenCircle>
+            <div />
+          </GreenCircle>
+        </CircleWrapper>
+      ) : (
+        ''
+      )}
+      {networkName}
+    </BoxWrapper>
   )
 }
