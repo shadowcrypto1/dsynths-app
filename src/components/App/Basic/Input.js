@@ -195,6 +195,7 @@ export const InputBar = ({
           spellcheck={false}
           step={'any'}
           small={small}
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
         />
       </BarWrapper>
     </Wrapper>
