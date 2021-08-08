@@ -39,7 +39,7 @@ export const TradeButton = styled.div`
   justify-content: center;
   width: 100%;
   height: 56px;
-  line-height: 56px;
+  line-height: ${props => props.size ?? '24px'};
   font-size: ${props => props.size ?? '24px'};
   align-items: center;
   text-align: center;
