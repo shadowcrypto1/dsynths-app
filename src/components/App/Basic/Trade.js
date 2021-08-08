@@ -14,6 +14,8 @@ import {
 
 import { setOpenModal } from '../../../state/application/actions'
 import { flipAction } from '../../../state/action/actions'
+import { useActionState } from '../../../state/action/hooks'
+import { useMarketState } from '../../../state/market/hooks'
 
 import { useTokenBalance } from '../../../hooks/useTokenBalance'
 import { useRpcChangerCallback } from '../../../hooks/useRpcChangerCallback'
@@ -73,6 +75,8 @@ export const Trade = ({ type }) => {
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
   const { width } = useWindowSize()
+  const action = useActionState()
+  const { networkName } = useMarketState()
 
   const {
     inputTicker,
@@ -174,7 +178,7 @@ export const Trade = ({ type }) => {
         decimals={outputDecimals}
         isToken={outputIsToken}
         amount={outputAmount}
-        label={'To'}
+        label={'To (estimated)'}
         setAmount={setOutputAmount}
       />
       <NoteWrapper>
@@ -191,8 +195,11 @@ export const Trade = ({ type }) => {
           CONNECT WALLET
         </TradeButton>
       ) : !correctNetworkURL ? (
-        <TradeButton onClick={() => rpcChangerCallback()} size={(width < 500) ? '16px' : '24px'}>
-          CHANGE WALLET NETWORK
+        <TradeButton
+          onClick={() => window.ethereum && rpcChangerCallback()}
+          size={(width < 500) ? '16px' : '24px'}
+        >
+          {window.ethereum ? 'CHANGE WALLET NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
         </TradeButton>
       ) : isClosed ? (
         <TradeButton disabled={true}>
@@ -218,7 +225,7 @@ export const Trade = ({ type }) => {
         </TradeButton>
       ) : (
         <TradeButton onClick={handleSync}>
-          {type.toUpperCase()}
+          {action === 'OPEN' ? type.toUpperCase() : `CLOSE ${type.toUpperCase()}`}
         </TradeButton>
       )}
     </Wrapper>

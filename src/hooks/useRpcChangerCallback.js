@@ -7,11 +7,11 @@ import { SUPPORTED_CHAINS_BY_NAME } from '../constants'
 import { RpcParams } from '../constants/rpc'
 
 export const useRpcChangerCallback = () => {
-  const { account, chainId } = useWeb3React()
+  const { chainId } = useWeb3React()
   const { networkName: fallbackNetworkName } = useMarketState()
 
   return useCallback((networkName) => {
-    if (!chainId || !account || !window.ethereum) return
+    if (!chainId || !window.ethereum) return
 
     const targetChainId = SUPPORTED_CHAINS_BY_NAME[networkName || fallbackNetworkName]
     if (!targetChainId || !RpcParams[targetChainId]) return
@@ -29,5 +29,5 @@ export const useRpcChangerCallback = () => {
         console.error(err)
       })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainId, account, fallbackNetworkName])
+  }, [chainId, fallbackNetworkName])
 }

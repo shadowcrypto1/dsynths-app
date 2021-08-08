@@ -19,21 +19,16 @@ export function useBlockNumber() {
 
 export function useAddPopup() {
   const dispatch = useDispatch()
-
-  return useCallback(({ content, key }) => {
-    dispatch(addPopup({ content, key }))
-  },
-  [dispatch]
-  )
+  return useCallback(({ content, key, removeAfterMs }) => {
+    dispatch(addPopup({ content, key, removeAfterMs }))
+  }, [dispatch])
 }
 
 export function useRemovePopup() {
   const dispatch = useDispatch()
   return useCallback((key) => {
     dispatch(removePopup({ key }))
-  },
-  [dispatch]
-  )
+  }, [dispatch])
 }
 
 export function useActivePopups() {

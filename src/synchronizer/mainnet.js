@@ -42,10 +42,8 @@ export default async function ({
       gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
     })
       .then(submitCallback)
-      .catch(error => {throw error})
-
+      .catch(errorCallback)
   } catch (error) {
-    console.error(error)
     errorCallback(error)
   }
 }

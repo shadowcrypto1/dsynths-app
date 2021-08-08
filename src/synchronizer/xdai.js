@@ -61,10 +61,8 @@ export default async function ({
 
     return SynchronizerContract.[method](...mappedPayload, options)
       .then(submitCallback)
-      .catch(error => {throw error})
-
+      .catch(errorCallback)
   } catch (error) {
-    console.error(error)
     errorCallback(error)
   }
 }

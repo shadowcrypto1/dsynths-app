@@ -96,6 +96,7 @@ export default function Updater() {
                   summary: transactions[hash]?.summary,
                 },
                 key: hash,
+                removeAfterMs: 5000,
               })
 
               // The receipt was fetched before the block, fast forward to that block to trigger balance updates
