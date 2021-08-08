@@ -100,6 +100,7 @@ export const SearchBar = ({ focus }) => {
 
   const options = useMemo(() => {
     if (!details) return
+
     return conducted.data.map(synth => {
       const obj = details.data[synth.id]
       return {
@@ -107,6 +108,23 @@ export const SearchBar = ({ focus }) => {
         value: obj.symbol,
       }
     })
+
+    // const groups = conducted.data.reduce((acc, synth) => {
+    //   const props = details.data[synth.id]
+    //   if (!acc[props.sector]) {
+    //     acc[props.sector] = {
+    //       type: 'group',
+    //       name: props.sector,
+    //       items: [],
+    //     }
+    //   }
+    //   acc[props.sector].items.push({
+    //     name: props.name,
+    //     value: props.symbol,
+    //   })
+    //   return acc
+    // }, {})
+    // return Object.values(groups)
   }, [conducted, details])
 
   const [snapshot, valueProps, optionProps] = useSelect({
