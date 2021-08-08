@@ -15,10 +15,6 @@ import './styles/index.css'
 
 const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
 
-if (!!window.ethereum) {
-  window.ethereum.autoRefreshOnNetworkChange = false
-}
-
 ReactDOM.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
