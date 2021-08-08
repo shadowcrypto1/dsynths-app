@@ -9,7 +9,12 @@ export default function Updater() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    const self = setInterval(() => {
+      dispatch(fetchQuotes(networkName))
+    }, [30 * 1000])
     dispatch(fetchQuotes(networkName))
+
+    return (() => clearInterval(self))
   }, [dispatch, networkName])
 
   return null
