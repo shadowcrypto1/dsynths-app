@@ -141,38 +141,36 @@ export function useSyncCallback({
       })
     }
 
-    const errorCallback = (error) => {
-      console.error('Failed to conduct transaction: ', error)
-
-      if (error?.code === 4001) return  // user rejected tx
+    const errorCallback = (errorOrMessage, needsPopup) => {
+      console.error('Failed to conduct transaction: ', errorOrMessage)
       addPopup({
         content: {
           success: false,
           summary: {
             eventName: 'message',
-            message: 'Failed to conduct transaction for an unknown reason, check the logs for more information.',
+            message: !!needsPopup && errorOrMessage,
           },
         },
-        removeAfterMs: 15000,
+        removeAfterMs: 5000,
       })
     }
 
     try {
       const signaturesPerNode = await getSignatures(signatureUrls)
       if (!signaturesPerNode) {
-        console.error('signaturesPerNode returned null: ', signaturesPerNode)
+        console.log('signaturesPerNode: ', signaturesPerNode)
         return errorCallback('Unable to fetch oracle signatures')
       }
 
       const { data, price } = parseSignatures(signaturesPerNode, action, targetContract)
       if (!data) {
-        console.error('oracle data is corrupted: ', data)
-        return errorCallback('Unable to parse oracle signature data')
+        console.log('oracle data: ', data)
+        return errorCallback('NOT ENOUGH SIGNATURES: There are not enough Oracle signatures. For security reasons, we cannot execute this trade right now.', true)
       }
 
-      if (action === 'OPEN' && !price) {
-        console.error('oracle price is corrupted: ', price)
-        return errorCallback('Unable to parse oracle signature prices')
+      if (action === 'OPEN' && price === null) {
+        console.log('price: ', price);
+        return errorCallback('Unable to parse oracle prices')
       }
 
       const signsMethod = (action === 'OPEN') ? 'buy' : 'sell'
@@ -195,18 +193,6 @@ export function useSyncCallback({
        * @param r {bytes32[]}
        * @param s {bytes32[]}
        */
-      // let payload = {
-      //   _user: account,
-      //   multiplier: 4,
-      //   registrar: targetContract,
-      //   amount: toWei(targetAmount, targetDecimals), // stringified in the toWei function
-      //   fee: 100000000,
-      //   blockNos: [17463774, 17463774],
-      //   prices: ['1435100000000000000', '1435100000000000000'],
-      //   v: [27, 28],
-      //   r: ['0x3e6ab8461bd4c96a4261a099607732495f4b495504f37dcf1842f617734254a8', '0x3e6ab8461bd4c96a4261a099607732495f4b495504f37dcf1842f617734254a8'],
-      //   s: ['0x511a5e5af97db66a3b2a004c67ba6b03919b2a894fea09513acd210a5af15194','0x511a5e5af97db66a3b2a004c67ba6b03919b2a894fea09513acd210a5af15194'],
-      // }
       let payload = {
         _user: account,
         multiplier: data[0].multiplier.toString(),
@@ -229,8 +215,7 @@ export function useSyncCallback({
           return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
         }
     } catch (error) {
-      console.error(error)
-      return errorCallback('An unexpected error occured, please check the logs')
+      return errorCallback(error)
     }
   }, [syncState, SynchronizerContract, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
 
@@ -301,7 +286,6 @@ function parseSignatures (signaturesPerNode, action, targetContract) {
     default:
       throw new Error('Action param is invalid: ', action)
     }
-
   } catch (err) {
     console.error(err)
     return {
