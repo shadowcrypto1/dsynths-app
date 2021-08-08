@@ -6,7 +6,7 @@ function calculateGasMargin(value) {
 }
 
 export default async function ({
-  AMMContractInstance = null,
+  SynchronizerContract = null,
   action = null,
   payload = null,
   account = null,
@@ -14,8 +14,8 @@ export default async function ({
   errorCallback = null
 } = {}) {
   try {
-    if (!AMMContractInstance || typeof AMMContractInstance !== 'object') {
-      throw new Error('AMMContractInstance is either missing or corrupted: ', AMMContractInstance)
+    if (!SynchronizerContract || typeof SynchronizerContract !== 'object') {
+      throw new Error('SynchronizerContract is either missing or corrupted: ', SynchronizerContract)
     }
     if (!action || typeof action !== 'string') {
       throw new Error('action is either missing or corrupted: ', action)
@@ -36,15 +36,16 @@ export default async function ({
     const method = (action === 'OPEN') ? 'buyFor' : 'sellFor'
     let mappedPayload = Object.values(payload)
 
-    let estimatedGas = await AMMContractInstance.methods[method](...mappedPayload).estimateGas({ from: account })
-    return AMMContractInstance.methods[method](...mappedPayload).send({
+    let estimatedGas = await SynchronizerContract.estimateGas[method](...mappedPayload, { from: account })
+    return SynchronizerContract[method](...mappedPayload, {
       from: account,
       gasLimit: calculateGasMargin(BigNumber.from(estimatedGas)).toString(),
     })
-      .on('transactionHash', submitCallback)
-      .on('error', (error) => {throw error})
+      .then(submitCallback)
+      .catch(error => {throw error})
 
   } catch (error) {
+    console.error(error)
     errorCallback(error)
   }
 }

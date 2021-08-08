@@ -26,16 +26,14 @@ export const useTokenContract = (tokenAddress, withSignerIfPossible) => {
   return useContract(tokenAddress, ERC20ABI, withSignerIfPossible)
 }
 
-export const useAMMContract = () => {
+export const useSynchronizer = () => {
   const { library, account, chainId } = useWeb3React()
   return useMemo(() => {
     try {
       const address = SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID[chainId]
       const abi = SYNCHRONIZER_ABI_BY_CHAIN_ID[chainId]
       if (!library || !chainId || !account || !address || !abi) return null
-
-      const Provider = new Web3(Web3.givenProvider)
-      return new Provider.eth.Contract(abi, address)
+      return getContract(address, abi, library, account ?? undefined)
     } catch (err) {
       console.error('Failed to get contract: ', err)
       return null

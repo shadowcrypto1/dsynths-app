@@ -8,7 +8,7 @@ function calculateGasMargin(value) {
 
 export default async function ({
   price = undefined,
-  AMMContractInstance = null,
+  SynchronizerContract = null,
   action = null,
   payload = null,
   account = null,
@@ -16,8 +16,8 @@ export default async function ({
   errorCallback = null
 } = {}) {
   try {
-    if (!AMMContractInstance || typeof AMMContractInstance !== 'object') {
-      throw new Error('AMMContractInstance is either missing or corrupted: ', AMMContractInstance)
+    if (!SynchronizerContract || typeof SynchronizerContract !== 'object') {
+      throw new Error('SynchronizerContract is either missing or corrupted: ', SynchronizerContract)
     }
     if (!action || typeof action !== 'string') {
       throw new Error('action is either missing or corrupted: ', action)
@@ -47,23 +47,24 @@ export default async function ({
     }
 
     if (action === 'OPEN') {
-      let xdaiAmount = await AMMContractInstance.methods.calculateXdaiAmount(price, payload.fee.toString(), payload.amount).call()
-      let estimatedGas = await AMMContractInstance.methods[method](...mappedPayload).estimateGas({
+      let xdaiAmount = await SynchronizerContract.calculateXdaiAmount(price, payload.fee.toString(), payload.amount)
+      let estimatedGas = await SynchronizerContract.estimateGas[method](...mappedPayload, {
         from: account,
         value: xdaiAmount,
       })
       options['value'] = xdaiAmount
       options['gasLimit'] = calculateGasMargin(BigNumber.from(estimatedGas)).toString()
     } else {
-      let estimatedGas = await AMMContractInstance.methods[method](...mappedPayload).estimateGas({ from: account })
+      let estimatedGas = await SynchronizerContract.estimateGas[method](...mappedPayload, { from: account })
       options['gasLimit'] = calculateGasMargin(BigNumber.from(estimatedGas)).toString()
     }
 
-    return AMMContractInstance.methods[method](...mappedPayload).send(options)
-      .on('transactionHash', submitCallback)
-      .on('error', (error) => {throw error})
+    return SynchronizerContract.[method](...mappedPayload, options)
+      .then(submitCallback)
+      .catch(error => {throw error})
 
   } catch (error) {
+    console.error(error)
     errorCallback(error)
   }
 }

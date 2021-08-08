@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import Web3 from 'web3'
 import { useWeb3React } from './useWeb3'
 
-import { useAMMContract } from './useContract'
+import { useSynchronizer } from './useContract'
 import { useTransactionAdder } from '../state/transactions/hooks'
 import { useAddPopup } from '../state/application/hooks'
 import { useActionState } from '../state/action/hooks'
@@ -45,7 +45,7 @@ export function useSyncCallback({
     return SyncState.IDLE
   }, [signatureUrls, action, outputContract])
 
-  const AMMContractInstance = useAMMContract()
+  const SynchronizerContract = useSynchronizer()
   const addTransaction = useTransactionAdder()
 
   const sync = useCallback(async () => {
@@ -99,8 +99,8 @@ export function useSyncCallback({
       return
     }
 
-    if (!AMMContractInstance) {
-      console.error('AMMContractInstance is null')
+    if (!SynchronizerContract) {
+      console.error('SynchronizerContract is null')
       return
     }
 
@@ -108,7 +108,7 @@ export function useSyncCallback({
     const targetAmount = (action === 'OPEN') ? outputAmount : inputAmount
     const targetDecimals = (action === 'OPEN') ? outputDecimals : inputDecimals
 
-    const submitCallback = (hash) => {
+    const submitCallback = ({hash}) => {
       console.log(hash)
       // start listening for receipt
       addTransaction({
@@ -143,8 +143,6 @@ export function useSyncCallback({
 
     const errorCallback = (error) => {
       console.error('Failed to conduct transaction: ', error)
-      // alert('the next alert originates from errorCallback')
-      // alert(error)
 
       if (error?.code === 4001) return  // user rejected tx
       addPopup({
@@ -197,6 +195,18 @@ export function useSyncCallback({
        * @param r {bytes32[]}
        * @param s {bytes32[]}
        */
+      // let payload = {
+      //   _user: account,
+      //   multiplier: 4,
+      //   registrar: targetContract,
+      //   amount: toWei(targetAmount, targetDecimals), // stringified in the toWei function
+      //   fee: 100000000,
+      //   blockNos: [17463774, 17463774],
+      //   prices: ['1435100000000000000', '1435100000000000000'],
+      //   v: [27, 28],
+      //   r: ['0x3e6ab8461bd4c96a4261a099607732495f4b495504f37dcf1842f617734254a8', '0x3e6ab8461bd4c96a4261a099607732495f4b495504f37dcf1842f617734254a8'],
+      //   s: ['0x511a5e5af97db66a3b2a004c67ba6b03919b2a894fea09513acd210a5af15194','0x511a5e5af97db66a3b2a004c67ba6b03919b2a894fea09513acd210a5af15194'],
+      // }
       let payload = {
         _user: account,
         multiplier: data[0].multiplier.toString(),
@@ -211,20 +221,18 @@ export function useSyncCallback({
       }
 
       switch (chainId) {
-      case 1:
-        return syncMainnet({AMMContractInstance, action, payload, account, submitCallback, errorCallback})
-      case 100:
-        return syncXDAI({AMMContractInstance, price, action, payload, account, submitCallback, errorCallback})
-      default:
-        return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
-      }
+        case 1:
+          return syncMainnet({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
+        case 100:
+          return syncXDAI({SynchronizerContract, price, action, payload, account, submitCallback, errorCallback})
+        default:
+          return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
+        }
     } catch (error) {
       console.error(error)
-      // alert('the next error originates from catch')
-      // alert(error)
       return errorCallback('An unexpected error occured, please check the logs')
     }
-  }, [syncState, AMMContractInstance, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
+  }, [syncState, SynchronizerContract, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
 
   return [syncState, sync]
 }
@@ -253,12 +261,12 @@ async function getSignatures(urls) {
 
     // TODO: add feedback mechanism to admins in case a node is down
     return responses.map((response) => {
-      if (response.status === 'fulfilled') return response.value
+      if (response.status === 'fulfilled') return response.value ?? {}
       throw new Error(`response.status returns unfulfilled: ${response}`)
     })
   } catch (err) {
     console.error(err)
-    return null
+    return [{}]
   }
 }
 
@@ -296,20 +304,50 @@ function parseSignatures (signaturesPerNode, action, targetContract) {
 
   } catch (err) {
     console.error(err)
-    return null
+    return {
+      price: null,
+      data: null,
+    }
   }
 }
 
 function createBuyParams (priceFeed) {
-  let result = priceFeed.sort(comparePrice)
-  let maxPrice = result[0].price
-  return {
-    price: maxPrice,
-    data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+  try {
+    if (!priceFeed ||
+      !priceFeed.length ||
+      priceFeed.filter(o => o.price === undefined).length
+    ) throw new Error('Pricefeed is corrupted: ', priceFeed)
+
+    let result = priceFeed.sort(comparePrice)
+    let maxPrice = result[0].price
+
+    return {
+      price: maxPrice,
+      data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      price: null,
+      data: null,
+    }
   }
 }
 
 function createSellParams (priceFeed) {
+  try {
+    if (!priceFeed || !priceFeed.length) throw new Error('Pricefeed is corrupted: ', priceFeed)
+    let result = priceFeed.sort(comparePrice).reverse()
+    return {
+      data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      data: null,
+    }
+  }
+
   let result = priceFeed.sort(comparePrice).reverse()
   return {
     data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)

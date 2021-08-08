@@ -73,7 +73,7 @@ export const Trade = ({ type }) => {
   const correctNetworkURL = useCorrectNetworkURL()
   const rpcChangerCallback = useRpcChangerCallback()
   const { width } = useWindowSize()
-  
+
   const {
     inputTicker,
     inputSymbol,
@@ -87,16 +87,16 @@ export const Trade = ({ type }) => {
     outputIsToken,
     quote,
   } = useDataFields(type)
-  
+
   const { price, fee, isClosed } = quote[type.toLowerCase()]
-  
+
   const {
     inputAmount,
     outputAmount,
     setInputAmount,
     setOutputAmount,
   } = useAmountManager(price, type, fee)
-  
+
   const priceFormatted = useCallback(() => {
     let formattedPrice = price ? price.toFixed(2) : 0
     switch (type) {
@@ -106,14 +106,14 @@ export const Trade = ({ type }) => {
           return `${formattedPrice} ${outputSymbol}/${inputSymbol}`
         }
       }, [price])
-      
+
       const [approvalState, approveCallback] = useApproveCallback({
         address: inputContract,
         isToken: inputIsToken,
         symbol: inputSymbol,
         type: type,
       })
-      
+
   const balance = useTokenBalance(inputContract, inputIsToken)
   const sufficientBalance = useMemo(() => {
     if (!balance || balance.lte(0) || !inputAmount) return true // edge case where we ignore 0 balances (those are filtered by the syncCallback)
@@ -216,7 +216,7 @@ export const Trade = ({ type }) => {
         <TradeButton>
           INSUFFICIENT BALANCE
         </TradeButton>
-      ) : (        
+      ) : (
         <TradeButton onClick={handleSync}>
           {type.toUpperCase()}
         </TradeButton>
@@ -236,4 +236,4 @@ function toWei(number, decimals = 18) {
   let result = Web3.utils.toWei(String(value), 'ether')
   result = result.substr(0, result.length - (18 - decimals))
   return result.toString()
-}  
+}

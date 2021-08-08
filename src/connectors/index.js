@@ -22,7 +22,7 @@ const NETWORK_URLS = {
 
 export const network = new NetworkConnector({
   urls: NETWORK_URLS,
-  defaultChainId: 100,
+  defaultChainId: 1,
 })
 
 export const injected = new InjectedConnector({
