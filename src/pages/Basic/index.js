@@ -196,9 +196,11 @@ export default function Basic() {
               <SearchBar isDesktop={width >= 985}/>
             </SearchContainerMobile>
           )}
-          <ChartContainer isDesktop={width >= 985}>
-            <LineChart baseSymbol={base.symbol}/>
-          </ChartContainer>
+          {width >= 985 && (
+            <ChartContainer isDesktop={width >= 985}>
+              <LineChart baseSymbol={base.symbol}/>
+            </ChartContainer>
+          )}
           <TypeWrapper>
             <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
             <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
