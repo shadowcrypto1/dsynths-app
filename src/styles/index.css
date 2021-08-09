@@ -1,20 +1,11 @@
-/* @import url('https://fonts.googleapis.com/css?family=Cairo&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
 @import "./scrollbar.css";
 
 body {
   margin: 0;
   height: 100vh;
-
   font-size: 1rem;
   color: #FFFFFF;
-
-  background: radial-gradient(100% 100% at 50% 100%, #66539D 0%, #0B1321 59.9%); /* fallback for slow connections */
-  background: url('/images/background_stars.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
 }
 
 * {

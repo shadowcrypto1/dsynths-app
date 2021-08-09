@@ -18,6 +18,26 @@
     <!-- <script src="%PUBLIC_URL%/datafeeds/udf/dist/polyfills.js"></script>
     <script src="%PUBLIC_URL%/datafeeds/udf/dist/bundle.js"></script> -->
     <title>dSynths Exchange</title>
+
+    <style>
+        #background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          pointer-events: none;
+          width: 100vw;
+          height: 100vh;
+          background: url('/images/background_stars.jpg') no-repeat center center fixed;
+          z-index: -1;
+
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+        }
+    </style>
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -25,5 +45,6 @@
       <!-- Triggers the font to load immediately and then is replaced by the app -->
       <div style="visibility: hidden">X</div>
     </div>
+    <div id="background"></div>
   </body>
 </html>

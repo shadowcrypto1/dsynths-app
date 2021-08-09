@@ -57,8 +57,8 @@ const NoteWrapper = styled.div`
   color: rgba(255, 255, 255, 0.69);
   width: 100%;
   height: 11px;
-  font-size: 9px;
-  line-height: 11px;
+  font-size: ${props => props.isMobile ? '9px' : '11px'};
+  line-height: ${props => props.isMobile ? '9px' : '11px'};
 
   & > * {
     & > a {
@@ -181,7 +181,7 @@ export const Trade = ({ type }) => {
         label={'To (estimated)'}
         setAmount={setOutputAmount}
       />
-      <NoteWrapper>
+      <NoteWrapper isMobile={width < 985}>
         <div>{fee * 100}% Fee</div>
         <div>
           <a href='https://muon.net/' target='_blank' rel='noopener noreferrer'>Oracle </a>
@@ -189,9 +189,10 @@ export const Trade = ({ type }) => {
         </div>
       </NoteWrapper>
       {(!active || !account) ? (
-        <TradeButton onClick={() => {
-          dispatch(setOpenModal(true))
-        }}>
+        <TradeButton
+          onClick={() => dispatch(setOpenModal(true))}
+          size={(width < 500) ? '20px' : '24px'}
+        >
           CONNECT WALLET
         </TradeButton>
       ) : !correctNetworkURL ? (
@@ -202,29 +203,35 @@ export const Trade = ({ type }) => {
           {window.ethereum ? 'CHANGE WALLET NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
         </TradeButton>
       ) : isClosed ? (
-        <TradeButton disabled={true}>
+        <TradeButton
+          disabled={true}
+          size={(width < 500) ? '20px' : '24px'}
+        >
           MARKET IS CLOSED
         </TradeButton>
       ) : approvalState === ApprovalState.NOT_APPROVED ? (
-        <TradeButton onClick={handleApprove}>
+        <TradeButton
+          onClick={handleApprove}
+          size={(width < 500) ? '20px' : '24px'}
+        >
           APPROVE
         </TradeButton>
       ) : approvalState === ApprovalState.PENDING ? (
-        <TradeButton>
+        <TradeButton size={(width < 500) ? '20px' : '24px'}>
           <LoaderIcon size={'20px'} style={{marginRight: '5px'}}/>
           <span>APPROVING</span>
         </TradeButton>
       ) : syncState === SyncState.PENDING ? (
-        <TradeButton>
+        <TradeButton size={(width < 500) ? '20px' : '24px'}>
           <LoaderIcon size={'20px'} style={{marginRight: '5px'}}/>
           <span>{type.toUpperCase()} TRANSACTING</span>
         </TradeButton>
       ) : !sufficientBalance ? (
-        <TradeButton>
+        <TradeButton size={(width < 500) ? '20px' : '24px'}>
           INSUFFICIENT BALANCE
         </TradeButton>
       ) : (
-        <TradeButton onClick={handleSync}>
+        <TradeButton onClick={handleSync} size={(width < 500) ? '20px' : '24px'}>
           {action === 'OPEN' ? type.toUpperCase() : `CLOSE ${type.toUpperCase()}`}
         </TradeButton>
       )}

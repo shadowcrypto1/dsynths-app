@@ -180,37 +180,48 @@ export default function Basic() {
     return (
       <React.Fragment>
         <Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>
-        {width >= 985 && (
-          <SearchContainerDesktop size={width}>
-            <SearchBar focus={width >= 985}/>
-            <NetworkBar/>
-          </SearchContainerDesktop>
-        )}
-        <Wrapper>
-          <HeroContainer>
-            <HeroTitle>{`TRADE ${base.symbol.toUpperCase()}`}</HeroTitle>
-            <HeroSubTitle>{base.name}</HeroSubTitle>
-          </HeroContainer>
-          {width < 985 && (
+        {width >= 985 ? (
+          <React.Fragment>
+            <SearchContainerDesktop size={width}>
+              <SearchBar focus={width >= 985}/>
+              <NetworkBar/>
+            </SearchContainerDesktop>
+            <Wrapper>
+              <HeroContainer>
+                <HeroTitle>{`TRADE ${base.symbol.toUpperCase()}`}</HeroTitle>
+                <HeroSubTitle>{base.name}</HeroSubTitle>
+              </HeroContainer>
+              <ChartContainer isDesktop={width >= 985}>
+                <LineChart baseSymbol={base.symbol}/>
+              </ChartContainer>
+              <TypeWrapper>
+                <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
+                <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+              </TypeWrapper>
+              <TradeContainer>
+                <Trade type={type} />
+              </TradeContainer>
+            </Wrapper>
+          </React.Fragment>
+        ) : (
+          <Wrapper>
+            <HeroContainer>
+              <HeroTitle>{`TRADE ${base.symbol.toUpperCase()}`}</HeroTitle>
+              <HeroSubTitle>{base.name}</HeroSubTitle>
+            </HeroContainer>
             <SearchContainerMobile size={width}>
               <SearchBar isDesktop={width >= 985}/>
             </SearchContainerMobile>
-          )}
-          {width >= 985 && (
-            <ChartContainer isDesktop={width >= 985}>
-              <LineChart baseSymbol={base.symbol}/>
-            </ChartContainer>
-          )}
-          <TypeWrapper>
-            <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-            <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-          </TypeWrapper>
-          <TradeContainer>
-            <Trade
-              type={type}
-            />
-          </TradeContainer>
-        </Wrapper>
+            <TypeWrapper>
+              <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
+              <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+            </TypeWrapper>
+            <TradeContainer>
+              <Trade type={type} />
+            </TradeContainer>
+            <NetworkBar/>
+          </Wrapper>
+        )}
       </React.Fragment>
     )
   }

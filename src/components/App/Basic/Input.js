@@ -41,8 +41,8 @@ const BarWrapper = styled.div`
 const Label = styled.div`
   height: 16px;
   left: 503px;
-  font-size: 13px;
-  line-height: 16px;
+  font-size: ${props => props.small ? '11px' : '13px'};
+  line-height: ${props => props.small ? '11px' : '13px'};
   display: flex;
   align-items: center;
   color: #FFFFFF;
@@ -52,7 +52,8 @@ const Balance = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
+  overflow: hidden;
+  white-space: nowrap;
   & > * {
     &:first-child {
       margin-right: 4px;
@@ -148,11 +149,15 @@ export const InputBar = ({
   const balance = useTokenBalance(contract, isToken)
   const { width } = useWindowSize()
   const [formattedBalance, setFormattedBalance] = useState('0.00')
+  const [displayBalance, setDisplayBalance] = useState('0.00')
   const [ small, setSmall ] = useState(width < 500)
 
   useEffect(() => {
     const result = (balance && balance.gt(0)) ? formatUnits(balance, decimals) : '0.00'
     setFormattedBalance && setFormattedBalance(result)
+
+    const displayValue = (result === '0.00') ? '0.00' : parseFloat(result).toFixed(9).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1')
+    setDisplayBalance && setDisplayBalance(displayValue)
   }, [balance])
 
   useEffect(() => {
@@ -162,10 +167,10 @@ export const InputBar = ({
   return (
     <Wrapper>
       <InfoWrapper>
-        <Label>{label}</Label>
+        <Label small={small}>{label}</Label>
         <Balance onClick={() => setAmount(formattedBalance)}>
           <WalletIcon/>
-          <Label>{formattedBalance}</Label>
+          <Label small={small}>{displayBalance}</Label>
         </Balance>
       </InfoWrapper>
       <BarWrapper>
@@ -185,17 +190,28 @@ export const InputBar = ({
         )}
         <AmountField
           onChange={(evt) => {
-            setAmount(evt.currentTarget.value)
+            setAmount(evt.target.value.replace(/,/g, '.'))
           }}
-          type={'number'}
-          placeholder={'Enter an amount'}
-          value={amount}
-          autoComplete={'off'}
-          autoCorrect={'off'}
-          spellcheck={false}
-          step={'any'}
-          small={small}
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+          // type={'number'}
+          // placeholder={'Enter an amount'}
+          // value={amount}
+          // autoComplete={'off'}
+          // autoCorrect={'off'}
+          // spellcheck={false}
+          // step={'any'}
+          // small={small}
+          // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+
+          // universal input options
+          inputMode="decimal"
+          autoComplete="off"
+          autoCorrect="off"
+          type="text"
+          pattern="^[0-9]*[.,]?[0-9]*$"
+          placeholder={amount || 'Enter an amount'}
+          minLength={1}
+          maxLength={18}
+          spellCheck="false"
         />
       </BarWrapper>
     </Wrapper>
