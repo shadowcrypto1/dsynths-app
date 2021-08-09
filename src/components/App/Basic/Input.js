@@ -191,9 +191,9 @@ export const InputBar = ({
         <AmountField
           onChange={(evt) => {
             const process = ( str ) => {
-                return str.replace( /^([^.]*\.)(.*)$/, function ( a, b, c ) {
-                    return b + c.replace( /\./g, '' );
-                });
+              return str.replace( /^([^.]*\.)(.*)$/, function ( a, b, c ) {
+                return b + c.replace( /\./g, '' )
+              })
             }
             const value = evt.target.value.replace(/,/g, '.')
             // remove additional commas
