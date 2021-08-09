@@ -196,7 +196,6 @@ export const InputBar = ({
                 });
             }
             const value = evt.target.value.replace(/,/g, '.')
-
             // remove additional commas
             let output = process(value)
             setAmount(output)
@@ -209,7 +208,7 @@ export const InputBar = ({
           value={amount}
           placeholder={amount || 'Enter an amount'}
           minLength={1}
-          maxLength={18}
+          maxLength={99}
           spellCheck="false"
         />
       </BarWrapper>
