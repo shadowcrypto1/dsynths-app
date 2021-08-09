@@ -199,6 +199,7 @@ export const InputBar = ({
 
             // remove additional commas
             let output = process(value)
+            console.log(output);
             setAmount(output)
           }}
           inputMode="decimal"
@@ -206,6 +207,7 @@ export const InputBar = ({
           autoCorrect="off"
           type="text"
           pattern="^[0-9]*[.,]?[0-9]*$"
+          value={amount}
           placeholder={amount || 'Enter an amount'}
           minLength={1}
           maxLength={18}
