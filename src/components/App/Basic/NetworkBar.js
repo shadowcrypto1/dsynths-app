@@ -42,7 +42,6 @@ const BoxWrapper = styled.div`
   text-align: center;
   align-text: center;
   line-height: 22px;
-  background: #FFFFFF;
   color: black;
   font-weight: 300;
   border-radius: 3px;
@@ -51,9 +50,11 @@ const BoxWrapper = styled.div`
     cursor: pointer;
   }
 
-  ${props => props.active && `
+  ${props => props.active ? `
     background: rgba(0, 209, 108, 0.15);
     pointer-events: none;
+  ` : `
+    background: rgba(255, 255, 255, 0.7);
   `}
 `
 
