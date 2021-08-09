@@ -190,19 +190,17 @@ export const InputBar = ({
         )}
         <AmountField
           onChange={(evt) => {
-            setAmount(evt.target.value.replace(/,/g, '.'))
-          }}
-          // type={'number'}
-          // placeholder={'Enter an amount'}
-          // value={amount}
-          // autoComplete={'off'}
-          // autoCorrect={'off'}
-          // spellcheck={false}
-          // step={'any'}
-          // small={small}
-          // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+            const process = ( str ) => {
+                return str.replace( /^([^.]*\.)(.*)$/, function ( a, b, c ) {
+                    return b + c.replace( /\./g, '' );
+                });
+            }
+            const value = evt.target.value.replace(/,/g, '.')
 
-          // universal input options
+            // remove additional commas
+            let output = process(value)
+            setAmount(output)
+          }}
           inputMode="decimal"
           autoComplete="off"
           autoCorrect="off"
