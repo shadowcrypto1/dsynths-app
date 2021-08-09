@@ -199,7 +199,6 @@ export const InputBar = ({
 
             // remove additional commas
             let output = process(value)
-            console.log(output);
             setAmount(output)
           }}
           inputMode="decimal"
