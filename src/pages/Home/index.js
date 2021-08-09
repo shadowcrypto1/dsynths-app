@@ -54,7 +54,7 @@ const HeroImageShadow = styled(HeroImage)`
   position: absolute;
   top: 50px;
   left: 50px;
-  z-index: 999;
+  z-index: 2;
   overflow: hidden;
 `
 
