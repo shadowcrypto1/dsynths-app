@@ -180,12 +180,12 @@ export const SearchBar = ({ focus }) => {
           {...valueProps}
           value={snapshot.search}
           placeholder={'Search stocks, commodities & crypto'}
-          autoFocus={true}
+          autoFocus={focus}
         />
         <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}}/>
       </InputWrapper>
       {(snapshot.focus || focus) && (
-          <>
+        <>
           {snapshot.options.map(group => (
             <OptionsWrapper key={group.groupId} amount={snapshot.options.length}>
               <GroupRow>{group.name}</GroupRow>
