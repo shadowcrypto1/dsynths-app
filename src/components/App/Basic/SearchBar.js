@@ -45,7 +45,7 @@ const Input = styled.input`
 
 const OptionsWrapper = styled.div`
   overflow: auto;
-  max-height: 360px;
+  max-height: ${({amount}) => `calc(400px / ${amount})`};
   background: transparent;
 
   border: 1px solid rgba(91, 96, 204, 0.5);
@@ -86,11 +86,37 @@ const OptionRow = styled.button`
   }
 `
 
+const GroupRow = styled.div`
+  display: block;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 11px;
+  text-align: center;
+  padding-left: 10px;
+  color: #FFFFFF;
+  background: linear-gradient(91.77deg, #DA316B -97.86%, #1175DE 97.84%);
+  border: 1px solid rgba(146, 119, 224, 0.5);
+  cursor: default;
+  text-transform: uppercase;
+`
+
 const NoResult = styled(OptionRow)`
   display: block;
   text-align: center;
   align-text: center;
 `
+
+function parseSectorName(sector) {
+  switch (sector.toUpperCase()) {
+    case 'STOCK' || 'XDAI-STOCK':
+      return 'STOCKS / COMMODITIES'
+    case 'XDAI-CRYPTO':
+      return 'CRYPTO'
+    default:
+      return 'STOCKS / COMMODITIES'
+  }
+}
 
 export const SearchBar = ({ focus }) => {
   const { location, push } = useHistory()
@@ -100,31 +126,28 @@ export const SearchBar = ({ focus }) => {
 
   const options = useMemo(() => {
     if (!details) return
-
-    return conducted.data.map(synth => {
-      const obj = details.data[synth.id]
+    const groups = conducted.data.reduce((acc, synth) => {
+      const props = details.data[synth.id]
+      const sector = parseSectorName(props.sector)
+      if (!acc[sector]) {
+        acc[sector] = {
+          type: 'group',
+          name: sector,
+          items: [],
+        }
+      }
+      acc[sector].items.push({
+        name: props.name,
+        value: props.symbol,
+      })
+      return acc
+    }, {})
+    return Object.values(groups).map(group => {
       return {
-        name: obj.name,
-        value: obj.symbol,
+        ...group,
+        items: group.items.sort((a, b) => a.value.localeCompare(b.value))
       }
     })
-
-    // const groups = conducted.data.reduce((acc, synth) => {
-    //   const props = details.data[synth.id]
-    //   if (!acc[props.sector]) {
-    //     acc[props.sector] = {
-    //       type: 'group',
-    //       name: props.sector,
-    //       items: [],
-    //     }
-    //   }
-    //   acc[props.sector].items.push({
-    //     name: props.name,
-    //     value: props.symbol,
-    //   })
-    //   return acc
-    // }, {})
-    // return Object.values(groups)
   }, [conducted, details])
 
   const [snapshot, valueProps, optionProps] = useSelect({
@@ -156,43 +179,69 @@ export const SearchBar = ({ focus }) => {
         <Input
           {...valueProps}
           value={snapshot.search}
-          placeholder={'Search stocks'}
+          placeholder={'Search stocks, commodities & crypto'}
+          autoFocus={true}
         />
         <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}}/>
       </InputWrapper>
       {(snapshot.focus || focus) && (
-        <OptionsWrapper>
-          {snapshot.options.map(option => (
-            <OptionRow
-              key={option.value}
-              {...optionProps}
-              value={option.value}
-              selected={option.value.toUpperCase() === base?.symbol.toUpperCase()}
-            >
-              <div>{option.value}</div>
-              <div>{option.name}</div>
-            </OptionRow>
+          <>
+          {snapshot.options.map(group => (
+            <OptionsWrapper key={group.groupId} amount={snapshot.options.length}>
+              <GroupRow>{group.name}</GroupRow>
+              {group.items.map((option, i) => (
+                <OptionRow
+                  key={option.value}
+                  {...optionProps}
+                  value={option.value}
+                  selected={option.value.toUpperCase() === base?.symbol.toUpperCase()}
+                >
+                  <div>{option.value}</div>
+                  <div>{option.name}</div>
+                </OptionRow>
+              ))}
+            </OptionsWrapper>
           ))}
           {!snapshot.options.length && (
             <NoResult>No Results Found</NoResult>
           )}
-        </OptionsWrapper>
+        </>
       )}
     </Wrapper>
   )
 }
 
 function fuzzySearch(options) {
-  const fuse = new Fuse(options, {
+  const groupNames = options.map(option => option.name)
+  const mergedOptions = [].concat.apply([], options.map(group => {
+    return group.items.map(item => {
+      return {
+        ...item,
+        groupId: group.name
+      }
+    })
+  }))
+  const fuse = new Fuse(mergedOptions, {
     keys: [ 'name', 'value' ],
-    threshold: 0.3,
+    threshold: 0.2,
   })
 
   return (value) => {
     if (!value.length) {
       return options
     }
-
-    return fuse.search(value)
+    const result = fuse.search(value)
+    const groups = result.reduce((acc, item) => {
+      if (!acc[item.groupId]) {
+        acc[item.groupId] = {
+          type: 'group',
+          name: item.groupId,
+          items: []
+        }
+      }
+      acc[item.groupId].items.push(item)
+      return acc
+    }, {})
+    return Object.values(groups)
   }
 }
