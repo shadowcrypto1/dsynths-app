@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import CookieConsent from "react-cookie-consent";
 
 import { DesktopNavbar } from './Navigation/Desktop'
 import { MobileNavbar } from './Navigation/Mobile'
@@ -39,6 +40,7 @@ export const Layout = ({ children }) => {
       <Main>
         {children}
         <Footer />
+        <CookieConsent debug={false}>This website uses cookies to enhance the user experience.</CookieConsent>
       </Main >
       <Sidebar toggled={toggled} handleToggled={handleToggled}/>
     </Wrapper>

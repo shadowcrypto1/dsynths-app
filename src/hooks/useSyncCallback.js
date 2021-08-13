@@ -28,6 +28,7 @@ export function useSyncCallback({
   outputContract,
   outputDecimals,
   outputAmount,
+  balance,
   type
 }) {
   const { account, chainId } = useWeb3React()
@@ -143,16 +144,18 @@ export function useSyncCallback({
 
     const errorCallback = (errorOrMessage, needsPopup) => {
       console.error('Failed to conduct transaction: ', errorOrMessage)
-      addPopup({
-        content: {
-          success: false,
-          summary: {
-            eventName: 'message',
-            message: !!needsPopup && errorOrMessage,
+      if (!!needsPopup) {
+        addPopup({
+          content: {
+            success: false,
+            summary: {
+              eventName: 'message',
+              message: errorOrMessage,
+            },
           },
-        },
-        removeAfterMs: 5000,
-      })
+          removeAfterMs: 5000,
+        })
+      }
     }
 
     try {
@@ -210,7 +213,7 @@ export function useSyncCallback({
         case 1:
           return syncMainnet({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
         case 100:
-          return syncXDAI({SynchronizerContract, price, action, payload, account, submitCallback, errorCallback})
+          return syncXDAI({SynchronizerContract, balance, price, action, payload, account, submitCallback, errorCallback})
         default:
           return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
         }

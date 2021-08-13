@@ -91,6 +91,8 @@ const OptionRow = styled.button`
 
 const GroupRow = styled.div`
   display: block;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 30px;
   line-height: 30px;
