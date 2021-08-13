@@ -12,10 +12,8 @@ const Wrapper = styled.div`
   height: auto;
   padding: 18px 9px;
 
-  background-color: rgba(91, 96, 204, 0.15);
-  border: 1px solid rgba(146, 119, 224, 0.5);
+  background-color: #292A50;
   border-radius: 6px;
-  margin-top: 10px;
 `
 
 const Title = styled.div`

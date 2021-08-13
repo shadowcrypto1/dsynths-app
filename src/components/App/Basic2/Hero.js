@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-  background: linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%);
+  background: linear-gradient(0.49deg, rgba(48, 49, 93, 0) 35.05%, rgba(87, 49, 219, 0.26) 69.13%, rgba(87, 49, 219, 0.65) 99.58%, rgba(83, 49, 207, 0.539756) 99.59%);
   border-radius: 10px;
   overflow: hidden;
 `

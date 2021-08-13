@@ -5,7 +5,7 @@ import { useSelect } from 'react-select-search'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
 import ReactImageFallback from 'react-image-fallback'
-import DetectableOverflow from 'react-detectable-overflow';
+// import DetectableOverflow from 'react-detectable-overflow';
 
 import { useBaseState } from '../../../state/base/hooks'
 import { useConductedState } from '../../../state/conducted/hooks'
@@ -22,22 +22,22 @@ const InputWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
-  background-color: rgba(91, 96, 204, 0.15);
-  border: 1px solid rgba(146, 119, 224, 0.5);
+  background: #DEDFEC;
+  border: 1px solid #CECECE;
   border-radius: 6px;
+  height: 30px;
 `
 
 const Input = styled.input`
   display: block;
   padding-left: 10px;
   width: 100%;
-  font-size: 12.5px;
-  line-height: 20px;
-  color: #FFFFFF;
+  line-height: 14px;
+  font-size: 14px;
+  color: #000000;
   background: transparent;
   border: none;
   outline: none;
-  font-size: 14px;
   text-align: left;
   text-overflow: ellipsis;
   cursor: pointer;
@@ -49,15 +49,17 @@ const OptionsWrapper = styled.div`
   overflow: auto;
   max-height: ${({amount}) => `calc(400px / ${amount})`};
   background: transparent;
-
-  border: 1px solid rgba(91, 96, 204, 0.5);
   list-style: none;
   border-radius: 6px;
-
+  margin-bottom: 12px;
   & > * {
     &:not(:first-child) {
-      border-top: 1px solid rgba(91, 96, 204, 0.3);
+      /* border-top: 1px solid rgba(91, 96, 204, 0.3); */
     }
+  }
+
+  &::-webkit-scrollbar {
+      display: none;
   }
 `
 
@@ -68,7 +70,7 @@ const OptionRow = styled.button`
   width: 100%;
   border: none;
   outline: none;
-  background-color: ${props => props.selected ? 'rgba(91, 96, 204, 0.35)' : 'rgba(91, 96, 204, 0.15)'};
+  background-color: ${props => props.selected ? 'rgba(94, 75, 169, 0.2)' : '#292A50'};
 
   font-size: 14px;
   color: white;
@@ -77,7 +79,7 @@ const OptionRow = styled.button`
   align-items: center;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(94, 75, 169, 0.2);
     cursor: pointer;
   };
 
@@ -100,8 +102,7 @@ const GroupRow = styled.div`
   text-align: center;
   padding-left: 10px;
   color: #FFFFFF;
-  background: linear-gradient(91.77deg, #DA316B -97.86%, #1175DE 97.84%);
-  border: 1px solid rgba(146, 119, 224, 0.5);
+  background: linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%), #292A50;
   cursor: default;
   text-transform: uppercase;
 `
@@ -193,7 +194,7 @@ export const SearchBar = ({ focus }) => {
           placeholder={'Search stocks, commodities & crypto'}
           autoFocus={focus}
         />
-        <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}}/>
+        <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}} color={'#000000'}/>
       </InputWrapper>
       {(snapshot.focus || focus) && (
         <>

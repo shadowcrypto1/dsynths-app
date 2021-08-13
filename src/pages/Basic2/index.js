@@ -185,11 +185,11 @@ export default function Basic() {
             <SearchContainerMobile size={width}>
               <SearchBar isDesktop={width >= 985}/>
             </SearchContainerMobile>
-            <TypeWrapper>
-              <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-              <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-            </TypeWrapper>
             <TradeContainer>
+              <TypeWrapper>
+                <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
+                <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+              </TypeWrapper>
               <Trade type={type} />
             </TradeContainer>
             <NetworkBar/>

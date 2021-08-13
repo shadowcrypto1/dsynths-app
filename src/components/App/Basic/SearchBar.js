@@ -5,7 +5,7 @@ import { useSelect } from 'react-select-search'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
 import ReactImageFallback from 'react-image-fallback'
-import DetectableOverflow from 'react-detectable-overflow';
+// import DetectableOverflow from 'react-detectable-overflow';
 
 import { useBaseState } from '../../../state/base/hooks'
 import { useConductedState } from '../../../state/conducted/hooks'

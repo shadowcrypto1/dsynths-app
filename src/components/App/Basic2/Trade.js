@@ -45,7 +45,7 @@ const ArrowWrapper = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #5932D7;
+  background: #542FE6;
   transform: translateX(-50%);
   align-items: center;
   justify-content: center;
