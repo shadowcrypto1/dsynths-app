@@ -51,7 +51,6 @@ const OptionsWrapper = styled.div`
   background: transparent;
   list-style: none;
   border-radius: 6px;
-  margin-bottom: 12px;
   & > * {
     &:not(:first-child) {
       /* border-top: 1px solid rgba(91, 96, 204, 0.3); */
