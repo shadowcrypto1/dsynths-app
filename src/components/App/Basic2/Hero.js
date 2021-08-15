@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: auto;
-  background: linear-gradient(0.49deg, rgba(48, 49, 93, 0) 35.05%, rgba(87, 49, 219, 0.26) 69.13%, rgba(87, 49, 219, 0.65) 99.58%, rgba(83, 49, 207, 0.539756) 99.59%);
+  background: ${({isDesktop}) => !isDesktop ? '#30315D' : 'linear-gradient(0.32deg, #30315D 0.26%, #30315D 47.94%, rgba(48, 49, 93, 0.86) 61.84%, rgba(48, 49, 93, 0) 99.71%), linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%)'};
   border-radius: 10px;
   overflow: hidden;
 `
@@ -151,7 +151,7 @@ export const Hero = ({ symbol, name, isDesktop }) => {
   }, [symbol, data, noun])
 
   return (
-    <Wrapper >
+    <Wrapper isDesktop={isDesktop}>
       <HeaderContainer>
         <HeaderWrapper isDesktop={isDesktop}>
           <HeaderSection>

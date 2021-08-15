@@ -82,7 +82,7 @@ const SearchContainerMobile = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  margin-top: 18px;
+  margin-top: 8px;
   width: 100%;
   height: auto;
 `

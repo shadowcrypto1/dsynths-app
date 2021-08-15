@@ -1,21 +1,16 @@
-import React, { useEffect, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
+import React from 'react'
 import styled from 'styled-components'
-import { useSelect } from 'react-select-search'
-import Fuse from 'fuse.js'
-import qs from 'query-string'
-import ReactImageFallback from 'react-image-fallback'
-// import DetectableOverflow from 'react-detectable-overflow';
+import { Star} from 'react-feather'
 
+import { useSearchList } from '../../../hooks/useSearchList'
+import { useToggleFavorite } from '../../../state/favorites/hooks'
 import { useBaseState } from '../../../state/base/hooks'
-import { useConductedState } from '../../../state/conducted/hooks'
-import { useDetailsState } from '../../../state/details/hooks'
 import { Search as SearchIcon } from '../../Icons'
 
 const Wrapper = styled.div`
   display: grid;
   grid-auto-flow: row;
-  grid-gap: 10px;
+  grid-gap:  8px;
 `
 
 const InputWrapper = styled.div`
@@ -41,7 +36,6 @@ const Input = styled.input`
   text-align: left;
   text-overflow: ellipsis;
   cursor: pointer;
-
   -webkit-appearance: none;
 `
 
@@ -51,20 +45,14 @@ const OptionsWrapper = styled.div`
   background: transparent;
   list-style: none;
   border-radius: 6px;
-  & > * {
-    &:not(:first-child) {
-      /* border-top: 1px solid rgba(91, 96, 204, 0.3); */
-    }
-  }
-
   &::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
 `
 
-const OptionRow = styled.button`
+const OptionRow = styled.div`
   display: grid;
-  grid-template-columns: 40px 1fr 4fr;
+  grid-template-columns: 35px 1fr 4fr;
   height: 30px;
   width: 100%;
   border: none;
@@ -73,8 +61,6 @@ const OptionRow = styled.button`
 
   font-size: 14px;
   color: white;
-  padding-left: 10px;
-  line-height: 30px;
   align-items: center;
 
   &:hover {
@@ -83,12 +69,24 @@ const OptionRow = styled.button`
   };
 
   & > * {
+    display: flex;
+    background-color: inherit;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
+
+    &:first-child {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `
+
+const OptionItem = styled(OptionRow).attrs({
+  as: 'button'
+})``
 
 const GroupRow = styled.div`
   display: block;
@@ -106,89 +104,27 @@ const GroupRow = styled.div`
   text-transform: uppercase;
 `
 
-const IconWrapper = styled(ReactImageFallback)`
-  display: flex;
-  width: 20px;
-  height: auto;
-`
-
 const NoResult = styled(OptionRow)`
   display: block;
   text-align: center;
   align-text: center;
+  border-radius: 6px;
 `
 
-function parseSectorName(sector) {
-  switch (sector.toUpperCase()) {
-    case 'STOCK' || 'XDAI-STOCK':
-      return 'STOCKS / COMMODITIES'
-    case 'XDAI-CRYPTO':
-      return 'CRYPTO'
-    default:
-      return 'STOCKS / COMMODITIES'
-  }
-}
-
 export const SearchBar = ({ focus }) => {
-  const { location, push } = useHistory()
-  const conducted = useConductedState()
-  const details = useDetailsState()
   const base = useBaseState()
-
-  const options = useMemo(() => {
-    if (!details) return
-    const groups = conducted.data.reduce((acc, synth) => {
-      const props = details.data[synth.id]
-      const sector = parseSectorName(props.sector)
-      if (!acc[sector]) {
-        acc[sector] = {
-          type: 'group',
-          name: sector,
-          items: [],
-        }
-      }
-      acc[sector].items.push({
-        name: props.name,
-        value: props.symbol,
-      })
-      return acc
-    }, {})
-    return Object.values(groups).map(group => {
-      return {
-        ...group,
-        items: group.items.sort((a, b) => a.value.localeCompare(b.value))
-      }
-    })
-  }, [conducted, details])
-
-  const [snapshot, valueProps, optionProps] = useSelect({
-    options,
-    value: base.symbol,
-    search: true,
-    filterOptions: fuzzySearch,
-    allowEmpty: true
-  })
-
-  useEffect(() => {
-    const symbol = snapshot.value
-
-    if (!symbol) return // initial render is null, if not filtered it will cause performance issues
-    if (base.symbol.toUpperCase() === symbol?.toUpperCase()) return
-
-    const queryParams = qs.parse(location.search)
-    const query = { ...queryParams, symbol: symbol }
-
-    // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    push({ search: qs.stringify(query)})
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snapshot.value])
+  const toggleFavorite = useToggleFavorite()
+  const [
+    snapshot,
+    optionProps,
+    searchProps,
+  ] = useSearchList()
 
   return (
     <Wrapper>
       <InputWrapper>
         <Input
-          {...valueProps}
+          {...searchProps}
           value={snapshot.search}
           placeholder={'Search stocks, commodities & crypto'}
           autoFocus={focus}
@@ -200,27 +136,28 @@ export const SearchBar = ({ focus }) => {
           {snapshot.options.map(group => (
             <OptionsWrapper key={group.groupId} amount={snapshot.options.length}>
               <GroupRow>{group.name}</GroupRow>
-              {group.items.map((option, i) => (
-                // <DetectableOverflow onChange={(isOverflowed) => {}}>
-                // </DetectableOverflow>
-                // https://levelup.gitconnected.com/lazy-loading-images-in-react-for-better-performance-5df73654ea05
+              {group.items.map((option, i) => {
+                const { value, name, favorite } = option
+                return (
                   <OptionRow
-                    key={option.value}
+                    key={value}
                     {...optionProps}
-                    value={option.value}
-                    selected={option.value.toUpperCase() === base?.symbol.toUpperCase()}
+                    value={value}
+                    selected={value.toUpperCase() === base?.symbol.toUpperCase()}
                   >
-                    {/*<IconWrapper
-                      src={`/images/tickers/${option.value.toUpperCase()}.png`}
-                      fallbackImage={'/images/fallback/ticker.png'}
-                      initialImage={'/images/fallback/ticker.png'}
-                      alt={`${option.value} Symbol Logo`}
-                    />*/}
-                    <div></div>
-                    <div>{option.value}</div>
-                    <div>{option.name}</div>
+                    <OptionItem onClick={() => toggleFavorite(name)}>
+                      <Star
+                        style={{background: 'transparent'}}
+                        size={'14'}
+                        stroke={'1px'}
+                        fill={favorite ? 'gold' : ''}
+                      />
+                    </OptionItem>
+                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{value}</OptionItem>
+                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{name}</OptionItem>
                   </OptionRow>
-              ))}
+                )
+              })}
             </OptionsWrapper>
           ))}
           {!snapshot.options.length && (
@@ -230,39 +167,4 @@ export const SearchBar = ({ focus }) => {
       )}
     </Wrapper>
   )
-}
-
-function fuzzySearch(options) {
-  const groupNames = options.map(option => option.name)
-  const mergedOptions = [].concat.apply([], options.map(group => {
-    return group.items.map(item => {
-      return {
-        ...item,
-        groupId: group.name
-      }
-    })
-  }))
-  const fuse = new Fuse(mergedOptions, {
-    keys: [ 'name', 'value' ],
-    threshold: 0.2,
-  })
-
-  return (value) => {
-    if (!value.length) {
-      return options
-    }
-    const result = fuse.search(value)
-    const groups = result.reduce((acc, item) => {
-      if (!acc[item.groupId]) {
-        acc[item.groupId] = {
-          type: 'group',
-          name: item.groupId,
-          items: []
-        }
-      }
-      acc[item.groupId].items.push(item)
-      return acc
-    }, {})
-    return Object.values(groups)
-  }
 }

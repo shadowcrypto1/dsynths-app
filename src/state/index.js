@@ -5,6 +5,7 @@ import application from './application/reducer'
 import base from './base/reducer'
 import conducted from './conducted/reducer'
 import details from './details/reducer'
+import favorites from './favorites/reducer'
 import market from './market/reducer'
 import pair from './pair/reducer'
 import synchronizer from './synchronizer/reducer'
@@ -18,6 +19,7 @@ const store = configureStore({
     base,
     conducted,
     details,
+    favorites,
     market,
     pair,
     synchronizer,
