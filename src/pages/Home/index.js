@@ -164,7 +164,7 @@ export default function Home() {
           <HeroSubtitleMobile>
               Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
           </HeroSubtitleMobile>
-          <TradeButtonMobile to={'/exchange'}>
+          <TradeButtonMobile to={'/exchange2'}>
             <span>Start Trading</span>
             <ArrowUpRight size={'20px'}/>
           </TradeButtonMobile>
