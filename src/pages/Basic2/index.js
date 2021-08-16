@@ -122,8 +122,11 @@ export default function Basic() {
   }, 1500), [mounted, setStatus])
 
   useEffect(() => {
-    // debounceLoaderScreen(base.status)
-    setStatus(base.status)
+    if (process.env.NODE_ENV !== 'production') {
+      setStatus(base.status)
+    } else {
+      debounceLoaderScreen(base.status)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.status])
 
