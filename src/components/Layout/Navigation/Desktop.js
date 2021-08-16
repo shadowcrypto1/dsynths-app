@@ -104,11 +104,6 @@ const NetworkBox = styled.div`
     white-space: nowrap;
   }
 
-  &:hover {
-    /* cursor: pointer;
-    background: rgba(91, 96, 204, 0.25); */
-  }
-
   @media only screen and (max-width: 920px) {
     display: none;
   }

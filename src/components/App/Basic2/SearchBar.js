@@ -52,8 +52,9 @@ const OptionsWrapper = styled.div`
 
 const OptionRow = styled.div`
   display: grid;
-  grid-template-columns: 35px 1fr 4fr;
+  grid-template-columns: ${props => props.showFavorite ? '35px 1fr 4fr' : '1fr 4fr'};
   height: 30px;
+  line-height: 30px;
   width: 100%;
   border: none;
   outline: none;
@@ -64,8 +65,10 @@ const OptionRow = styled.div`
   align-items: center;
 
   &:hover {
-    background: rgba(94, 75, 169, 0.2);
-    cursor: pointer;
+    & > * {
+      background-color: rgba(94, 75, 169, 0.2);
+      cursor: pointer;
+    }
   };
 
   & > * {
@@ -74,9 +77,10 @@ const OptionRow = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: left;
+    text-align: center;
 
     &:first-child {
+      display: flex;
       text-align: center;
       justify-content: center;
       align-items: center;
@@ -141,20 +145,22 @@ export const SearchBar = ({ focus }) => {
                 return (
                   <OptionRow
                     key={value}
-                    {...optionProps}
                     value={value}
                     selected={value.toUpperCase() === base?.symbol.toUpperCase()}
+                    showFavorite={focus}
                   >
-                    <OptionItem onClick={() => toggleFavorite(name)}>
-                      <Star
-                        style={{background: 'transparent'}}
-                        size={'14'}
-                        stroke={'1px'}
-                        fill={favorite ? 'gold' : ''}
-                      />
-                    </OptionItem>
-                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{value}</OptionItem>
-                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{name}</OptionItem>
+                    {focus && (
+                      <OptionItem onClick={() => toggleFavorite(name)}>
+                        <Star
+                          style={{background: 'transparent'}}
+                          size={'14'}
+                          stroke={'1px'}
+                          fill={favorite ? 'gold' : ''}
+                        />
+                      </OptionItem>
+                    )}
+                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{value}</OptionItem>
+                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{name}</OptionItem>
                   </OptionRow>
                 )
               })}

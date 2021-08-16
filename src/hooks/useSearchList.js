@@ -17,7 +17,7 @@ export const useSearchList = () => {
   const favorites = useFavorites()
 
   const options = useMemo(() => {
-    if (!details) return
+    if (!details) return []
     const groups = conducted.data.reduce((acc, synth) => {
       const props = details.data[synth.id]
       const sector = parseSectorName(props.sector)
@@ -43,7 +43,7 @@ export const useSearchList = () => {
           .sort((a, b) => (a.favorite === b.favorite)? 0 : a.favorite? -1 : 1)
       }
     })
-  }, [conducted, details, base, favorites])
+  }, [conducted, details, favorites])
 
   const [snapshot, searchProps, optionProps] = useSelect({
     options,

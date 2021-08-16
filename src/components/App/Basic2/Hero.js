@@ -126,7 +126,7 @@ const buttonMapping = [
 
 export const Hero = ({ symbol, name, isDesktop }) => {
   const wrapperRef = useRef(null)
-  const [ selectedTimeframe, setSelectedTimeframe ] = useState(buttonMapping[0].value)
+  const [ selectedTimeframe, setSelectedTimeframe ] = useState('y')
   const [ noun, setNoun ] = useState(buttonMapping[0].noun)
   const { data, loading, hasNoData } = useLineChart(symbol, selectedTimeframe)
 

@@ -134,7 +134,7 @@ export default function Home() {
             <HeroSubtitle
               fontsize={width > 1250 ? '16px' : width > 1050 ? '15px' : '16px'}
             >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
-            <TradeButton to={'/exchange'}>
+            <TradeButton to={'/exchange2'}>
               <span>Start Trading</span>
               <ArrowUpRight size={'20px'}/>
             </TradeButton>
