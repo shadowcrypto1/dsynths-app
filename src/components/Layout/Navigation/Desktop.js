@@ -126,7 +126,6 @@ export const DesktopNavbar = ({ handleToggled }) => {
       <NavWrapper>
         <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>
         <NavItem to='/exchange' selected={pathname === '/exchange'}>Exchange</NavItem>
-        <NavItem to='/exchange2' selected={pathname === '/exchange2'}>Exchange2</NavItem>
         {/*<NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
         <NavItem to='/stats' selected={pathname === '/stats'}>Stats</NavItem>
         <NavItem to='/faq' selected={pathname === '/faq'}>FAQ</NavItem>*/}

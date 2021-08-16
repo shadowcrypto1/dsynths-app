@@ -16,14 +16,14 @@ export default async function ({
   errorCallback = null
 } = {}) {
   try {
-    if (price === undefined) {
-      throw new Error('price is missing')
-    }
     if (!SynchronizerContract || typeof SynchronizerContract !== 'object') {
       throw new Error('SynchronizerContract is either missing or corrupted: ', SynchronizerContract)
     }
     if (!action || typeof action !== 'string') {
       throw new Error('action is either missing or corrupted: ', action)
+    }
+    if (action === 'OPEN' && price === undefined) {
+      throw new Error('price is missing')
     }
     if (!payload || typeof payload !== 'object' ) {
       throw new Error('payload is either missing or corrupted: ', payload)

@@ -3,11 +3,12 @@ import styled from 'styled-components'
 const Tab = styled.div`
   font-size: 15px;
   line-height: 19px;
+  height: 35px;
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
-  width: 100%;
+  width: 145px;
 
   &:hover {
     cursor: pointer;
@@ -15,23 +16,29 @@ const Tab = styled.div`
 `
 
 export const LongTab = styled(Tab)`
-  background: ${({ selected }) => selected ? 'rgba(0, 209, 108, 0.15)' : 'linear-gradient(135deg, rgba(91, 204, 189, 0.14902) 0%, rgba(97, 192, 191, 0.14902) 33.33%, rgba(85, 188, 200, 0.14902) 74.49%, rgba(105, 207, 184, 0.14902) 100%)'};
-  border-radius: 6px 0px 0px 6px; /* top-left top-right bottom-right bottom-left */
-  border: ${({ selected }) => selected ? '1px solid #00D16C' : '1px solid rgba(255, 255, 255, 0.5)'};
-  ${({ selected }) => !selected && `
+  border-radius: 10px 0px 0px 10px;
+  ${({ selected }) => selected ? `
+    background: #00D16C;
+    color: #000000;
+  ` : `
+    background: rgba(206, 206, 206, 0.35);
+    border: 1px solid rgba(206, 206, 206, 0.5);
     border-right: 0;
+    color: #FFFFFF;
   `};
-  color: ${({ selected }) => selected ? '#00D16C' : 'rgba(255, 255, 255, 0.5)'};
 `
 
 export const ShortTab = styled(Tab)`
-  background: ${({ selected }) => selected ? 'rgba(255, 33, 33, 0.15)' : 'linear-gradient(135deg, rgba(91, 204, 189, 0.14902) 0%, rgba(97, 192, 191, 0.14902) 33.33%, rgba(85, 188, 200, 0.14902) 74.49%, rgba(105, 207, 184, 0.14902) 100%)'};
-  border: ${({ selected }) => selected ? '1px solid #FF2121' : '1px solid rgba(255, 255, 255, 0.5)'};
-  border-radius: 0px 6px 6px 0px; /* top-left top-right bottom-right bottom-left */
-  ${({ selected }) => !selected && `
+  border-radius: 0px 10px 10px 0px;
+  ${({ selected }) => selected ? `
+    background: rgba(255, 33, 33, 0.4);
+    color: #000000;
+  ` : `
+    background: rgba(206, 206, 206, 0.35);
+    border: 1px solid rgba(206, 206, 206, 0.5);
     border-left: 0;
+    color: #FFFFFF;
   `};
-  color: ${({ selected }) => selected ? '#FF2121' : 'rgba(255, 255, 255, 0.5)'};
 `
 
 export const TradeButton = styled.div`
@@ -46,10 +53,9 @@ export const TradeButton = styled.div`
   color: #FFFFFF;
   background: ${props => props.disabled
     ? 'rgba(255, 33, 33, 0.4)'
-    : 'linear-gradient(91.77deg, #DA316B -97.86%, #1175DE 97.84%)'
+    : '#542FE6'
   };
-  border: 1px solid rgba(146, 119, 224, 0.5);
-  border-radius: 10px;
+  border-radius: 20px;
   &:hover {
     cursor: ${props => props.disabled ? 'auto' : 'pointer'};
   }

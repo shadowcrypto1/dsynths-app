@@ -29,21 +29,26 @@ import { SyncState, useSyncCallback } from '../../../hooks/useSyncCallback'
 
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  background: rgba(91, 96, 204, 0.15);
-  border: 1px solid rgba(146, 119, 224, 0.5);
-  border-radius: 10px;
   width: 100%;
   height: 100%;
-  padding: 30px 29px 36px 29px;
+  margin-top: 30px;
   overflow: hidden;
 `
 
-const StyledArrow = styled(DownArrowIcon)`
-  margin-top: 18px;
-  position: relative;
+const ArrowWrapper = styled.div`
+  display: flex;
+  position: absolute;
   left: 50%;
+  top: 65px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #542FE6;
   transform: translateX(-50%);
+  align-items: center;
+  justify-content: center;
   &:hover {
     cursor: pointer;
   }
@@ -120,7 +125,8 @@ export const Trade = ({ type }) => {
 
   const balance = useTokenBalance(inputContract, inputIsToken)
   const sufficientBalance = useMemo(() => {
-    if (!balance || balance.lte(0) || !inputAmount) return true // edge case where we ignore 0 balances (those are filtered by the syncCallback)
+    if (!inputAmount) return true
+    if (!balance || balance.lte(0)) return false
     return (balance.gte(BigNumber.from(toWei(inputAmount, inputDecimals)))) ? true : false
   }, [balance, inputAmount])
 
@@ -150,6 +156,7 @@ export const Trade = ({ type }) => {
     outputContract,
     outputDecimals,
     outputAmount,
+    balance,
     type,
   })
   const handleSync = async () => {
@@ -165,12 +172,12 @@ export const Trade = ({ type }) => {
         decimals={inputDecimals}
         isToken={inputIsToken}
         amount={inputAmount}
-        label={'From'}
+        showBalance={true}
         setAmount={setInputAmount}
       />
-      <StyledArrow onClick={() => {
-        dispatch(flipAction())
-      }}/>
+      <ArrowWrapper onClick={() => dispatch(flipAction())}>
+        <DownArrowIcon width={'8px'}/>
+      </ArrowWrapper>
       <InputBar
         ticker={outputTicker}
         symbol={outputSymbol}
@@ -178,11 +185,10 @@ export const Trade = ({ type }) => {
         decimals={outputDecimals}
         isToken={outputIsToken}
         amount={outputAmount}
-        label={'To (estimated)'}
         setAmount={setOutputAmount}
       />
       <NoteWrapper isMobile={width < 985}>
-        <div>{fee * 100}% Fee</div>
+        <div>Fee: {fee * 100}%</div>
         <div>
           <a href='https://muon.net/' target='_blank' rel='noopener noreferrer'>Oracle </a>
           Price {priceFormatted()}

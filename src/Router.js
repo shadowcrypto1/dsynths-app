@@ -14,7 +14,6 @@ import GoogleAnalyticsReporter from './components/Analytics/GoogleAnalyticsRepor
 import { Layout } from './components/Layout'
 import Home from './pages/Home'
 import Basic from './pages/Basic'
-import Basic2 from './pages/Basic2'
 
 function Updaters() {
   return (
@@ -43,9 +42,6 @@ export default function Router() {
           </Route>
           <Route path='/exchange'>
             <Basic/>
-          </Route>
-          <Route path='/exchange2'>
-            <Basic2/>
           </Route>
           <Redirect to='/'/>
         </Switch>

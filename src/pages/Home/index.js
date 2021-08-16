@@ -134,7 +134,7 @@ export default function Home() {
             <HeroSubtitle
               fontsize={width > 1250 ? '19px' : width > 1050 ? '17px' : '16px'}
             >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
-            <TradeButton to={'/exchange2'}>
+            <TradeButton to={'/exchange'}>
               <span>Start Trading</span>
               <ArrowUpRight size={'20px'}/>
             </TradeButton>
@@ -162,9 +162,9 @@ export default function Home() {
             />
           </HeroImageContainer>
           <HeroSubtitleMobile>
-              Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
+            Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
           </HeroSubtitleMobile>
-          <TradeButtonMobile to={'/exchange2'}>
+          <TradeButtonMobile to={'/exchange'}>
             <span>Start Trading</span>
             <ArrowUpRight size={'20px'}/>
           </TradeButtonMobile>

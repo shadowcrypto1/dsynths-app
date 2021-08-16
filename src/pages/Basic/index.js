@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { debounce } from 'lodash'
 
 import {
-  LineChart,
+  Hero,
   SearchBar,
   LongTab,
   ShortTab,
@@ -23,6 +23,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   align-items: center;
   justify-content: center;
+  margin-top: 35px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -42,20 +43,7 @@ const HeroContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  margin-top: 35px;
-  overflow-y: hidden;
-`
-
-const Disclaimer = styled.div`
-  display: block;
-  position: absolute;
-  width: 100%;
-  line-height: 20px;
-  min-height: 20px;
-  font-size: 12px;
-  background: rgba(209, 0, 28, 0.5);
-  text-align: center;
-  align-text: center;
+  height: auto;
 `
 
 const HeroTitle = styled.div`
@@ -84,7 +72,6 @@ const SearchContainerDesktop = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  top: 194px;
   right: 30px;
   width: ${({ size }) => (size > 1300) ? '340px' : (size > 1120) ? '250px' : '200px' };
   height: 30px;
@@ -95,39 +82,30 @@ const SearchContainerMobile = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  margin-top: 18px;
+  margin-top: 8px;
   width: 100%;
   height: auto;
-`
-
-const ChartContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: ${props => props.isDesktop ? '42px' : '20px'};
-  width: 100%;
-  height: 203px;
 `
 
 const TypeWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  margin-top: 25px;
-  width: 100%;
-  height: 35px;
-`
-
-const TradeContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 25px;
+  justify-content: center;
   width: 100%;
   height: auto;
 `
 
-export default function Basic() {
+const TradeContainer = styled.div`
+  display: block;
+  margin-top: 8px;
+  width: 100%;
+  height: auto;
+  background: #30315D;
+  border-radius: 10px;
+  padding: 30px;
+`
 
+export default function Basic () {
   const { width } = useWindowSize()
   const base = useBaseState()
   const [ type, setType ] = useState('LONG')
@@ -144,8 +122,11 @@ export default function Basic() {
   }, 1500), [mounted, setStatus])
 
   useEffect(() => {
-    // debounceLoaderScreen(base.status)
-    setStatus(base.status)
+    if (process.env.NODE_ENV !== 'production') {
+      setStatus(base.status)
+    } else {
+      debounceLoaderScreen(base.status)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.status])
 
@@ -179,7 +160,7 @@ export default function Basic() {
   if (status === 'OK') {
     return (
       <React.Fragment>
-        <Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>
+        {/*<Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>*/}
         {width >= 985 ? (
           <React.Fragment>
             <SearchContainerDesktop size={width}>
@@ -188,17 +169,13 @@ export default function Basic() {
             </SearchContainerDesktop>
             <Wrapper>
               <HeroContainer>
-                <HeroTitle>{`TRADE ${base.symbol.toUpperCase()}`}</HeroTitle>
-                <HeroSubTitle>{base.name}</HeroSubTitle>
+                <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={true}/>
               </HeroContainer>
-              <ChartContainer isDesktop={width >= 985}>
-                <LineChart baseSymbol={base.symbol}/>
-              </ChartContainer>
-              <TypeWrapper>
-                <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-                <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-              </TypeWrapper>
               <TradeContainer>
+                <TypeWrapper>
+                  <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
+                  <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+                </TypeWrapper>
                 <Trade type={type} />
               </TradeContainer>
             </Wrapper>
@@ -206,17 +183,16 @@ export default function Basic() {
         ) : (
           <Wrapper>
             <HeroContainer>
-              <HeroTitle>{`TRADE ${base.symbol.toUpperCase()}`}</HeroTitle>
-              <HeroSubTitle>{base.name}</HeroSubTitle>
+              <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={false}/>
             </HeroContainer>
             <SearchContainerMobile size={width}>
               <SearchBar isDesktop={width >= 985}/>
             </SearchContainerMobile>
-            <TypeWrapper>
-              <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-              <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-            </TypeWrapper>
             <TradeContainer>
+              <TypeWrapper>
+                <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
+                <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+              </TypeWrapper>
               <Trade type={type} />
             </TradeContainer>
             <NetworkBar/>

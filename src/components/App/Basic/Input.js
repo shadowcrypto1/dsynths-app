@@ -12,11 +12,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: top;
   width: 100%;
+  margin-bottom: 7px;
 `
 
-const InfoWrapper = styled.div`
+const BalanceWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 0px 10px 4px 10px;
 `
 
@@ -27,8 +28,7 @@ const BarWrapper = styled.div`
   align-items: center;
   width: 100%;
 
-  background: #11202D;
-  border: 1px solid rgba(146, 119, 224, 0.5);
+  background: #DEDFEC;
   border-radius: 10px;
 
   & > * {
@@ -80,7 +80,7 @@ const Symbol = styled.div`
   line-height: 30px;
   align-items: center;
   text-align: left;
-  color: #AFAFAF;
+  color: #000000;
   white-space: nowrap;
 `
 
@@ -98,7 +98,7 @@ const MaxButton = styled.div`
   display: flex;
   align-items: center;
   text-align: right;
-  color: #C4C4C4;
+  color: #000000;
 
   &:hover {
     cursor: pointer;
@@ -115,7 +115,7 @@ const AmountField = styled.input`
   background: transparent;
   border: none;
   font-size: ${props => props.small ? '11px' : '13px'};
-  color: #CDCDCD;
+  color: #6F6F6F;
   width: 100%;
 
   &:focus {
@@ -123,16 +123,16 @@ const AmountField = styled.input`
   }
 
   &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #CDCDCD;
+    color: #6F6F6F;
     opacity: 1; /* Firefox */
   }
 
   &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #CDCDCD;
+    color: #6F6F6F;
   }
 
   &::-ms-input-placeholder { /* Microsoft Edge */
-    color: #CDCDCD;
+    color: #6F6F6F;
   }
 `
 
@@ -143,7 +143,7 @@ export const InputBar = ({
   decimals,
   isToken,
   amount,
-  label,
+  showBalance,
   setAmount,
 }) => {
   const balance = useTokenBalance(contract, isToken)
@@ -166,13 +166,14 @@ export const InputBar = ({
 
   return (
     <Wrapper>
-      <InfoWrapper>
-        <Label small={small}>{label}</Label>
-        <Balance onClick={() => setAmount(formattedBalance)}>
-          <WalletIcon/>
-          <Label small={small}>{displayBalance}</Label>
-        </Balance>
-      </InfoWrapper>
+      {showBalance && (
+        <BalanceWrapper>
+          <Balance onClick={() => setAmount(formattedBalance)}>
+            <WalletIcon/>
+            <Label small={small}>{displayBalance} {ticker}</Label>
+          </Balance>
+        </BalanceWrapper>
+      )}
       <BarWrapper>
         <IconWrapper
           src={`/images/tickers/${ticker.toUpperCase()}.png`}
