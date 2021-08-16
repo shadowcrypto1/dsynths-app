@@ -99,7 +99,7 @@ const OptionRow = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: center;
+    text-align: left;
 
     &:first-child {
       display: flex;
