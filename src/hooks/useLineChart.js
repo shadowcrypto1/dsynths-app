@@ -54,7 +54,7 @@ export const useLineChart = (baseSymbol, timeframe) => {
     const { resolution, from, to} = getParams(timeframe)
     const result = await getStockCandles(baseSymbol, resolution, from, to)
     mounted && setData(result)
-    mounted && setHasNoData(!result.length)
+    mounted && setHasNoData(!result.length || result.length < 2) // filter single plots
     mounted && setLoading(false)
 
     return () => mounted = false

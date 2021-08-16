@@ -41,6 +41,7 @@ export const getStockSymbols = async () => {
       })
     }).catch(err => {throw err})
   } catch (err) {
+    console.info('Error fetching stock symbols:')
     console.error(err)
     return []
   }
@@ -54,7 +55,7 @@ export const getStockCandles = async (symbol, resolution, from, to) => {
     const data = await new Promise((resolve, reject) => {
       MISSING_KEY_ERROR && reject(MISSING_KEY_ERROR)
       FinnhubQueue.add(() => {
-        finnhubClient.stockCandles(symbol, interval, from, to, {}, (error, data) => {
+        finnhubClient.stockCandles(symbol, interval, from, to, {}, (error, data, response) => {
           if (error) reject(error)
           resolve(data)
         })
@@ -69,6 +70,7 @@ export const getStockCandles = async (symbol, resolution, from, to) => {
 
     return reduceDataResponse(data, from, to)
   } catch (err) {
+    console.info('Error fetching stock candles:')
     console.error(err)
     return []
   }
@@ -90,6 +92,7 @@ const reduceDataResponse = (data, from, to) => {
       return acc
     }, [])
   } catch (err) {
+    console.info('Error reducing data response: ')
     console.error(err)
     return []
   }

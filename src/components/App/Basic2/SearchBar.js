@@ -10,7 +10,7 @@ import { Search as SearchIcon } from '../../Icons'
 const Wrapper = styled.div`
   display: grid;
   grid-auto-flow: row;
-  grid-gap:  8px;
+  grid-gap: 8px;
 `
 
 const InputWrapper = styled.div`
@@ -19,7 +19,7 @@ const InputWrapper = styled.div`
   position: relative;
   background: #DEDFEC;
   border: 1px solid #CECECE;
-  border-radius: 6px;
+  border-radius: 8px;
   height: 30px;
 `
 
@@ -39,15 +39,37 @@ const Input = styled.input`
   -webkit-appearance: none;
 `
 
+const OptionsContainer = styled.div`
+  overflow: auto;
+  padding-bottom: 4px;
+  list-style: none;
+  border-radius: 10px;
+  background-color: #292A50;
+`
+
 const OptionsWrapper = styled.div`
   overflow: auto;
-  max-height: ${({amount}) => `calc(400px / ${amount})`};
-  background: transparent;
+  max-height: ${({amount}) => `calc(510px / ${amount})`};
   list-style: none;
-  border-radius: 6px;
   &::-webkit-scrollbar {
     display: none;
   }
+`
+
+const GroupRow = styled.div`
+  display: block;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  font-size: 11px;
+  text-align: center;
+  padding-left: 10px;
+  color: #FFFFFF;
+  background: linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%), #292A50;
+  cursor: default;
+  text-transform: uppercase;
 `
 
 const OptionRow = styled.div`
@@ -58,7 +80,7 @@ const OptionRow = styled.div`
   width: 100%;
   border: none;
   outline: none;
-  background-color: ${props => props.selected ? 'rgba(94, 75, 169, 0.2)' : '#292A50'};
+  background-color: ${props => props.selected ? 'rgba(94, 75, 169, 0.2)' : 'inherit'};
 
   font-size: 14px;
   color: white;
@@ -92,27 +114,11 @@ const OptionItem = styled(OptionRow).attrs({
   as: 'button'
 })``
 
-const GroupRow = styled.div`
-  display: block;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
-  font-size: 11px;
-  text-align: center;
-  padding-left: 10px;
-  color: #FFFFFF;
-  background: linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%), #292A50;
-  cursor: default;
-  text-transform: uppercase;
-`
-
 const NoResult = styled(OptionRow)`
   display: block;
   text-align: center;
   align-text: center;
-  border-radius: 6px;
+  border-radius: 8px;
 `
 
 export const SearchBar = ({ focus }) => {
@@ -138,33 +144,35 @@ export const SearchBar = ({ focus }) => {
       {(snapshot.focus || focus) && (
         <>
           {snapshot.options.map(group => (
-            <OptionsWrapper key={group.groupId} amount={snapshot.options.length}>
-              <GroupRow>{group.name}</GroupRow>
-              {group.items.map((option, i) => {
-                const { value, name, favorite } = option
-                return (
-                  <OptionRow
-                    key={value}
-                    value={value}
-                    selected={value.toUpperCase() === base?.symbol.toUpperCase()}
-                    showFavorite={focus}
-                  >
-                    {focus && (
-                      <OptionItem onClick={() => toggleFavorite(name)}>
-                        <Star
-                          style={{background: 'transparent'}}
-                          size={'14'}
-                          stroke={'1px'}
-                          fill={favorite ? 'gold' : ''}
-                        />
-                      </OptionItem>
-                    )}
-                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{value}</OptionItem>
-                    <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{name}</OptionItem>
-                  </OptionRow>
-                )
-              })}
-            </OptionsWrapper>
+            <OptionsContainer key={group.groupId}>
+              <OptionsWrapper amount={snapshot.options.length}>
+                <GroupRow>{group.name}</GroupRow>
+                {group.items.map((option, i) => {
+                  const { value, name, favorite } = option
+                  return (
+                    <OptionRow
+                      key={value}
+                      value={value}
+                      selected={value.toUpperCase() === base?.symbol.toUpperCase()}
+                      showFavorite={focus}
+                    >
+                      {focus && (
+                        <OptionItem onClick={() => toggleFavorite(name)}>
+                          <Star
+                            style={{background: 'transparent'}}
+                            size={'14'}
+                            stroke={'1px'}
+                            fill={favorite ? 'gold' : ''}
+                          />
+                        </OptionItem>
+                      )}
+                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{value}</OptionItem>
+                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{name}</OptionItem>
+                    </OptionRow>
+                  )
+                })}
+              </OptionsWrapper>
+            </OptionsContainer>
           ))}
           {!snapshot.options.length && (
             <NoResult>No Results Found</NoResult>

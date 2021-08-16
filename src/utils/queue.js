@@ -9,11 +9,11 @@ class Queue {
        * TODO: build a back-end that does exactly this (for production), essentially
        * removing client-side fetches (so our API KEY doesn't get destroyed)
        */
-      reservoir: 300, // 300 per minute
-      reservoirRefreshAmount: 300, // reset to 300 when the minute has passed
+      reservoir: 50, // 300 per minute
+      reservoirRefreshAmount: 50, // reset to 300 when the minute has passed
       reservoirRefreshInterval: 60 * 1000, // the 'per minute', must be divisible by 250
       maxConcurrent: 1,
-      minTime: 33 // 30 per second => 1 req per 33 ms.
+      minTime: 100 // 30 per second => 1 req per 33 ms.
     })
   }
 

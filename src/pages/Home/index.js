@@ -129,10 +129,10 @@ export default function Home() {
         <DesktopLandingContainer>
           <DesktopLandingText>
             <HeroTitle
-              fontsize={width > 1250 ? '45px' : width > 1050 ? '35px' : '30px'}
+              fontsize={width > 1250 ? '55px' : width > 1050 ? '45px' : '40px'}
             >Trading for Everyone</HeroTitle>
             <HeroSubtitle
-              fontsize={width > 1250 ? '16px' : width > 1050 ? '15px' : '16px'}
+              fontsize={width > 1250 ? '19px' : width > 1050 ? '17px' : '16px'}
             >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
             <TradeButton to={'/exchange2'}>
               <span>Start Trading</span>

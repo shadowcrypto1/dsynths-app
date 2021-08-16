@@ -91,26 +91,28 @@ const ButtonWrapper = styled.div`
   width: 100%;
   bottom: 30px;
   height: 30px;
-  background: rgba(121, 219, 233, 0.1);
+  background: ${({hasNoData}) => hasNoData ? 'transparent' : 'rgba(121, 219, 233, 0.1)'};
   opacity: 0.6;
 `
 
 const Button = styled.button`
   display: flex;
-  width: 25px;
-  height: 15px;
-  opacity: ${props => props.selected ? '1' : '0.5'};
-  font-size: 7.5px;
-  line-height: 15px;
+  margin: 0 2.5px;
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  font-size: 10px;
+  height: 20px;
+  line-height: 20px;
+  width: 30px;
+
   color: #FFFFFF;
   background: black;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 4px rgba(65, 148, 43, 0.2);
   border-radius: 3px;
-  margin: 0 2.5px;
+  box-shadow: 0px 0px 4px rgba(65, 148, 43, 0.2);
+  opacity: ${props => props.selected ? '1' : '0.5'};
 
   &:hover {
     cursor: pointer;
@@ -126,8 +128,8 @@ const buttonMapping = [
 
 export const Hero = ({ symbol, name, isDesktop }) => {
   const wrapperRef = useRef(null)
-  const [ selectedTimeframe, setSelectedTimeframe ] = useState('y')
-  const [ noun, setNoun ] = useState(buttonMapping[0].noun)
+  const [ selectedTimeframe, setSelectedTimeframe ] = useState(buttonMapping[3].value)
+  const [ noun, setNoun ] = useState(buttonMapping[3].noun)
   const { data, loading, hasNoData } = useLineChart(symbol, selectedTimeframe)
 
   const [ priceLabel, setPriceLabel ] = useState(null)
@@ -142,7 +144,7 @@ export const Hero = ({ symbol, name, isDesktop }) => {
       const zeroDayPrice = data[0].close
       const change = ((currentPrice - zeroDayPrice) / zeroDayPrice * 100).toFixed(2)
 
-      priceLabelResult = `$${currentPrice}`
+      priceLabelResult = `$${currentPrice.toFixed(2)}`
       changeLabelResult = `${change >= 0 ? '+' : ''}${change}% Past ${noun}`
     }
 
@@ -179,20 +181,19 @@ export const Hero = ({ symbol, name, isDesktop }) => {
               <Area dataKey="close" type="monotone" stroke='#00D16C' fill="rgba(121, 219, 233, 0.1)" strokeWidth={1} />
             </AreaChart>
           </ChartContainer>
-          {!hasNoData && (
-            <ButtonWrapper>
-              {buttonMapping.map(item => (
-                <Button
-                  key={item.value}
-                  selected={item.value === selectedTimeframe}
-                  onClick={() => {
-                    !loading && setSelectedTimeframe(item.value)
-                    !loading && setNoun(item.noun)
-                  }}
-                >{item.text}</Button>
-              ))}
-            </ButtonWrapper>
-          )}
+          <ButtonWrapper hasNoData={hasNoData}>
+            {buttonMapping.map(item => (
+              <Button
+                key={item.value}
+                selected={item.value === selectedTimeframe}
+                isDesktop={isDesktop}
+                onClick={() => {
+                  !loading && setSelectedTimeframe(item.value)
+                  !loading && setNoun(item.noun)
+                }}
+              >{item.text}</Button>
+            ))}
+          </ButtonWrapper>
         </div>
       )}
     </Wrapper>
