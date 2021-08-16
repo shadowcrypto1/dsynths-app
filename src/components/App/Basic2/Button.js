@@ -31,7 +31,7 @@ export const LongTab = styled(Tab)`
 export const ShortTab = styled(Tab)`
   border-radius: 0px 10px 10px 0px;
   ${({ selected }) => selected ? `
-    background: #FF2121;
+    background: rgba(255, 33, 33, 0.4);
     color: #000000;
   ` : `
     background: rgba(206, 206, 206, 0.35);
