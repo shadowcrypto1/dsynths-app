@@ -155,6 +155,7 @@ export const SearchBar = ({ focus }) => {
                       value={value}
                       selected={value.toUpperCase() === base?.symbol.toUpperCase()}
                       showFavorite={focus}
+                      {...optionProps}
                     >
                       {focus && (
                         <OptionItem onClick={() => toggleFavorite(name)}>
@@ -166,8 +167,8 @@ export const SearchBar = ({ focus }) => {
                           />
                         </OptionItem>
                       )}
-                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{value}</OptionItem>
-                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)} {...optionProps}>{name}</OptionItem>
+                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{value}</OptionItem>
+                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{name}</OptionItem>
                     </OptionRow>
                   )
                 })}

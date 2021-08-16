@@ -50,7 +50,8 @@ export const useSearchList = () => {
     value: base.symbol,
     search: true,
     filterOptions: fuzzySearch,
-    allowEmpty: true
+    allowEmpty: true,
+    closeOnSelect: false,
   })
 
   useEffect(() => {
