@@ -80,7 +80,7 @@ export const NetworkBar = (props) => {
 
   return (
     <Wrapper {...props}>
-      <Title>Switch Chain to Trade On:</Title>
+      <Title>CHOOSE CHAIN TO TRADE ON:</Title>
       <OptionsWrapper>
         {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {
           const displayValue = (name === 'MAINNET') ? 'ETH' : name
