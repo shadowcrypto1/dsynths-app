@@ -16,7 +16,11 @@ import {
 } from '../Icons'
 
 const StyledModal = Modal.styled`
-  background-color: #191B1F;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(109.2deg, #532EE6 2.09%, #6A3EA6 99.42%);
   width: clamp(200px, 75%, 420px);
   border-radius: 20px;
 `
@@ -25,7 +29,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  padding: 15px
+  padding: 15px;
+  width: 100%;
 `
 
 const Header = styled.div`
@@ -37,7 +42,7 @@ const Header = styled.div`
 `
 
 const Body = styled.ul`
-  padding: 0px;
+  padding: 0;
   list-style-type: none;
   margin-block-end: 0;
 `
@@ -49,7 +54,7 @@ const ConnectorWrapper = styled.li`
   margin: 10px 0px;
   padding: 0 7px 0 20px;
   align-items: center;
-  background: #212429;
+  background: #30315D;
   border: ${props => props.error ? '1px solid red' : '1px solid #2C2F36'};
   justify-content: space-between;
   border-radius: 12px;
@@ -61,6 +66,23 @@ const ConnectorWrapper = styled.li`
     border: 1px solid #2172E5;
     cursor: pointer;
   }
+`
+
+const ConnectorNameWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > * {
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+`
+
+const ConnectorLogo = styled.img`
+  width: 30px;
+  height: 30px;
 `
 
 const ErrorBox = styled.div`
@@ -127,7 +149,7 @@ export const WalletModal = () => {
       <Wrapper>
         <Header>
           Select a wallet provider
-          <CloseIcon onClick={closeModalProxy}/>
+          <CloseIcon onClick={closeModalProxy} style={{alignSelf: 'center'}}/>
         </Header>
         <Body>
           {Object.keys(connectorsByName).map(name => {
@@ -142,7 +164,10 @@ export const WalletModal = () => {
                   tryActivation(currentConnector)
                 }}
               >
-                {name}
+                <ConnectorNameWrapper>
+                  <ConnectorLogo src={`/images/connectors/${name}.png`}/>
+                  {name}
+                </ConnectorNameWrapper>
                 {activating && <LoaderIcon size="20px" />}
               </ConnectorWrapper>
             )
