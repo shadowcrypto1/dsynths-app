@@ -23,6 +23,6 @@ export const RpcParams = {
     },
     rpcUrls: ['https://rpc.xdaichain.com/'],
     blockExplorerUrls: ['https://blockscout.com/poa/xdai/'],
-    iconUrls: ['https://app.deus.finance/tokens/xdai.svg']
+    iconUrls: []
   },
 }

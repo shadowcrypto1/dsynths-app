@@ -6,11 +6,13 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 
 import { WalletModal } from '../WalletModal'
 import { setOpenModal } from '../../state/application/actions'
+import { useMarketState } from '../../state/market/hooks'
 import { truncateAddress } from '../../utils/account'
 import { injected } from '../../connectors'
+import { SUPPORTED_CHAINS_BY_ID } from '../../constants'
 
 const Button = styled.button`
-  width: 150px;
+  min-width: 150px;
   height: 30px;
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
@@ -23,12 +25,20 @@ const Button = styled.button`
 `
 
 const Connected = styled(Button)`
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 10px;
   background: rgba(91, 96, 204, 0.15);
   border: 1px solid rgba(146, 119, 224, 0.5);
   &:hover {
     cursor: pointer;
     background: rgba(91, 96, 204, 0.25);
   }
+`
+
+const NetworkLogo = styled.img`
+  width: 20px;
+  height: 20px;
 `
 
 const Error = styled(Button)`
@@ -55,7 +65,7 @@ export const Web3Status = () => {
 }
 
 function StatusButton() {
-  const { account, active, error, connector, deactivate } = useWeb3React()
+  const { chainId, account, active, error, connector, deactivate } = useWeb3React()
   const dispatch = useDispatch()
 
   const onClickProxy = () => {
@@ -73,7 +83,9 @@ function StatusButton() {
   if (account) {
     return (
       <Connected onClick={onClickProxy}>
+        <NetworkLogo src={`/images/networks/${SUPPORTED_CHAINS_BY_ID[chainId]}.png`}/>
         {truncateAddress(account)}
+        <div/>
       </Connected>
     )
   } else if (error) {

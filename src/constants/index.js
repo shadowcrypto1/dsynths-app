@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import AMM_ABI_ETH from './abi/AMM_ABI_ETH.json'
 import AMM_ABI_XDAI from './abi/AMM_ABI_XDAI.json'
 
@@ -40,4 +42,5 @@ export const SUPPORTED_CHAINS_BY_NAME = {
   XDAI: 100,
 }
 
+export const SUPPORTED_CHAINS_BY_ID = _.invert(SUPPORTED_CHAINS_BY_NAME)
 export const SUPPORTED_CHAIN_IDS = Object.values(SUPPORTED_CHAINS_BY_NAME)
