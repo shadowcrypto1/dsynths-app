@@ -10,24 +10,35 @@ export const useRpcChangerCallback = () => {
   const { chainId } = useWeb3React()
   const { networkName: fallbackNetworkName } = useMarketState()
 
-  return useCallback((networkName) => {
+  return useCallback(async (networkName) => {
     if (!chainId || !window.ethereum) return
 
     const targetChainId = SUPPORTED_CHAINS_BY_NAME[networkName || fallbackNetworkName]
     if (!targetChainId || !RpcParams[targetChainId]) return
     if (targetChainId === chainId) return
 
-    window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: RpcParams[targetChainId].chainId }],
-    })
-      .then(() => {
-        console.log('Successfully switched network RPC')
-      })
-      .catch(err => {
-        console.log('Something went wrong trying to change the network RPC: ')
-        console.error(err)
-      })
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: RpcParams[targetChainId].chainId }],
+      });
+    } catch (switchError) {
+      // This error code indicates that the chain has not been added to MetaMask.
+      if (switchError.code === 4902) {
+        try {
+          return await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [RpcParams[targetChainId]],
+          })
+        } catch (addError) {
+          console.log('Something went wrong trying to change the network RPC: ')
+          console.error(addError)
+        }
+      }
+      // handle other "switch" errors
+      console.log('Unknown error occured when trying to change the network RPC: ')
+      console.error(switchError)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId, fallbackNetworkName])
 }
