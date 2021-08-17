@@ -6,6 +6,7 @@ import _ from 'lodash'
 
 import { DSynthsLogo, DSynthsText, NavToggle } from '../../Icons'
 import { Web3Status } from '../../Web3Status'
+import { Notify } from '../../Notify'
 
 import { useWindowSize } from '../../../hooks/useWindowSize'
 import { useMarketState } from '../../../state/market/hooks'
@@ -73,7 +74,13 @@ const NavItem = styled(Link)`
     text-decoration: underline;
     text-decoration-color: #9277E0;
     text-underline-offset: 7px;
+    background: radial-gradient(40.87% 40.91% at 50% 72.73%, #200F56 0%, rgba(30, 14, 82, 0.27) 85.42%, rgba(28, 13, 77, 0) 100%);
   `}
+`
+
+const NavItemWithNotify = styled.div`
+  display: flex;
+  flex-direction: row;
 `
 
 const ButtonsWrapper = styled.div`
@@ -126,9 +133,18 @@ export const DesktopNavbar = ({ handleToggled }) => {
       <NavWrapper>
         <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>
         <NavItem to='/exchange' selected={pathname === '/exchange'}>Exchange</NavItem>
-        {/*<NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
-        <NavItem to='/stats' selected={pathname === '/stats'}>Stats</NavItem>
-        <NavItem to='/faq' selected={pathname === '/faq'}>FAQ</NavItem>*/}
+        <NavItemWithNotify>
+          <NavItem to={'#'} selected={pathname === '/faq'}>FAQ</NavItem>
+          <Notify type={'info'}>SOON</Notify>
+        </NavItemWithNotify>
+        <NavItemWithNotify>
+          <NavItem to={'#'}  selected={pathname === '/markets'}>Markets</NavItem>
+          <Notify type={'info'}>SOON</Notify>
+        </NavItemWithNotify>
+        <NavItemWithNotify>
+          <NavItem to={'#'}  selected={pathname === '/stats'}>Stats</NavItem>
+          <Notify type={'info'}>SOON</Notify>
+        </NavItemWithNotify>
       </NavWrapper>
       <ButtonsWrapper>
         <Web3Status/>

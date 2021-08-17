@@ -98,6 +98,13 @@ const HeroSubtitleMobile = styled.div`
   margin: 25px 0px;
 `
 
+const TradeButtonsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: ${({ width} ) => width < 1350 ? '1fr' : '1fr 1fr'};
+  grid-gap: 10px;
+  margin-top: 30px;
+`
+
 const TradeButton = styled(Link)`
   display: flex;
   text-align: center;
@@ -105,9 +112,6 @@ const TradeButton = styled(Link)`
   align-items: center;
   justify-content: center;
   padding: 0px 15px;
-  margin-top: 30px;
-  width: 175px;
-  height: 45px;
   line-height: 45px;
   font-size: 18px;
   color: #FFFFFF;
@@ -121,6 +125,8 @@ const TradeButtonMobile = styled(TradeButton)`
   width: 100%;
 `
 
+const heroText = "Trade the S&P500, commodities, pre-IPOs and synthetic crypto. You don't have to sign up, simply connect your wallet and start trading! With dSynths, the long button will never be disabled."
+
 export default function Home() {
   const { width } = useWindowSize()
   return (
@@ -133,11 +139,17 @@ export default function Home() {
             >Trading for Everyone</HeroTitle>
             <HeroSubtitle
               fontsize={width > 1250 ? '19px' : width > 1050 ? '17px' : '16px'}
-            >Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.</HeroSubtitle>
-            <TradeButton to={'/exchange'}>
-              <span>Start Trading</span>
-              <ArrowUpRight size={'20px'}/>
-            </TradeButton>
+            >{heroText}</HeroSubtitle>
+            <TradeButtonsWrapper width={width}>
+              <TradeButton to={'/exchange?network=mainnet'}>
+                <span>Trade on Ethereum</span>
+                <ArrowUpRight size={'20px'}/>
+              </TradeButton>
+              <TradeButton to={'/exchange?network=xdai'}>
+                <span>Trade on xDai</span>
+                <ArrowUpRight size={'20px'}/>
+              </TradeButton>
+            </TradeButtonsWrapper>
           </DesktopLandingText>
           <HeroImageContainer>
             <HeroImage
@@ -161,9 +173,7 @@ export default function Home() {
               src={'./images/home_hero_shadow.png'}
             />
           </HeroImageContainer>
-          <HeroSubtitleMobile>
-            Trade the S&P500, commodities, pre-IPOs and even synthetic DOGEcoin. Screw signing up, simply connect your wallet and start trading without getting fucked by Vladimir.
-          </HeroSubtitleMobile>
+          <HeroSubtitleMobile>{heroText}</HeroSubtitleMobile>
           <TradeButtonMobile to={'/exchange'}>
             <span>Start Trading</span>
             <ArrowUpRight size={'20px'}/>
