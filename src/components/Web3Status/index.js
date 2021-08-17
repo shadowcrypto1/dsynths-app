@@ -83,7 +83,7 @@ function StatusButton() {
   if (account) {
     return (
       <Connected onClick={onClickProxy}>
-        <NetworkLogo src={`/images/networks/${SUPPORTED_CHAINS_BY_ID[chainId]}.png`}/>
+        <NetworkLogo src={`/images/networks/${SUPPORTED_CHAINS_BY_ID[chainId].toLowerCase()}.png`}/>
         {truncateAddress(account)}
         <div/>
       </Connected>
