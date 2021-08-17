@@ -31,8 +31,8 @@ export const useRpcChangerCallback = () => {
             params: [RpcParams[targetChainId]],
           })
         } catch (addError) {
-          console.log('Something went wrong trying to change the network RPC: ')
-          console.error(addError)
+          console.log('Something went wrong trying to add a new  network RPC: ')
+          return console.error(addError)
         }
       }
       // handle other "switch" errors
