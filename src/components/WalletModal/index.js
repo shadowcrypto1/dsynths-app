@@ -180,7 +180,7 @@ export const WalletModal = () => {
                 }}
               >
                 <ConnectorNameWrapper>
-                  <ConnectorLogo src={`/images/connectors/${name.toLowerCase()}.png`}/>
+                  <ConnectorLogo src={require(`../../assets/connectors/${name.toLowerCase()}.png`)}/>
                   {name}
                 </ConnectorNameWrapper>
                 {activating && <LoaderIcon size="20px" />}
