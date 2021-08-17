@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch } from 'react-redux'
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
 import styled from 'styled-components'
@@ -80,10 +80,14 @@ function StatusButton() {
     }
   }
 
+  const networkName = useMemo(() => {
+    return SUPPORTED_CHAINS_BY_ID[chainId] ?? 'mainnet'
+  }, [chainId])
+
   if (account) {
     return (
       <Connected onClick={onClickProxy}>
-        <NetworkLogo src={require(`../../assets/networks/${SUPPORTED_CHAINS_BY_ID[chainId].toLowerCase()}.png`)}/>
+        <NetworkLogo src={require(`../../assets/networks/${networkName?.toLowerCase()}.png`)}/>
         {truncateAddress(account)}
         <div/>
       </Connected>
