@@ -82,9 +82,9 @@ const SearchContainerMobile = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  margin-top: 8px;
   width: 100%;
   height: auto;
+  margin-top: 8px;
 `
 
 const TypeWrapper = styled.div`
@@ -164,8 +164,8 @@ export default function Basic () {
         {width >= 985 ? (
           <React.Fragment>
             <SearchContainerDesktop size={width}>
+              <NetworkBar style={{marginBottom: '8px'}}/>
               <SearchBar focus={width >= 985}/>
-              <NetworkBar/>
             </SearchContainerDesktop>
             <Wrapper>
               <HeroContainer>
@@ -195,7 +195,7 @@ export default function Basic () {
               </TypeWrapper>
               <Trade type={type} />
             </TradeContainer>
-            <NetworkBar/>
+            <NetworkBar style={{marginTop: '8px'}}/>
           </Wrapper>
         )}
       </React.Fragment>

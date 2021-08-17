@@ -78,6 +78,18 @@ const NavItem = styled(Link)`
   `}
 `
 
+const NavItemFake = styled.div`
+  display: flex;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 4px 17px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+`
+
 const NavItemWithNotify = styled.div`
   display: flex;
   flex-direction: row;
@@ -132,17 +144,17 @@ export const DesktopNavbar = ({ handleToggled }) => {
       </LogoWrapper>
       <NavWrapper>
         <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>
-        <NavItem to='/exchange' selected={pathname === '/exchange'}>Exchange</NavItem>
+        <NavItem to='/exchange?network=xdai' selected={pathname === '/exchange'}>Exchange</NavItem>
         <NavItemWithNotify>
-          <NavItem to={'#'} selected={pathname === '/faq'}>FAQ</NavItem>
+          <NavItemFake selected={pathname === '/faq'}>FAQ</NavItemFake>
           <Notify type={'info'}>SOON</Notify>
         </NavItemWithNotify>
         <NavItemWithNotify>
-          <NavItem to={'#'}  selected={pathname === '/markets'}>Markets</NavItem>
+          <NavItemFake selected={pathname === '/markets'}>Markets</NavItemFake>
           <Notify type={'info'}>SOON</Notify>
         </NavItemWithNotify>
         <NavItemWithNotify>
-          <NavItem to={'#'}  selected={pathname === '/stats'}>Stats</NavItem>
+          <NavItemFake selected={pathname === '/stats'}>Stats</NavItemFake>
           <Notify type={'info'}>SOON</Notify>
         </NavItemWithNotify>
       </NavWrapper>

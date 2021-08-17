@@ -11,9 +11,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: auto;
   padding: 18px 9px;
-  margin-top: 12px;
-
-  background-color: #292A50;
+  background-color: #30315D;
   border-radius: 6px;
 `
 
@@ -76,12 +74,12 @@ const GreenCircle = styled.div`
   }
 `
 
-export const NetworkBar = () => {
+export const NetworkBar = (props) => {
   const { location } = useHistory()
   const { networkName } = useMarketState()
 
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Title>Switch Chain to Trade On:</Title>
       <OptionsWrapper>
         {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {

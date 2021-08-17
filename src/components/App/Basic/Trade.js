@@ -206,7 +206,7 @@ export const Trade = ({ type }) => {
           onClick={() => window.ethereum && rpcChangerCallback()}
           size={(width < 500) ? '16px' : '24px'}
         >
-          {window.ethereum ? 'CHANGE WALLET NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
+          {window.ethereum ? 'CLICK TO CHANGE NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
         </TradeButton>
       ) : isClosed ? (
         <TradeButton
