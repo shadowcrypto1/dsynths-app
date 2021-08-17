@@ -55,17 +55,25 @@ const ConnectorWrapper = styled.li`
   padding: 0 7px 0 20px;
   align-items: center;
   background: #30315D;
-  border: ${props => props.error ? '1px solid red' : '1px solid #2C2F36'};
   justify-content: space-between;
   border-radius: 12px;
   font-size: 16px;
-  color: ${props => props.error ? 'red' : 'inherit'};
 
-  &:hover {
-    background: #2C2F36;
-    border: 1px solid #2172E5;
-    cursor: pointer;
-  }
+  ${({error}) => error ? `
+    border: 1px solid red;
+    color: red;
+    &:hover {
+      cursor: pointer;
+      border: 1px solid red;
+    }
+  ` : `
+    border: 1px solid #2C2F36;
+    color: inherit;
+    &:hover {
+      cursor: pointer;
+      border: 1px solid #2172E5;
+    }
+  `}
 `
 
 const ConnectorNameWrapper = styled.div`
@@ -96,6 +104,13 @@ const ErrorBox = styled.div`
   color: #FFFFFF;
   border: 1px solid #2C2F36;
   border-radius: 5px;
+  cursor: default;
+
+  &:hover {
+    background: #2C2F36;
+    border: 1px solid red;
+    cursor: pointer;
+  }
 `
 
 export const WalletModal = () => {
