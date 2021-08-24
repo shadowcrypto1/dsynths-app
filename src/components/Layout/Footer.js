@@ -59,7 +59,7 @@ export const Footer = () => {
   return (
     <Wrapper>
       <div/>
-      <div style={{textAlign: 'center'}}>This project is currently in beta, please use at your own risk.</div>
+      <div style={{textAlign: 'center'}}>This project is currently in beta, use at your own risk.</div>
       {!isMobile ? (
         <Icons>
           <StyledLink href={'https://twitter.com/dsynths'} target={'blank'} rel="noreferrer">
