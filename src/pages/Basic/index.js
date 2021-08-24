@@ -17,13 +17,11 @@ import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: block;
   width: clamp(250px, 90%, 512px);
+  height: auto;
   margin: 0 auto;
   align-items: center;
-  justify-content: center;
-  margin-top: 35px;
 
   &::-webkit-scrollbar {
     display: none;

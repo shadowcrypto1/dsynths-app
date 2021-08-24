@@ -13,6 +13,8 @@ import TransactionUpdater from './state/transactions/updater'
 import GoogleAnalyticsReporter from './components/Analytics/GoogleAnalyticsReporter'
 import { Layout } from './components/Layout'
 import Home from './pages/Home'
+import Terms from './pages/Terms'
+import Privacy from './pages/Privacy'
 import Basic from './pages/Basic'
 
 function Updaters() {
@@ -42,6 +44,12 @@ export default function Router() {
           </Route>
           <Route path='/exchange'>
             <Basic/>
+          </Route>
+          <Route path='/terms'>
+            <Terms/>
+          </Route>
+          <Route path='/privacy'>
+            <Privacy/>
           </Route>
           <Redirect to='/'/>
         </Switch>
