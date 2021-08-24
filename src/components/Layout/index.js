@@ -93,9 +93,9 @@ export const Layout = ({ children }) => {
             onAccept={() => setShowFooter(true)}
           >
             This website
-            <Anchor to={'/terms'} target={'blank'} rel="noreferrer">&nbsp;uses cookies to improve your experience&nbsp;</Anchor>
+            <Anchor to={'/terms'} >&nbsp;uses cookies to improve your experience&nbsp;</Anchor>
             and has an
-            <Anchor to={'/privacy'} target={'blank'} rel="noreferrer">&nbsp;updated Privacy Policy.&nbsp;</Anchor>
+            <Anchor to={'/privacy'} >&nbsp;updated Privacy Policy.&nbsp;</Anchor>
           </CookieConsent>
         </Main >
         <Sidebar toggled={toggled} handleToggled={handleToggled}/>
