@@ -79,7 +79,7 @@ export const Layout = ({ children }) => {
       <Wrapper>
         {size.width > 600 && <DesktopNavbar handleToggled={handleToggled}/>}
         {size.width <= 600 && <MobileNavbar handleToggled={handleToggled}/>}
-        <Main isDesktop={size > 600}>
+        <Main isDesktop={size.width > 600}>
           {children}
           {showFooter && <Footer />}
           <CookieConsent
