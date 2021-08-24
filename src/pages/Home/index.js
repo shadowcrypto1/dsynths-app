@@ -7,17 +7,19 @@ import { useWindowSize } from '../../hooks/useWindowSize'
 
 const Wrapper = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-flow: column nowrap;
   justify-content: flex-start;
-  height: auto;
-  max-width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `
 
 const DesktopLandingContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 40px;
-  margin: 130px 15% 200px 15%;
+  padding: 130px 15% 200px 15%;
   max-height: 450px;
 `
 

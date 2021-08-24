@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 
@@ -15,6 +15,14 @@ import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
+
+const Container = styled.div`
+  display: block;
+  position: relative;
+  width: 100%:
+  height: auto;
+  padding: 25px 0px 10px 0px;
+`
 
 const Wrapper = styled.div`
   display: block;
@@ -55,6 +63,7 @@ const HeroTitle = styled.div`
   color: #FFFFFF;
   text-shadow: 0px 0px 5px rgba(146, 119, 224, 0.7), 0px 0px 5px rgba(146, 119, 224, 0.9);
 `
+
 const HeroSubTitle = styled.div`
   display: block;
   text-align: center;
@@ -128,42 +137,43 @@ export default function Basic () {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [base.status])
 
+  const isDesktop = useMemo(() => {
+    return width >= 985
+  }, [width])
+
   if (status === 'LOADING') {
     return (
-      <React.Fragment>
-        <LoaderWrapper>
-          <LoaderIcon size={'90px'}/>
-        </LoaderWrapper>
-      </React.Fragment>
+      <LoaderWrapper>
+        <LoaderIcon size={'90px'}/>
+      </LoaderWrapper>
     )
   }
 
   if (status === 'NOT_FOUND') {
     return (
-      <React.Fragment>
+      <Container>
         <Wrapper>
           <HeroContainer>
             <HeroTitle>Stock not found</HeroTitle>
             <HeroSubTitle>Try a different stock or switch networks!</HeroSubTitle>
             <SearchContainerMobile size={width}>
               <SearchBar focus={true}/>
-              <NetworkBar/>
+              <NetworkBar style={{marginTop: '8px'}}/>
             </SearchContainerMobile>
           </HeroContainer>
         </Wrapper>
-      </React.Fragment>
+      </Container>
     )
   }
 
   if (status === 'OK') {
     return (
-      <React.Fragment>
-        {/*<Disclaimer>This project is still in development, please proceed with caution and preferably use a wallet with little to no balance.</Disclaimer>*/}
-        {width >= 985 ? (
-          <React.Fragment>
+      <Container>
+        {isDesktop ? (
+          <>
             <SearchContainerDesktop size={width}>
               <NetworkBar style={{marginBottom: '8px'}}/>
-              <SearchBar focus={width >= 985}/>
+              <SearchBar focus={isDesktop}/>
             </SearchContainerDesktop>
             <Wrapper>
               <HeroContainer>
@@ -177,14 +187,14 @@ export default function Basic () {
                 <Trade type={type} />
               </TradeContainer>
             </Wrapper>
-          </React.Fragment>
+          </>
         ) : (
           <Wrapper>
             <HeroContainer>
               <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={false}/>
             </HeroContainer>
             <SearchContainerMobile size={width}>
-              <SearchBar isDesktop={width >= 985}/>
+              <SearchBar isDesktop={isDesktop}/>
             </SearchContainerMobile>
             <TradeContainer>
               <TypeWrapper>
@@ -196,12 +206,12 @@ export default function Basic () {
             <NetworkBar style={{marginTop: '8px'}}/>
           </Wrapper>
         )}
-      </React.Fragment>
+      </Container>
     )
   }
 
   return (
-    <React.Fragment>
+    <Container>
       <Wrapper>
         <HeroContainer>
           <HeroTitle>Oh oh...</HeroTitle>
@@ -211,6 +221,6 @@ export default function Basic () {
           </SearchContainerMobile>
         </HeroContainer>
       </Wrapper>
-    </React.Fragment>
+    </Container>
   )
 }

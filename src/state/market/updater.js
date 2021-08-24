@@ -72,5 +72,5 @@ function parseNetworkName(urlParam, fallbackChainId) {
   }
   // console.log(urlParam, fallbackChainId, _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId))
   // return _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId) ??
-  return 'MAINNET'
+  return 'XDAI'
 }
