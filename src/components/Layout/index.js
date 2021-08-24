@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CookieConsent from "react-cookie-consent";
+import CookieConsent from "react-cookie-consent"
 
 import { DesktopNavbar } from './Navigation/Desktop'
 import { MobileNavbar } from './Navigation/Mobile'
 import { Sidebar } from './Navigation/Sidebar'
+import { Footer } from './Footer'
 
 import { useWindowSize } from '../../hooks/useWindowSize'
 
@@ -15,14 +16,7 @@ const Wrapper = styled.div`
 
 const Main = styled.div`
   display: block;
-  height: calc(100vh - 70px - 40px);
-`
-
-const Footer = styled.div`
-  display: block;
-  width: 100%;
-  height: 40px;
-  background: transparent;
+  height: calc(100vh - 70px - 90px);
 `
 
 export const Layout = ({ children }) => {
