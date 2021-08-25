@@ -7,8 +7,8 @@ const Wrapper = styled.div`
   flex-flow: column nowrap;
   justify-content: flex-start;
   height: auto;
-  margin: ${({isMobile}) => isMobile ? '40px auto' : '40px auto'};
-  width: ${({isMobile}) => isMobile ? '100%' : '50%'};
+  margin: ${({isMobile}) => isMobile ? '10px auto' : '40px auto'};
+  width: ${({isMobile}) => isMobile ? '90%' : '50%'};
   border-radius: 10px;
   overflow: hidden;
 `
@@ -27,6 +27,7 @@ const Body = styled.div`
   padding: 20px;
   color: black;
   background: #DEDFEC;
+  text-align: center;
 `
 
 export default function Privacy () {
@@ -36,10 +37,10 @@ export default function Privacy () {
         Privacy Policy
       </Header>
       <Body>
-        PLEASE READ THESE TERMS OF SERVICE CAREFULLY.
-        <br/><br/>
-        dsynths.com (referred to as the “Company”, dSynths, “we”, “our” or “us”) is committed to the protection of your Personal Data and takes the matter of protecting your privacy as high priority.
-        <br/><br/><br/>
+        <span style={{fontWeight: 'bold'}}>PRIVACY STATEMENT IS UNDER CONSTRUCTION</span>
+        <br/>
+        In the meantime, any cookie-based tracking activity is disabled or disfunctional.
+        <br/>
       </Body>
     </Wrapper>
   )
