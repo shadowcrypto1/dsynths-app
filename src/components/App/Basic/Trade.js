@@ -194,7 +194,14 @@ export const Trade = ({ type }) => {
           Price {priceFormatted()}
         </div>
       </NoteWrapper>
-      {(!active || !account) ? (
+      {isClosed ? (
+        <TradeButton
+          disabled={true}
+          size={(width < 500) ? '20px' : '24px'}
+        >
+          MARKET IS CLOSED
+        </TradeButton>
+      ) : (!active || !account) ? (
         <TradeButton
           onClick={() => dispatch(setOpenModal(true))}
           size={(width < 500) ? '20px' : '24px'}
@@ -207,13 +214,6 @@ export const Trade = ({ type }) => {
           size={(width < 500) ? '16px' : '24px'}
         >
           {window.ethereum ? 'CLICK TO CHANGE NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
-        </TradeButton>
-      ) : isClosed ? (
-        <TradeButton
-          disabled={true}
-          size={(width < 500) ? '20px' : '24px'}
-        >
-          MARKET IS CLOSED
         </TradeButton>
       ) : approvalState === ApprovalState.NOT_APPROVED ? (
         <TradeButton
