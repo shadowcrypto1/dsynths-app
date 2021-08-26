@@ -47,16 +47,13 @@ const OptionsContainer = styled.div`
   background-color: #292A50;
 `
 
-const OptionsWrapper = styled.div`
+const OptionsWrapper = styled.ul`
   overflow: auto;
-  max-height: ${({amount}) => `calc(510px / ${amount})`};
+  max-height: ${({amount}) => `calc(450px / ${amount})`};
   list-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `
 
-const GroupRow = styled.div`
+const GroupRow = styled.li`
   display: block;
   position: sticky;
   top: 0;
@@ -145,8 +142,8 @@ export const SearchBar = ({ focus }) => {
         <>
           {snapshot.options.map(group => (
             <OptionsContainer key={group.groupId}>
+              <GroupRow>{group.name}</GroupRow>
               <OptionsWrapper amount={snapshot.options.length}>
-                <GroupRow>{group.name}</GroupRow>
                 {group.items.map((option, i) => {
                   const { value, name, favorite } = option
                   return (
