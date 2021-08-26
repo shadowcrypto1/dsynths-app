@@ -1,12 +1,11 @@
-import { useEffect, useState, useCallback } from 'react'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
+import { useEffect, useState, useCallback } from "react";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
-import { getStockCandles } from '../utils/stocks'
-dayjs.extend(utc)
+dayjs.extend(utc);
 
 const getParams = (timeframe) => {
-  let result = {}
+  let result = {};
 
   switch (timeframe) {
     case 'd':
@@ -39,14 +38,34 @@ const getParams = (timeframe) => {
         from: dayjs().utc().subtract(1, 'day').unix()
       }
   }
-  result['to'] = dayjs().utc().endOf('day').unix() - 1
-  return result
-}
+  result["to"] = dayjs().utc().endOf("day").unix() - 1;
+  return result;
+};
+
+const getStockCandles = async (symbol, resolution, from, to) => {
+  const response = await fetch(
+    `http://localhost:5000/prices?${new URLSearchParams({
+      symbol,
+      resolution,
+      from,
+      to,
+    }).toString()}`,
+    {
+      mode: "cors",
+      headers: {
+        Origin: "http://localhost:3000",
+      },
+    }
+  );
+  debugger;
+  const stockCandles = await response.json();
+  return stockCandles;
+};
 
 export const useLineChart = (baseSymbol, timeframe) => {
-  const [ hasNoData, setHasNoData ] = useState(true)
-  const [ data, setData ] = useState([])
-  const [ loading, setLoading ] = useState(true)
+  const [hasNoData, setHasNoData] = useState(true);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchPrices = useCallback(async () => {
     let mounted = true
@@ -69,6 +88,6 @@ export const useLineChart = (baseSymbol, timeframe) => {
   return {
     data,
     loading,
-    hasNoData
-  }
-}
+    hasNoData,
+  };
+};
