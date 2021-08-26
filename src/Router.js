@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { BrowserRouter, Switch, Route, Redirect, useLocation } from 'react-router-dom'
 
 import ApplicationUpdater from './state/application/updater'
 import BaseUpdater from './state/base/updater'
@@ -10,12 +10,13 @@ import PairUpdater from './state/pair/updater'
 import QuotesUpdater from './state/quotes/updater'
 import TransactionUpdater from './state/transactions/updater'
 
-import GoogleAnalyticsReporter from './components/Analytics/GoogleAnalyticsReporter'
 import { Layout } from './components/Layout'
 import Home from './pages/Home'
 import Terms from './pages/Terms'
 import Privacy from './pages/Privacy'
 import Basic from './pages/Basic'
+
+import useGoogleAnalytics from './hooks/useGoogleAnalytics'
 
 function Updaters() {
   return (
@@ -32,28 +33,34 @@ function Updaters() {
   )
 }
 
+function Routes () {
+  useGoogleAnalytics()
+  return (
+    <Layout>
+      <Switch>
+        <Route path={['/', '/home']} exact>
+          <Home/>
+        </Route>
+        <Route path='/exchange'>
+          <Basic/>
+        </Route>
+        <Route path='/terms'>
+          <Terms/>
+        </Route>
+        <Route path='/privacy'>
+          <Privacy/>
+        </Route>
+        <Redirect to='/'/>
+      </Switch>
+    </Layout>
+  )
+}
+
 export default function Router() {
   return (
     <BrowserRouter>
-      <Route component={GoogleAnalyticsReporter} />
       <Updaters/>
-      <Layout>
-        <Switch>
-          <Route path={['/', '/home']} exact>
-            <Home/>
-          </Route>
-          <Route path='/exchange'>
-            <Basic/>
-          </Route>
-          <Route path='/terms'>
-            <Terms/>
-          </Route>
-          <Route path='/privacy'>
-            <Privacy/>
-          </Route>
-          <Redirect to='/'/>
-        </Switch>
-      </Layout>
+      <Routes/>
     </BrowserRouter>
   )
 }
