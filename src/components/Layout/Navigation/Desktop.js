@@ -21,6 +21,7 @@ const Wrapper = styled.nav`
   background: transparent;
   align-items: center;
   padding: 0px 30px;
+  overflow: hidden;
 `
 
 const LogoWrapper = styled.div`
@@ -36,23 +37,9 @@ const NavWrapper = styled.div`
   display: flex;
   justify-content: center;
 
-  /* remove Home */
-  @media only screen and (max-width: 790px) {
-    & > *:nth-child(1) {
-      display: none;
-    }
-  }
-
-  /* remove Home + FAQ */
-  @media only screen and (max-width: 735px) {
-    & > *:nth-child(5) {
-      display: none;
-    }
-  }
-
-  /* remove Home + FAQ + Stats */
-  @media only screen and (max-width: 670px) {
-    & > *:nth-child(4) {
+  /* remove FAQ + Markets + Stats */
+  @media only screen and (max-width: 1000px) {
+    & > *:nth-child(n+3):nth-child(-n+5) {
       display: none;
     }
   }
