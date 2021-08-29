@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
-  height: auto;
   padding: 18px 9px;
   background-color: #30315D;
   border-radius: 6px;
@@ -74,12 +73,12 @@ const GreenCircle = styled.div`
   }
 `
 
-export const NetworkBar = (props) => {
+export const NetworkBar = () => {
   const { location } = useHistory()
   const { networkName } = useMarketState()
 
   return (
-    <Wrapper {...props}>
+    <Wrapper>
       <Title>CHOOSE CHAIN TO TRADE ON:</Title>
       <OptionsWrapper>
         {Object.keys(SUPPORTED_CHAINS_BY_NAME).map(name => {

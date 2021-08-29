@@ -1,5 +1,5 @@
 export { LongTab, ShortTab } from './Button'
-export { SearchBar } from './SearchBar'
+export { SearchList } from './SearchList'
 export { Trade } from './Trade'
 export { Hero } from './Hero'
 export { NetworkBar } from './NetworkBar'

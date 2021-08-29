@@ -4,7 +4,7 @@ import { debounce } from 'lodash'
 
 import {
   Hero,
-  SearchBar,
+  SearchList,
   LongTab,
   ShortTab,
   Trade,
@@ -21,7 +21,11 @@ const Container = styled.div`
   display: block;
   position: relative;
   height: auto;
-  padding: 50px 30px 20px 30px;
+
+  padding: ${({isDesktop}) => isDesktop
+    ? '50px 30px 20px 30px'
+    : '20px 30px 20px 30px'
+  };
 `
 
 const CenterWrapper = styled.div`
@@ -57,18 +61,61 @@ const RightContainer = styled.div`
   display: flex;
   position: relative;
   justify-content: flex-end;
+  padding-left: 8px;
+  height: 100%;
 `
 
+// special wrapper for responsiveness (instead of using the RightContainer)
 const RightWrapper = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  position: relative;
   width: 340px;
-  margin-left: 8px;
+  height: 100%;
+
+  & > * {
+    &:not(:first-child) {
+      margin-top: 8px;
+      height: 100%;
+    }
+  }
+`
+
+const LoaderWrapper = styled.div`
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
+
+const HeroTitle = styled.div`
+  display: block;
+  text-align: center;
+  height: 38px;
+  font-size: 30px;
+  line-height: 38px;
+  text-transform: uppercase;
+  align-items: center;
+  color: #FFFFFF;
+  text-shadow: 0px 0px 5px rgba(146, 119, 224, 0.7), 0px 0px 5px rgba(146, 119, 224, 0.9);
+`
+
+const HeroSubTitle = styled.div`
+  display: block;
+  text-align: center;
+  height: auto;
+  font-size: 15px;
+  line-height: 19px;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.75);
 `
 
 const CenterContent = ({isDesktop, base, type, setType}) => {
   return (
     <CenterWrapper>
       <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={isDesktop}/>
-      {!isDesktop && <SearchBar focus={false}/>}
+      {!isDesktop && <SearchList focus={false}/>}
       <TradeContainer>
         <TypeWrapper>
           <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
@@ -84,20 +131,23 @@ const RightContent = () => {
   return (
     <RightContainer>
       <RightWrapper>
-        <NetworkBar style={{marginBottom: '8px'}}/>
-        <SearchBar focus={true}/>
+        <NetworkBar/>
+        <SearchList focus={true}/>
       </RightWrapper>
     </RightContainer>
   )
 }
 
-const LoaderWrapper = styled.div`
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`
+const NotFound = () => {
+  return (
+    <CenterWrapper>
+      <HeroTitle>Stock not found</HeroTitle>
+      <HeroSubTitle>Try a different symbol or switch to another chain for more options!</HeroSubTitle>
+      <SearchList focus={true}/>
+      <NetworkBar/>
+    </CenterWrapper>
+  )
+}
 
 export default function Basic () {
   const { width } = useWindowSize()
@@ -138,7 +188,7 @@ export default function Basic () {
 
   if (status === 'OK') {
     return (
-      <Container>
+      <Container isDesktop={isDesktop}>
         <FluidGrid
           leftChild={<div/>}
           centerChild={<CenterContent
@@ -154,60 +204,14 @@ export default function Basic () {
     )
   }
 
-  // if (status === 'NOT_FOUND') {
-  //   return (
-  //     <Container>
-  //       <Wrapper>
-  //         <HeroContainer>
-  //           <HeroTitle>Stock not found</HeroTitle>
-  //           <HeroSubTitle>Try a different stock or switch networks!</HeroSubTitle>
-  //           <SearchContainerMobile size={width}>
-  //             <SearchBar focus={true}/>
-  //             <NetworkBar style={{marginTop: '8px'}}/>
-  //           </SearchContainerMobile>
-  //         </HeroContainer>
-  //       </Wrapper>
-  //     </Container>
-  //   )
-  // }
-
-  //     <Container>
-  //       {isDesktop ? (
-  //       ) : (
-  //         <Wrapper>
-  //           <HeroContainer>
-  //             <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={false}/>
-  //           </HeroContainer>
-  //           <SearchContainerMobile size={width}>
-  //             <SearchBar isDesktop={isDesktop}/>
-  //           </SearchContainerMobile>
-  //           <TradeContainer>
-  //             <TypeWrapper>
-  //               <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-  //               <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-  //             </TypeWrapper>
-  //             <Trade type={type} />
-  //           </TradeContainer>
-  //           <NetworkBar style={{marginTop: '8px'}}/>
-  //         </Wrapper>
-  //       )}
-  //     </Container>
-  //   )
-  // }
-
-  return null
-
-  // return (
-  //   <Container>
-  //     <Wrapper>
-  //       <HeroContainer>
-  //         <HeroTitle>Oh oh...</HeroTitle>
-  //         <HeroSubTitle>Something went wrong, please try again later!</HeroSubTitle>
-  //         <SearchContainerMobile size={width}>
-  //           <SearchBar focus={true}/>
-  //         </SearchContainerMobile>
-  //       </HeroContainer>
-  //     </Wrapper>
-  //   </Container>
-  // )
+  return (
+    <Container isDesktop={isDesktop}>
+      <FluidGrid
+        leftChild={<div/>}
+        centerChild={<NotFound/>}
+        rightChild={<div/>}
+        centerWidth={'512px'}
+      />
+    </Container>
+  )
 }
