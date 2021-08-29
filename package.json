@@ -48,6 +48,7 @@
     "react-spring": "^9.2.4",
     "react-switch": "^5.0.1",
     "react-toastify": "^7.0.4",
+    "react-window": "^1.8.6",
     "recharts": "^2.0.10",
     "redux": "^4.1.1",
     "state": "^0.2.0",

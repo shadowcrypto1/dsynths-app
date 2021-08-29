@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Star} from 'react-feather'
+import { FixedSizeList as List } from 'react-window'
 
 import { useSearchList } from '../../../hooks/useSearchList'
 import { useToggleFavorite } from '../../../state/favorites/hooks'
@@ -48,7 +49,7 @@ const OptionsContainer = styled.div`
 `
 
 const OptionsWrapper = styled.ul`
-  overflow: auto;
+  overflow: hidden;
   max-height: ${({amount}) => `calc(450px / ${amount})`};
   list-style: none;
 `
@@ -144,31 +145,40 @@ export const SearchBar = ({ focus }) => {
             <OptionsContainer key={group.groupId}>
               <GroupRow>{group.name}</GroupRow>
               <OptionsWrapper amount={snapshot.options.length}>
-                {group.items.map((option, i) => {
-                  const { value, name, favorite } = option
-                  return (
-                    <OptionRow
-                      key={value}
-                      value={value}
-                      selected={value.toUpperCase() === base?.symbol.toUpperCase()}
-                      showFavorite={focus}
-                      {...optionProps}
-                    >
-                      {focus && (
-                        <OptionItem onClick={() => toggleFavorite(name)}>
-                          <Star
-                            style={{background: 'transparent'}}
-                            size={'14'}
-                            stroke={'1px'}
-                            fill={favorite ? 'gold' : ''}
-                          />
-                        </OptionItem>
-                      )}
-                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{value}</OptionItem>
-                      <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{name}</OptionItem>
-                    </OptionRow>
-                  )
-                })}
+                <List
+                  height={225}
+                  itemCount={group.items.length}
+                  itemSize={30}
+                  initialScrollOffset={0}
+                  itemData={group.items}
+                >
+                  {({ data, index, style }) => {
+                    const { value, name, favorite } = data[index]
+                    return (
+                      <OptionRow
+                        key={value}
+                        value={value}
+                        selected={value.toUpperCase() === base?.symbol.toUpperCase()}
+                        showFavorite={focus}
+                        style={style}
+                        {...optionProps}
+                      >
+                        {focus && (
+                          <OptionItem onClick={() => toggleFavorite(name)}>
+                            <Star
+                              style={{background: 'transparent'}}
+                              size={'14'}
+                              stroke={'1px'}
+                              fill={favorite ? 'gold' : ''}
+                            />
+                          </OptionItem>
+                        )}
+                        <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{value}</OptionItem>
+                        <OptionItem value={value} onClick={(evt) => optionProps.onMouseDown(evt)}>{name}</OptionItem>
+                      </OptionRow>
+                    )
+                  }}
+                </List>
               </OptionsWrapper>
             </OptionsContainer>
           ))}
