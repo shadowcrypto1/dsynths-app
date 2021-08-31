@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from 'react'
 
 const getStockCandles = async (symbol, timeframe) => {
   const response = await fetch(
@@ -7,18 +7,18 @@ const getStockCandles = async (symbol, timeframe) => {
       timeframe,
     }).toString()}`,
     {
-      mode: "cors",
-    }
-  );
-  if (!response.ok) return [];
-  const stockCandles = await response.json();
-  return stockCandles;
-};
+      mode: 'cors',
+    },
+  )
+  if (!response.ok) return []
+  const stockCandles = await response.json()
+  return stockCandles
+}
 
 export const useLineChart = (baseSymbol, timeframe) => {
-  const [hasNoData, setHasNoData] = useState(true);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [hasNoData, setHasNoData] = useState(true)
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const fetchPrices = useCallback(async () => {
     let mounted = true;
@@ -42,5 +42,5 @@ export const useLineChart = (baseSymbol, timeframe) => {
     data,
     loading,
     hasNoData,
-  };
-};
+  }
+}
