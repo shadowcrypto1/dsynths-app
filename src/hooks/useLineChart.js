@@ -50,27 +50,16 @@ export const useLineChart = (baseSymbol, timeframe) => {
 
   const fetchPrices = useCallback(async () => {
     let mounted = true
-
     const { resolution, from, to} = getParams(timeframe)
     const result = await getStockCandles(baseSymbol, resolution, from, to)
-    mounted && setData(result)
-    mounted && setHasNoData(!result.length || result.length < 2) // filter single plots
-    mounted && setLoading(false)
+
+    if (!mounted) return
+    setData(result)
+    setHasNoData(!result.length || result.length < 2) // filter single plots
+    setLoading(false)
 
     return () => mounted = false
-  })
-
-  // const fetchPrices = useCallback(async () => {
-  //   let mounted = true
-  //
-  //   // const { resolution, from, to} = getParams(timeframe)
-  //   // const result = await getStockCandles(baseSymbol, resolution, from, to)
-  //   mounted && setData([])
-  //   mounted && setHasNoData(![].length)
-  //   mounted && setLoading(false)
-  //
-  //   return () => mounted = false
-  // }, [baseSymbol, timeframe])
+  }, [baseSymbol, timeframe])
 
   useEffect(() => {
     setLoading(true)
