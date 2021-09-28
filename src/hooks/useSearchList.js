@@ -3,11 +3,18 @@ import { useHistory } from 'react-router-dom'
 import { useSelect } from 'react-select-search'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
+import _ from 'lodash'
 
 import { useFavorites } from '../state/favorites/hooks'
 import { useBaseState } from '../state/base/hooks'
 import { useConductedState } from '../state/conducted/hooks'
 import { useDetailsState } from '../state/details/hooks'
+
+// This order makes sure that stocks/commodities will ALWAYS be above crypto
+const groupsOrder = [
+  'STOCKS / COMMODITIES',
+  'CRYPTO',
+]
 
 export const useSearchList = () => {
   const { location, push } = useHistory()
@@ -35,7 +42,8 @@ export const useSearchList = () => {
       })
       return acc
     }, {})
-    return Object.values(groups).map(group => {
+
+    let result = Object.values(groups).map(group => {
       return {
         ...group,
         items: group.items
@@ -43,6 +51,11 @@ export const useSearchList = () => {
           .sort((a, b) => (a.favorite === b.favorite)? 0 : a.favorite? -1 : 1)
       }
     })
+
+    // Order display groups
+    return _.sortBy(result, (obj) => {
+      return _.indexOf(groupsOrder, obj.name);
+    });
   }, [conducted, details, favorites])
 
   const [snapshot, searchProps, optionProps] = useSelect({
