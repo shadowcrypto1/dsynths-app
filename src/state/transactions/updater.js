@@ -28,7 +28,7 @@ export function shouldCheck(lastBlockNumber, tx) {
 }
 
 const RETRY_OPTIONS_BY_CHAIN_ID = {
-  [SUPPORTED_CHAINS_BY_NAME.XDAI]: { n: 10, minWait: 250, maxWait: 1000 },
+  // [SUPPORTED_CHAINS_BY_NAME.XDAI]: { n: 10, minWait: 250, maxWait: 1000 },
 }
 const DEFAULT_RETRY_OPTIONS = { n: 1, minWait: 0, maxWait: 0 }
 
@@ -96,7 +96,7 @@ export default function Updater() {
                   summary: transactions[hash]?.summary,
                 },
                 key: hash,
-                removeAfterMs: 5000,
+                removeAfterMs: 10000,
               })
 
               // The receipt was fetched before the block, fast forward to that block to trigger balance updates
@@ -110,6 +110,8 @@ export default function Updater() {
           .catch((error) => {
             if (!error.isCancelledError) {
               console.error(`Failed to check transaction hash: ${hash}`, error)
+            } else {
+              console.error('Unknown error', error)
             }
           })
         return cancel
