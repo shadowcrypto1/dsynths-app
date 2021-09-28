@@ -9,7 +9,7 @@ import { useAddPopup } from '../state/application/hooks'
 import { useActionState } from '../state/action/hooks'
 import { useSignatureUrls } from './useSignatureUrls'
 import { makeHttpRequest } from  '../utils/http'
-import { syncMainnet, syncXDAI } from '../synchronizer'
+import { syncMainnet, syncBSC, syncXDAI, syncHECO, syncPolygon } from '../synchronizer'
 
 export const MIN_SIGNATURES = 2
 export const EXPECTED_SIGNATURES = 2 // // TODO: hook this with './useSignatureUrls'
@@ -212,8 +212,14 @@ export function useSyncCallback({
       switch (chainId) {
         case 1:
           return syncMainnet({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
+        case 56:
+          return syncBSC    ({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
+        case 128:
+          return syncHECO   ({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
+        case 137:
+          return syncPolygon({SynchronizerContract, action, payload, account, submitCallback, errorCallback})
         case 100:
-          return syncXDAI({SynchronizerContract, balance, price, action, payload, account, submitCallback, errorCallback})
+          return syncXDAI   ({SynchronizerContract, balance, price, action, payload, account, submitCallback, errorCallback})
         default:
           return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
         }

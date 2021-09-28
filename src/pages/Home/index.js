@@ -151,6 +151,18 @@ export default function Home() {
                 <span>Trade on xDai</span>
                 <ArrowUpRight size={'20px'}/>
               </TradeButton>
+              <TradeButton to={'/exchange?network=bsc'}>
+                <span>Trade on BSC</span>
+                <ArrowUpRight size={'20px'}/>
+              </TradeButton>
+              <TradeButton to={'/exchange?network=heco'}>
+                <span>Trade on HECO</span>
+                <ArrowUpRight size={'20px'}/>
+              </TradeButton>
+              <TradeButton to={'/exchange?network=polygon'}>
+                <span>Trade on Polygon</span>
+                <ArrowUpRight size={'20px'}/>
+              </TradeButton>
             </TradeButtonsWrapper>
           </DesktopLandingText>
           <HeroImageContainer>
