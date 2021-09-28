@@ -71,7 +71,5 @@ function parseNetworkName(urlParam, fallbackChainId) {
       return name
     }
   }
-  // console.log(urlParam, fallbackChainId, _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId))
-  // return _.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === fallbackChainId) ??
   return 'XDAI'
 }
