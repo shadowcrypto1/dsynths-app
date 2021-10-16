@@ -1,4 +1,5 @@
 export { default as Close } from './Close'
+export { default as ChevronDown } from './ChevronDown'
 export { default as DownArrow } from './DownArrow'
 export { default as DSynthsLogo } from './DSynthsLogo'
 export { default as DSynthsText } from './DSynthsText'

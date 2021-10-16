@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
@@ -6,7 +6,9 @@ import _ from 'lodash'
 
 import { DSynthsLogo, DSynthsText, NavToggle } from '../../Icons'
 import { Web3Status } from '../../Web3Status'
+import { NetworkBox } from '../../Box'
 import { Notify } from '../../Notify'
+import { ChevronDown } from '../../Icons'
 
 import { useWindowSize } from '../../../hooks/useWindowSize'
 import { useMarketState } from '../../../state/market/hooks'
@@ -21,7 +23,7 @@ const Wrapper = styled.nav`
   background: transparent;
   align-items: center;
   padding: 0px 30px;
-  overflow: hidden;
+  z-index: 1;
 `
 
 const LogoWrapper = styled.div`
@@ -65,21 +67,61 @@ const NavItem = styled(Link)`
   `}
 `
 
-const NavItemFake = styled.div`
+const DropdownContainer = styled.div`
+  float: left;
+  overflow: hidden;
+
+  &:hover {
+    display: block;
+  }
+`
+
+const DropdownButton = styled.button`
   display: flex;
+  justify-content: space-between;
   font-size: 14px;
   line-height: 18px;
   padding: 4px 17px;
   align-items: center;
   text-align: center;
-  justify-content: center;
   color: rgba(255, 255, 255, 0.75);
-  pointer-events: none;
+  text-decoration: none;
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+
+  &:focus {
+    outline: none;
+  }
 `
 
-const NavItemWithNotify = styled.div`
-  display: flex;
-  flex-direction: row;
+const DropdownContent = styled.div`
+  display: ${props => props.show ? 'block' : 'none'};
+  position: absolute;
+  width: 150px;
+  z-index: 1;
+
+  background: #28116A;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+
+  & > a {
+    float: none;
+    color: white;
+    padding: 15px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+
+    &:hover {
+      color: #F6CC2E;
+      background: #351690;
+    }
+  }
 `
 
 const ButtonsWrapper = styled.div`
@@ -87,33 +129,24 @@ const ButtonsWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const NetworkBox = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  max-width: 180px;
-  height: 30px;
-  background: rgba(91, 96, 204, 0.15);
-  border: 1px solid rgba(146, 119, 224, 0.5);
-  border-radius: 6px;
-  font-size: 10px;
-  line-height: 10px;
-  align-items: center;
-  text-align: left;
-  color: #FFFFFF;
-  pointer-events: none;
-  padding: 0 10px;
-
-  & > * {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  @media only screen and (max-width: 920px) {
-    display: none;
-  }
-`
+const Dropdown = () => {
+  const [ show, setShow ] = useState(false)
+  return (
+    <DropdownContainer
+      onMouseOver={() => setShow(true)}
+      onMouseOut={() => setShow(false)}
+    >
+      <DropdownButton>
+        <span>Exchange</span>
+        <ChevronDown width='15' style={{marginLeft: '5px'}}/>
+      </DropdownButton>
+      <DropdownContent show={show}>
+        <Link to="/exchange/simple">Simple</Link>
+        <Link to="/exchange/basic">Basic</Link>
+      </DropdownContent>
+    </DropdownContainer>
+  )
+}
 
 export const DesktopNavbar = ({ handleToggled }) => {
   const { pathname } = useLocation()
@@ -123,27 +156,18 @@ export const DesktopNavbar = ({ handleToggled }) => {
 
   return (
     <Wrapper>
-      <LogoWrapper>
-        <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>
+      <Link to='/exchange/basic'>
+        <LogoWrapper>
           <DSynthsLogo style={{marginRight: '6px'}}/>
           <DSynthsText/>
-        </NavItem>
-      </LogoWrapper>
+        </LogoWrapper>
+      </Link>
       <NavWrapper>
-        <NavItem to='/' selected={pathname === '/' || pathname === '/home'}>Home</NavItem>
-        <NavItem to='/exchange?network=xdai' selected={pathname === '/exchange'}>Exchange</NavItem>
-        <NavItemWithNotify>
-          <NavItemFake selected={pathname === '/faq'}>FAQ</NavItemFake>
-          <Notify type={'info'}>SOON</Notify>
-        </NavItemWithNotify>
-        <NavItemWithNotify>
-          <NavItemFake selected={pathname === '/markets'}>Markets</NavItemFake>
-          <Notify type={'info'}>SOON</Notify>
-        </NavItemWithNotify>
-        <NavItemWithNotify>
-          <NavItemFake selected={pathname === '/stats'}>Stats</NavItemFake>
-          <Notify type={'info'}>SOON</Notify>
-        </NavItemWithNotify>
+        <NavItem to='/' selected={pathname === '/dashboard'}>Dashboard</NavItem>
+        <Dropdown/>
+        <NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
+        <NavItem to='/portfolio' selected={pathname === '/portfolio'}>Portfolio</NavItem>
+        <NavItem to='/fiat' selected={pathname === '/fiat'}>Fiat</NavItem>
       </NavWrapper>
       <ButtonsWrapper>
         <Web3Status/>

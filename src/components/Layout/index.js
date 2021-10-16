@@ -20,6 +20,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
   flex: 1;
   overflow: auto;
+  z-index: 0;
 `
 
 export const Layout = ({ children }) => {

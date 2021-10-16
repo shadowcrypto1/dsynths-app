@@ -11,10 +11,12 @@ import QuotesUpdater from './state/quotes/updater'
 import TransactionUpdater from './state/transactions/updater'
 
 import { Layout } from './components/Layout'
-import Home from './pages/Home'
-import Terms from './pages/Terms'
-import Privacy from './pages/Privacy'
+import Dashboard from './pages/Dashboard'
+import Simple from './pages/Simple'
 import Basic from './pages/Basic'
+import Markets from './pages/Markets'
+import Fiat from './pages/Fiat'
+import Portfolio from './pages/Portfolio'
 
 import useGoogleAnalytics from './hooks/useGoogleAnalytics'
 
@@ -38,19 +40,22 @@ function Routes () {
   return (
     <Layout>
       <Switch>
-        <Route path={['/', '/home']} exact>
-          <Home/>
-        </Route>
-        <Route path='/exchange'>
+        <Route path={['/', '/exchange', '/exchange/basic']} exact>
           <Basic/>
         </Route>
-        <Route path='/terms'>
-          <Terms/>
+        <Route path='/exchange/simple'>
+          <Simple/>
         </Route>
-        <Route path='/privacy'>
-          <Privacy/>
+        <Route path='/markets'>
+          <Markets/>
         </Route>
-        <Redirect to='/'/>
+        <Route path='/portfolio'>
+          <Portfolio/>
+        </Route>
+        <Route path='/fiat'>
+          <Fiat/>
+        </Route>
+        <Redirect to='/exchange/basic'/>
       </Switch>
     </Layout>
   )
