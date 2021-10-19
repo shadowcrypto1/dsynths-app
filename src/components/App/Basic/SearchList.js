@@ -26,7 +26,7 @@ const InputWrapper = styled.div`
   position: relative;
   background: #DEDFEC;
   border: 1px solid #CECECE;
-  border-radius: 8px;
+  border-radius: 5px;
   height: 30px;
 `
 
@@ -184,7 +184,6 @@ const GroupItems = ({ items, symbol, optionProps, focus, toggleFavorite, height 
 }
 
 export const SearchList = ({ focus }) => {
-  const wrapperRef = useRef(null)
   const base = useBaseState()
   const toggleFavorite = useToggleFavorite()
   const [
@@ -199,7 +198,7 @@ export const SearchList = ({ focus }) => {
       {(snapshot.focus || focus) && (
         <GroupsContainer n={snapshot.options.length}>
           {snapshot.options.map(group => (
-            <GroupWrapper key={group.groupId} ref={wrapperRef}>
+            <GroupWrapper key={group.groupId}>
               <GroupHeader>{group.name}</GroupHeader>
               <GroupItems
                 items={group.items}
@@ -207,7 +206,7 @@ export const SearchList = ({ focus }) => {
                 optionProps={optionProps}
                 focus={focus}
                 toggleFavorite={toggleFavorite}
-                height={(wrapperRef?.current?.offsetHeight ?? 265) - 30 - 8} // subtract GroupHeader and 1 gap
+                height={(392 / snapshot.options.length) ?? 392} // this number is hardcoded because of how <List/> works
               />
             </GroupWrapper>
           ))}
