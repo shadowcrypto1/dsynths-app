@@ -8,6 +8,10 @@ body {
   color: #FFFFFF;
 }
 
+html {
+  height: -webkit-fill-available;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -36,4 +40,5 @@ input[type=number] {
 
 #root {
   height: 100vh;
+  height: -webkit-fill-available;
 }
