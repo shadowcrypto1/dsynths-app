@@ -44,7 +44,7 @@ export function useSyncCallback({
 
     // TODO: add pending
     return SyncState.IDLE
-  }, [signatureUrls, action, outputContract])
+  }, [account, chainId, inputContract, inputAmount, inputDecimals, outputContract, outputAmount, outputDecimals, action])
 
   const SynchronizerContract = useSynchronizer()
   const addTransaction = useTransactionAdder()
@@ -226,7 +226,7 @@ export function useSyncCallback({
     } catch (error) {
       return errorCallback(error)
     }
-  }, [syncState, SynchronizerContract, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, action, signatureUrls])
+  }, [syncState, SynchronizerContract, addTransaction, chainId, inputContract, outputContract, inputAmount, outputAmount, type, balance, account, action, signatureUrls])
 
   return [syncState, sync]
 }
@@ -339,11 +339,6 @@ function createSellParams (priceFeed) {
     return {
       data: null,
     }
-  }
-
-  let result = priceFeed.sort(comparePrice).reverse()
-  return {
-    data: result.slice(0, EXPECTED_SIGNATURES).sort(compareOrder)
   }
 }
 

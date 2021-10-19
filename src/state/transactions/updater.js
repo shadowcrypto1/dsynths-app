@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { useWeb3React } from '@web3-react/core'
 import { useWeb3React } from '../../hooks/useWeb3'
 
-import { SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 import { retry, RetryableError } from '../../utils/retry'
 import { updateBlockNumber } from '../application/actions'
 import { useBlockNumber, useAddPopup } from '../application/hooks'

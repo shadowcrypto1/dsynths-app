@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { isMobile } from 'react-device-detect'
 
@@ -59,13 +59,13 @@ export const Footer = () => {
       <div style={{textAlign: 'center'}}>This project is currently in beta, use at your own risk.</div>
       {!isMobile ? (
         <Icons>
-          <StyledLink href={'https://twitter.com/dsynths'} target={'blank'} rel="noreferrer">
+          <StyledLink href={'https://twitter.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
             <Twitter size={18}/>
           </StyledLink>
-          <StyledLink href={'https://t.me/dsynths'} target={'blank'} rel="noreferrer">
+          <StyledLink href={'https://t.me/dsynths'} target={'_blank'} rel="noreferrer noopener">
             <Telegram size={18}/>
           </StyledLink>
-          <StyledLink href={'https://github.com/dsynths'} target={'blank'} rel="noreferrer">
+          <StyledLink href={'https://github.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
             <Github size={20}/>
           </StyledLink>
         </Icons>

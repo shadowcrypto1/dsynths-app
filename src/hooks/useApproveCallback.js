@@ -121,7 +121,7 @@ export function useApproveCallback({
           removeAfterMs: 15000,
         })
       })
-  }, [approvalState, tokenAddress, TokenContractInstance, spender, addTransaction, chainId])
+  }, [approvalState, TokenContractInstance, spender, addTransaction, chainId, addPopup, address, symbol])
 
   return [approvalState, approve]
 }

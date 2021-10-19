@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter, Switch, Route, Redirect, useLocation } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import ApplicationUpdater from './state/application/updater'
 import BaseUpdater from './state/base/updater'

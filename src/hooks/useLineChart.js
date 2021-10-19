@@ -64,7 +64,7 @@ export const useLineChart = (baseSymbol, timeframe) => {
   useEffect(() => {
     setLoading(true)
     fetchPrices()
-  }, [baseSymbol, timeframe])
+  }, [baseSymbol, timeframe, fetchPrices])
 
   return {
     data,

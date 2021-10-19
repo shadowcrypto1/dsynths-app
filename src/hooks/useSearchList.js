@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useSelect } from 'react-select-search'
 import Fuse from 'fuse.js'
@@ -101,7 +101,6 @@ function parseSectorName(sector) {
 }
 
 function fuzzySearch(options) {
-  const groupNames = options.map(option => option.name)
   const mergedOptions = [].concat.apply([], options.map(group => {
     return group.items.map(item => {
       return {

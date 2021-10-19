@@ -6,5 +6,5 @@ export function useParsedQueryString() {
   const { search } = useLocation()
   return useMemo(() => {
     return (search && search.length > 1) ? parse(search, { parseArrays: false, ignoreQueryPrefix: true }) : {}
-  })
+  }, [search])
 }

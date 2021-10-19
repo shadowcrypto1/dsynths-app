@@ -158,7 +158,7 @@ export const InputBar = ({
 
     const displayValue = (result === '0.00') ? '0.00' : parseFloat(result).toFixed(9).replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/,'$1')
     setDisplayBalance && setDisplayBalance(displayValue)
-  }, [balance])
+  }, [balance, decimals])
 
   useEffect(() => {
     setSmall(width < 500)

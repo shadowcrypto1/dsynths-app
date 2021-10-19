@@ -1,5 +1,4 @@
-import React, { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { getCookieConsentValue } from "react-cookie-consent"
 

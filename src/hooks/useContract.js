@@ -3,7 +3,6 @@ import { useMemo } from 'react'
 import { isAddress } from '@ethersproject/address'
 import { Contract } from '@ethersproject/contracts'
 import { AddressZero } from '@ethersproject/constants'
-import Web3 from 'web3'
 
 import { useWeb3React } from './useWeb3'
 import { SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID, SYNCHRONIZER_ABI_BY_CHAIN_ID } from '../constants'

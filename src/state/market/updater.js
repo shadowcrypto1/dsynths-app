@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 // import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
-import _ from 'lodash'
 import { useWeb3React } from '../../hooks/useWeb3'
 
 import { useParsedQueryString } from '../../hooks/useParsedQueryString'

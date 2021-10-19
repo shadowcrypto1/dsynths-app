@@ -11,7 +11,6 @@ import {
 } from '../../components/App/Basic'
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
-import { FluidGrid } from '../../components/FluidGrid'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
