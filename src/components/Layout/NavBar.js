@@ -72,6 +72,10 @@ const NavItem = styled(Link)`
   color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
 
+  &:hover {
+    color: #F6CC2E;
+  }
+
   ${({ selected}) => selected && `
     pointer-events: none;
     text-decoration: underline;

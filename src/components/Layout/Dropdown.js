@@ -29,6 +29,10 @@ const DropdownButton = styled.button`
   font-family: inherit; /* Important for vertical align on mobile phones */
   margin: 0; /* Important for vertical align on mobile phones */
 
+  &:hover {
+    color: #F6CC2E;
+  }
+
   &:focus {
     outline: none;
   }
