@@ -46,6 +46,9 @@ function Routes () {
         <Route path='/exchange/simple'>
           <Simple/>
         </Route>
+        <Route path='/dashboard'>
+          <Dashboard/>
+        </Route>
         <Route path='/markets'>
           <Markets/>
         </Route>
