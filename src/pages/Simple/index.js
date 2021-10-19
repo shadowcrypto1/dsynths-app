@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 
@@ -8,7 +9,7 @@ import {
   ShortTab,
   Trade,
   NetworkBar
-} from '../../components/App/Basic'
+} from '../../components/App/Simple'
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
 
@@ -36,6 +37,17 @@ const LoaderWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`
+
+const Disclaimer = styled.div`
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  margin: 20px 0;
+  & > a {
+    text-decoration: none;
+    color: green;
+  }
 `
 
 const TradeContainer = styled.div`
@@ -116,6 +128,7 @@ export default function Simple () {
   if (status === 'OK') {
     return (
       <Container isDesktop={isDesktop}>
+        <Disclaimer>Our simple swapper is still a work in progress, please use our <Link to='/exchange/basic'>/basic</Link>&nbsp;swapper for a better trading experience.</Disclaimer>
         <SearchList focus={false}/>
         <TradeContainer>
           <TypeWrapper>

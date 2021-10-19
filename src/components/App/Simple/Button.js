@@ -8,7 +8,7 @@ const Tab = styled.div`
   align-items: center;
   text-align: center;
   justify-content: center;
-  width: 145px;
+  width: 100%;
 
   &:hover {
     cursor: pointer;
