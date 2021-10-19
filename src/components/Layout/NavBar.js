@@ -137,7 +137,7 @@ const NavButtons = () => {
 }
 
 export const NavBar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const toggleSidebar = (isOpen) => {
     setSidebarOpen((prev) => isOpen ?? !prev)
   }
