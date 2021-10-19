@@ -1,6 +1,5 @@
 public/charting_library
 public/datafeeds
 src/static/charting_library
-src/old
 build
 node_modules
