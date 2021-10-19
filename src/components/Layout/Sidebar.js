@@ -10,6 +10,9 @@ import {
   NavMarkets,
   NavPortfolio,
   NavFiat,
+  Twitter,
+  Telegram,
+  Github,
 } from  '../Icons'
 import { Web3Status } from '../Web3Status'
 
@@ -53,7 +56,6 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  margin-bottom: 30px;
 `
 
 const NavItems = styled.div`
@@ -76,6 +78,11 @@ const NavItemTitle = styled.div`
       margin-right: 10px;
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    margin-top: 20px;
+    font-size: 12px;
+  }
 `
 
 const NavItem = styled(Link)`
@@ -93,14 +100,32 @@ const NavItem = styled(Link)`
   padding: 15px;
   text-decoration: none;
   text-overflow: ellipsis;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 11px;
+  }
 `
 
-const ReturnContainer = styled.div`
-  display: block;
+const Footer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-flow: column nowrap;
   margin-top: auto;
   margin-bottom: 15px;
   overflow: hidden;
   white-space: nowrap;
+`
+
+const SocialsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  & > * {
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
 `
 
 const ReturnButton = styled.a`
@@ -131,7 +156,6 @@ export const Sidebar = ({ toggled, handleToggled }) => {
         <Close onClick={() => handleToggled()}/>
       </Header>
       <NavItems onClick={() => handleToggled()}>
-
         <NavItemTitle>
           <NavExchange/>
           <span>Exchange</span>
@@ -162,12 +186,22 @@ export const Sidebar = ({ toggled, handleToggled }) => {
           <span>Fiat On-Ramp</span>
         </NavItemTitle>
         <NavItem to='/fiat'>Buy crypto with your creditcard</NavItem>
-
       </NavItems>
 
-      <ReturnContainer>
+      <Footer>
+        <SocialsWrapper>
+          <a href={'https://twitter.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
+            <Twitter size={18}/>
+          </a>
+          <a href={'https://t.me/dsynths'} target={'_blank'} rel="noreferrer noopener">
+            <Telegram size={18}/>
+          </a>
+          <a href={'https://github.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
+            <Github size={20}/>
+          </a>
+        </SocialsWrapper>
         <ReturnButton href='https://www.dsynths.com' target='_blank' rel='noreferrer noopener'>Return to Website</ReturnButton>
-      </ReturnContainer>
+      </Footer>
     </Wrapper>
   )
 }

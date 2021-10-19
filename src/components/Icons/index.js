@@ -12,3 +12,7 @@ export { default as NavPortfolio } from './NavPortfolio'
 export { default as Search } from './Search'
 export { default as Return } from './ReturnArrow'
 export { default as Wallet } from './Wallet'
+
+export { Twitter } from './Socials'
+export { Telegram } from './Socials'
+export { Github } from './Socials'
