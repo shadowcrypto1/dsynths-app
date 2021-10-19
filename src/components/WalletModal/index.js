@@ -41,6 +41,13 @@ const Header = styled.div`
   font-weight: bold;
 `
 
+const Close = styled(CloseIcon)`
+  align-self: center;
+  &:hover {
+    cursor: pointer;
+  }
+`
+
 const Body = styled.ul`
   padding: 0;
   list-style-type: none;
@@ -164,7 +171,7 @@ export const WalletModal = () => {
       <Wrapper>
         <Header>
           Select a wallet provider
-          <CloseIcon onClick={closeModalProxy} style={{alignSelf: 'center'}}/>
+          <Close onClick={closeModalProxy}/>
         </Header>
         <Body>
           {Object.keys(connectorsByName).map(name => {
