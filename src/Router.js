@@ -37,7 +37,7 @@ function Routes () {
   return (
     <Layout>
       <Switch>
-        <Route path={['/', '/exchange', '/exchange/basic']} exact>
+        <Route path='/exchange/basic'>
           <Basic/>
         </Route>
         <Route path='/exchange/simple'>
