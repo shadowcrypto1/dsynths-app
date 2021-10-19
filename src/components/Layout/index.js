@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { getCookieConsentValue } from "react-cookie-consent"
 
-import { DesktopNavbar } from './Navigation/Desktop'
-import { MobileNavbar } from './Navigation/Mobile'
-import { Sidebar } from './Navigation/Sidebar'
+import { NavBar } from './NavBar'
 import { Footer } from './Footer'
 import { CookieConsent } from '../CookieConsent'
 
@@ -24,14 +22,8 @@ const Content = styled.div`
 `
 
 export const Layout = ({ children }) => {
-  const size = useWindowSize()
-  const [toggled, setToggled] = useState(false)
+  const { width } = useWindowSize()
   const [showFooter, setShowFooter] = useState(!!getCookieConsentValue())
-
-  const handleToggled = (state) => {
-    setToggled(state)
-  }
-
   const onAccept = () => {
     setShowFooter(true)
   }
@@ -44,11 +36,11 @@ export const Layout = ({ children }) => {
         }
       `}} />
       <Wrapper>
-        {size.width > 600 && <DesktopNavbar handleToggled={handleToggled}/>}
-        {size.width <= 600 && <MobileNavbar handleToggled={handleToggled}/>}
-        <Content isDesktop={size.width > 600}>{children}</Content >
+        <NavBar/>
+        <Content isDesktop={width > 600}>
+          {children}
+        </Content >
         {showFooter && <Footer />}
-        <Sidebar toggled={toggled} handleToggled={handleToggled}/>
       </Wrapper>
       <CookieConsent onAccept={onAccept}/>
     </>
