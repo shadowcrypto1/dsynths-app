@@ -2,14 +2,8 @@
 @import "./scrollbar.css";
 
 body {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
   font-size: 1rem;
   color: #FFFFFF;
-}
-
-html {
-  height: -webkit-fill-available;
 }
 
 * {
@@ -36,9 +30,4 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
-}
-
-#root {
-  height: 100vh;
-  height: -webkit-fill-available;
 }

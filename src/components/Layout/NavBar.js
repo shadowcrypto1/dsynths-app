@@ -19,11 +19,12 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr auto 1fr auto;
   position: sticky;
+  top: 0;
   height: 60px;
   width: 100%;
   z-index: 1;
   padding: 0 30px;
-  background: transparent;
+  background: #12092C;
   align-items: center;
 `
 

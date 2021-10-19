@@ -23,7 +23,7 @@ const Container = styled.div`
   justify-content: flex-start;
   width: clamp(100px, 512px, 100%);
   height: auto;
-  margin: 100px auto;
+  margin: 30px auto;
 
   padding: ${({isDesktop}) => isDesktop
     ? '50px 30px 20px 30px'
@@ -128,7 +128,7 @@ export default function Simple () {
   if (status === 'OK') {
     return (
       <Container isDesktop={isDesktop}>
-        <Disclaimer>Our simple swapper is still a work in progress, please use our <Link to='/exchange/basic'>/basic</Link>&nbsp;swapper for a better trading experience.</Disclaimer>
+        <Disclaimer>Our simple swapper is still a work in progress, please use our <Link to='/exchange/basic'>/basic</Link>&nbsp;swapper for an improved trading experience.</Disclaimer>
         <SearchList focus={false}/>
         <TradeContainer>
           <TypeWrapper>

@@ -55,7 +55,8 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  min-height: 60px;
+  margin-bottom: 20px;
 `
 
 const NavItems = styled.div`
@@ -110,10 +111,13 @@ const Footer = styled.div`
   display: flex;
   width: 100%;
   flex-flow: column nowrap;
-  margin-top: auto;
   margin-bottom: 15px;
   overflow: hidden;
   white-space: nowrap;
+
+  @media only screen and (min-width: 767px) {
+    margin-top: auto;
+  }
 `
 
 const SocialsWrapper = styled.div`

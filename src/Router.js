@@ -11,6 +11,8 @@ import QuotesUpdater from './state/quotes/updater'
 import TransactionUpdater from './state/transactions/updater'
 
 import { Layout } from './components/Layout'
+import ScrollToTop from './hooks/useScrollToTop'
+
 import Dashboard from './pages/Dashboard'
 import Simple from './pages/Simple'
 import Basic from './pages/Basic'
@@ -65,6 +67,7 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Updaters/>
+      <ScrollToTop/>
       <Routes/>
     </BrowserRouter>
   )

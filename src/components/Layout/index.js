@@ -5,15 +5,19 @@ import { NavBar } from './NavBar'
 import { Footer } from './Footer'
 
 const Wrapper = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
 `
 
 const Content = styled.div`
   flex: 1;
-  overflow: auto;
+  overflow-y: scroll;
   z-index: 0;
+  margin-bottom: 40px;
+
+  @media only screen and (max-width: 767px) {
+    margin-bottom: 0;
+  }
 `
 
 export const Layout = ({ children }) => {
