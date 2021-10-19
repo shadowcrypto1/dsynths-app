@@ -100,11 +100,11 @@ const NavLinks = () => {
       <Dropdown name='Exchange' selected={false} linksMapping={[
         {
           name: 'Simple',
-          href: '/exchange/simple',
+          href: '/exchange/simple?network=xdai',
         },
         {
           name: 'Basic',
-          href: '/exchange/basic',
+          href: '/exchange/basic?network=xdai',
         },
       ]}/>
       <NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>

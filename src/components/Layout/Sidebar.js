@@ -136,8 +136,8 @@ export const Sidebar = ({ toggled, handleToggled }) => {
           <NavExchange/>
           <span>Exchange</span>
         </NavItemTitle>
-        <NavItem to='/exchange/simple'>Simple</NavItem>
-        <NavItem to='/exchange/basic'>Basic</NavItem>
+        <NavItem to='/exchange/simple?network=xdai'>Simple</NavItem>
+        <NavItem to='/exchange/basic?network=xdai'>Basic</NavItem>
 
         <NavItemTitle>
           <NavDashboard/>
