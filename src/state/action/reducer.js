@@ -18,22 +18,22 @@ export default createReducer(initialState, (builder) =>
 
 function switchAction(state) {
   switch (state) {
-  case 'OPEN':
-    return 'CLOSE'
-  case 'CLOSE':
-    return 'OPEN'
-  default:
-    return 'OPEN'
+    case 'OPEN':
+      return 'CLOSE'
+    case 'CLOSE':
+      return 'OPEN'
+    default:
+      return 'OPEN'
   }
 }
 
 function validateAction (arg) {
   switch (arg) {
-  case 'OPEN':
-    return 'OPEN'
-  case 'CLOSE':
-    return 'CLOSE'
-  default:
-    return 'OPEN'
+    case 'OPEN':
+      return 'OPEN'
+    case 'CLOSE':
+      return 'CLOSE'
+    default:
+      return 'OPEN'
   }
 }
