@@ -34,7 +34,7 @@ export const getStockSymbols = async () => {
     return await new Promise((resolve, reject) => {
       MISSING_KEY_ERROR && reject(MISSING_KEY_ERROR)
       FinnhubQueue.add(() => {
-        finnhubClient.stockSymbols('US', (error, data) => {
+        finnhubClient.stockSymbols('US', (error, data, response) => {
           if (error) reject(error)
           resolve(data)
         })
@@ -55,12 +55,12 @@ export const getStockCandles = async (symbol, resolution, from, to) => {
     const data = await new Promise((resolve, reject) => {
       MISSING_KEY_ERROR && reject(MISSING_KEY_ERROR)
       FinnhubQueue.add(() => {
-        finnhubClient.stockCandles(symbol, interval, from, to, {}, (error, data, response) => {
+        finnhubClient.stockCandles(symbol, interval, from, to, (error, data, response) => {
           if (error) reject(error)
           resolve(data)
         })
       })
-    })
+    }).catch(err => {throw err})
 
     if (data.s === 'no_data' || data.s !== 'ok') {
       console.info('[data] has returned 0 values for the requested range, this is either a bug or the requested dataset is out of range:')

@@ -18,8 +18,6 @@ import Markets from './pages/Markets'
 import Fiat from './pages/Fiat'
 import Portfolio from './pages/Portfolio'
 
-import useGoogleAnalytics from './hooks/useGoogleAnalytics'
-
 function Updaters() {
   return (
     <>
@@ -36,7 +34,6 @@ function Updaters() {
 }
 
 function Routes () {
-  useGoogleAnalytics()
   return (
     <Layout>
       <Switch>

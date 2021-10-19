@@ -21,7 +21,7 @@ export const useRpcChangerCallback = () => {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: RpcParams[targetChainId].chainId }],
-      });
+      })
     } catch (switchError) {
       // This error code indicates that the chain has not been added to MetaMask.
       if (switchError.code === 4902) {

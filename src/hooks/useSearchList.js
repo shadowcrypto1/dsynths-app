@@ -54,8 +54,8 @@ export const useSearchList = () => {
 
     // Order display groups
     return _.sortBy(result, (obj) => {
-      return _.indexOf(groupsOrder, obj.name);
-    });
+      return _.indexOf(groupsOrder, obj.name)
+    })
   }, [conducted, details, favorites])
 
   const [snapshot, searchProps, optionProps] = useSelect({

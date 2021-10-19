@@ -144,7 +144,7 @@ export function useSyncCallback({
 
     const errorCallback = (errorOrMessage, needsPopup) => {
       console.error('Failed to conduct transaction: ', errorOrMessage)
-      if (!!needsPopup) {
+      if (needsPopup) {
         addPopup({
           content: {
             success: false,
@@ -172,7 +172,7 @@ export function useSyncCallback({
       }
 
       if (action === 'OPEN' && price === null) {
-        console.log('price: ', price);
+        console.log('price: ', price)
         return errorCallback('Unable to parse oracle prices')
       }
 
@@ -222,7 +222,7 @@ export function useSyncCallback({
           return syncXDAI   ({SynchronizerContract, balance, price, action, payload, account, submitCallback, errorCallback})
         default:
           return errorCallback(`Sync function call does not exist for chainId: ${chainId}`)
-        }
+      }
     } catch (error) {
       return errorCallback(error)
     }
@@ -288,12 +288,12 @@ function parseSignatures (signaturesPerNode, action, targetContract) {
     }
 
     switch (action) {
-    case 'OPEN':
-      return createBuyParams(priceFeed)
-    case 'CLOSE':
-      return createSellParams(priceFeed)
-    default:
-      throw new Error('Action param is invalid: ', action)
+      case 'OPEN':
+        return createBuyParams(priceFeed)
+      case 'CLOSE':
+        return createSellParams(priceFeed)
+      default:
+        throw new Error('Action param is invalid: ', action)
     }
   } catch (err) {
     console.error(err)

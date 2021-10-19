@@ -9,35 +9,35 @@ const getParams = (timeframe) => {
   let result = {}
 
   switch (timeframe) {
-  case 'd':
-    result = {
-      resolution: '15',
-      from: dayjs().utc().subtract(1, 'day').unix() - 1
-    }
-    break
-  case 'w':
-    result = {
-      resolution: '60',
-      from: dayjs().utc().subtract(7, 'days').unix()
-    }
-    break
-  case 'm':
-    result = {
-      resolution: '60',
-      from: dayjs().utc().subtract(30, 'days').unix()
-    }
-    break
-  case 'y':
-    result = {
-      resolution: 'D',
-      from: dayjs().utc().subtract(1, 'year').unix()
-    }
-    break
-  default:
-    result = {
-      resolution: '60',
-      from: dayjs().utc().subtract(1, 'day').unix()
-    }
+    case 'd':
+      result = {
+        resolution: '15',
+        from: dayjs().utc().subtract(1, 'day').unix() - 1
+      }
+      break
+    case 'w':
+      result = {
+        resolution: '60',
+        from: dayjs().utc().subtract(7, 'days').unix()
+      }
+      break
+    case 'm':
+      result = {
+        resolution: '60',
+        from: dayjs().utc().subtract(30, 'days').unix()
+      }
+      break
+    case 'y':
+      result = {
+        resolution: 'D',
+        from: dayjs().utc().subtract(1, 'year').unix()
+      }
+      break
+    default:
+      result = {
+        resolution: '60',
+        from: dayjs().utc().subtract(1, 'day').unix()
+      }
   }
   result['to'] = dayjs().utc().endOf('day').unix() - 1
   return result

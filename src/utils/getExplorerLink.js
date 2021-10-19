@@ -13,7 +13,7 @@ export function getExplorerLink(chainId, hash) {
     case SUPPORTED_CHAINS_BY_NAME.XDAI:
       return `https://blockscout.com/xdai/mainnet/tx/${hash}`
     default:
-      console.error(`Unable to select an explorerLink for chainId: ${chainId}`);
+      console.error(`Unable to select an explorerLink for chainId: ${chainId}`)
       return `https://etherscan.io/tx/${hash}`
   }
 }

@@ -59,7 +59,7 @@ export default async function ({
       options['gasLimit'] = calculateGasMargin(BigNumber.from(estimatedGas)).toString()
     }
 
-    return SynchronizerContract.[method](...mappedPayload, options)
+    return SynchronizerContract[method](...mappedPayload, options)
       .then(submitCallback)
       .catch(errorCallback)
   } catch (error) {
