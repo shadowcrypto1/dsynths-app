@@ -55,7 +55,7 @@ function Routes () {
         <Route path='/fiat'>
           <Fiat/>
         </Route>
-        <Redirect to='/exchange/basic'/>
+        <Redirect to='/exchange/basic?network=xdai'/>
       </Switch>
     </Layout>
   )
