@@ -2,11 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import {
-  DSynthsLogo,
-  DSynthsText
-} from '../Icons'
-
 const Wrapper = styled(Link)`
   display: flex;
   justify-content: flex-start;
@@ -15,8 +10,8 @@ const Wrapper = styled(Link)`
   height: auto;
 `
 
-const Text = styled(DSynthsText)`
-  height: 25px;
+const Text = styled.img`
+  height: 17px;
   @media only screen and (max-width: 1000px) {
     display: none;
   }
@@ -25,8 +20,8 @@ const Text = styled(DSynthsText)`
 export const Logo = () => {
   return (
     <Wrapper to='/exchange/basic'>
-      <DSynthsLogo style={{marginRight: '3px', height: '35px'}}/>
-      <Text/>
+      <img src='/images/NavLogo.png' style={{marginRight: '10px', height: '30px'}}/>
+      <Text src='/images/NavLogoText.png'/>
     </Wrapper>
   )
 }
