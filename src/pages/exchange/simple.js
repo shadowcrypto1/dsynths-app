@@ -3,15 +3,10 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 
-import {
-  SearchList,
-  LongTab,
-  ShortTab,
-  Trade,
-  NetworkBar
-} from '../../components/App/Simple'
+import { SearchList, LongTab, ShortTab, Trade, NetworkBar } from '../../components/App/Simple'
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
+import { Layout } from '../../components/Layout'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
@@ -25,7 +20,7 @@ const Container = styled.div`
   height: auto;
   margin: 30px auto;
 
-  padding: ${({isDesktop}) => isDesktop ? '50px 30px 20px 30px' : '20px 30px 20px 30px'};
+  padding: ${({ isDesktop }) => (isDesktop ? '50px 30px 20px 30px' : '20px 30px 20px 30px')};
 `
 
 const LoaderWrapper = styled.div`
@@ -49,7 +44,7 @@ const Disclaimer = styled.div`
 
 const TradeContainer = styled.div`
   display: block;
-  background: #30315D;
+  background: #30315d;
   border-radius: 10px;
   padding: 30px;
   margin-top: 8px;
@@ -71,7 +66,7 @@ const HeroTitle = styled.div`
   line-height: 38px;
   text-transform: uppercase;
   align-items: center;
-  color: #FFFFFF;
+  color: #ffffff;
   text-shadow: 0px 0px 5px rgba(146, 119, 224, 0.7), 0px 0px 5px rgba(146, 119, 224, 0.9);
 `
 
@@ -85,11 +80,11 @@ const HeroSubTitle = styled.div`
   color: rgba(255, 255, 255, 0.75);
 `
 
-export default function Simple () {
+export default function Simple() {
   const { width } = useWindowSize()
   const base = useBaseState()
-  const [ type, setType ] = useState('LONG')
-  const [ status, setStatus ] = useState('LOADING')
+  const [type, setType] = useState('LONG')
+  const [status, setStatus] = useState('LOADING')
   const mounted = useRef(false)
 
   useLayoutEffect(() => {
@@ -97,9 +92,12 @@ export default function Simple () {
     return () => (mounted.current = false)
   }, [])
 
-  const debounceLoaderScreen = useCallback(debounce(status => {
-    mounted.current && setStatus(status)
-  }, 1500), [mounted, setStatus])
+  const debounceLoaderScreen = useCallback(
+    debounce((status) => {
+      mounted.current && setStatus(status)
+    }, 1500),
+    [mounted, setStatus]
+  )
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
@@ -116,34 +114,50 @@ export default function Simple () {
 
   if (status === 'LOADING') {
     return (
-      <LoaderWrapper>
-        <LoaderIcon size={'90px'}/>
-      </LoaderWrapper>
+      <Layout>
+        <LoaderWrapper>
+          <LoaderIcon size={'90px'} />
+        </LoaderWrapper>
+      </Layout>
     )
   }
 
   if (status === 'OK') {
     return (
-      <Container isDesktop={isDesktop}>
-        <Disclaimer>Our simple swapper is still a work in progress, please use our <Link to='/exchange/basic'>/basic</Link>&nbsp;swapper for an improved trading experience.</Disclaimer>
-        <SearchList focus={false}/>
-        <TradeContainer>
-          <TypeWrapper>
-            <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-            <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
-          </TypeWrapper>
-          <Trade type={type} />
-        </TradeContainer>
-      </Container>
+      <Layout>
+        <Container isDesktop={isDesktop}>
+          <Disclaimer>
+            Our simple swapper is still a work in progress, please use our{' '}
+            <Link to="/exchange/basic">/basic</Link>&nbsp;swapper for an improved trading
+            experience.
+          </Disclaimer>
+          <SearchList focus={false} />
+          <TradeContainer>
+            <TypeWrapper>
+              <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>
+                LONG
+              </LongTab>
+              <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>
+                SHORT
+              </ShortTab>
+            </TypeWrapper>
+            <Trade type={type} />
+          </TradeContainer>
+        </Container>
+      </Layout>
     )
   }
 
   return (
-    <Container isDesktop={isDesktop}>
-      <HeroTitle>Stock not found</HeroTitle>
-      <HeroSubTitle>Try a different symbol or switch to another chain for more options!</HeroSubTitle>
-      <SearchList focus={true}/>
-      <NetworkBar/>
-    </Container>
+    <Layout>
+      <Container isDesktop={isDesktop}>
+        <HeroTitle>Stock not found</HeroTitle>
+        <HeroSubTitle>
+          Try a different symbol or switch to another chain for more options!
+        </HeroSubTitle>
+        <SearchList focus={true} />
+        <NetworkBar />
+      </Container>
+    </Layout>
   )
 }

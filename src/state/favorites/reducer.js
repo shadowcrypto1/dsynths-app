@@ -6,14 +6,14 @@ const initialState = {
 }
 
 export default createReducer(initialState, (builder) =>
-  builder
-    .addCase(replaceFavorite, (state, {payload: { favorites }}) => {
-      state.favorites = favorites
-      setLocalStorage('favorites', favorites)
-    })
+  builder.addCase(replaceFavorite, (state, { payload: { favorites } }) => {
+    state.favorites = favorites
+    setLocalStorage('favorites', favorites)
+  })
 )
 
-function getLocalStorage (key, initialValue) {
+function getLocalStorage(key, initialValue) {
+  if (typeof window === 'undefined') return
   try {
     const item = window.localStorage.getItem(key)
     return item ? JSON.parse(item) : initialValue
@@ -23,7 +23,8 @@ function getLocalStorage (key, initialValue) {
   }
 }
 
-function setLocalStorage (key, value) {
+function setLocalStorage(key, value) {
+  if (typeof window === 'undefined') return
   try {
     const val = value ?? []
     window.localStorage.setItem(key, JSON.stringify(val))

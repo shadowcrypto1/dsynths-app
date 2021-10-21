@@ -2,18 +2,12 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-import {
-  NetworkRow,
-  SearchBar,
-  Category,
-  Table,
-  TradeModal,
-} from '../../components/App/Markets'
+import { NetworkRow, SearchBar, Category, Table, TradeModal } from '../../components/App/Markets'
 
 import { useSearchList } from '../../hooks/useSearchList'
 import { SUPPORTED_CHAINS_AS_OPTIONS } from '../../constants'
 
-const networkMapping = [{ name: 'All', short: 'ALL', value: 'ALL'}, ...SUPPORTED_CHAINS_AS_OPTIONS]
+const networkMapping = [{ name: 'All', short: 'ALL', value: 'ALL' }, ...SUPPORTED_CHAINS_AS_OPTIONS]
 
 const Container = styled.div`
   display: flex;
@@ -55,23 +49,23 @@ const NoResults = styled.p`
   text-align: center;
 `
 
-export default function Markets () {
+export default function Markets() {
   // Related to Modal
   // TODO: turn this into react-redux so we dont have to pass state vars everywhere
-  const [ showModal, setShowModal ] = useState(false)
-  const [ symbol, setSymbol ] = useState(null)
-  const [ name, setName ] = useState(null)
-  const [ networks, setNetworks ] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [symbol, setSymbol] = useState(null)
+  const [name, setName] = useState(null)
+  const [networks, setNetworks] = useState([])
 
   const toggleModal = () => {
-    setShowModal(prev => !prev)
+    setShowModal((prev) => !prev)
   }
 
   // Related to Table
-  const [ currentNetwork, setCurrentNetwork ] = useState(networkMapping[0].value)
-  
+  const [currentNetwork, setCurrentNetwork] = useState(networkMapping[0].value)
+
   // eslint-disable-next-line
-  const [ snapshot, optionProps, searchProps ] = useSearchList(currentNetwork)
+  const [snapshot, optionProps, searchProps] = useSearchList(currentNetwork)
 
   return (
     <Container>
@@ -91,24 +85,24 @@ export default function Markets () {
             setCurrentNetwork(networkMapping[index].value)
           }}
         />
-        <SearchBar searchProps={searchProps} value={snapshot.search}/>
+        <SearchBar searchProps={searchProps} value={snapshot.search} />
       </HeaderRow>
-      {(snapshot.options.length > 0) ? snapshot.options.map((option, i) => (
-        <TableWrapper key={i}>
-          <Category name={option.name}/>
-          <Table
-            data={option.items}
-            currentNetwork={currentNetwork}
-            toggleModal={toggleModal}
-            setSymbol={setSymbol}
-            setName={setName}
-            setNetworks={setNetworks}
-          />
-        </TableWrapper>
-      )) : (
-        <NoResults>
-          No Results Found
-        </NoResults>
+      {snapshot.options.length > 0 ? (
+        snapshot.options.map((option, i) => (
+          <TableWrapper key={i}>
+            <Category name={option.name} />
+            <Table
+              data={option.items}
+              currentNetwork={currentNetwork}
+              toggleModal={toggleModal}
+              setSymbol={setSymbol}
+              setName={setName}
+              setNetworks={setNetworks}
+            />
+          </TableWrapper>
+        ))
+      ) : (
+        <NoResults>No Results Found</NoResults>
       )}
     </Container>
   )

@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { Layout } from '../components/Layout'
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -11,10 +13,12 @@ const Container = styled.div`
   font-size: 30px;
 `
 
-export default function Fiat () {
+export default function Portfolio() {
   return (
-    <Container>
-      <div>Fiat On-ramp will be made available soon</div>
-    </Container>
+    <Layout>
+      <Container>
+        <div>Your personal portfolio management will be made available soon</div>
+      </Container>
+    </Layout>
   )
 }
