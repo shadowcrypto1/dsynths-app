@@ -1,18 +1,20 @@
 import { Provider as ReduxProvider } from 'react-redux'
-import { Web3ReactProvider, createWeb3ReactRoot } from '@web3-react/core'
+import { Web3ReactProvider } from '@web3-react/core'
 import { ModalProvider } from 'styled-react-modal'
 import styled from 'styled-components'
 import dynamic from 'next/dynamic'
 
 import Web3ReactManager from '../components/Web3ReactManager'
 import Popups from '../components/Popups'
-import { NetworkContextName } from '../constants/misc'
 
 import store from '../state'
 import { getLibrary } from '../utils/library'
 import '../styles/index.css'
 
-const Web3ProviderNetwork = createWeb3ReactRoot(NetworkContextName)
+const Updaters = dynamic(() => import('../state/updaters'), { ssr: false })
+const Web3ProviderNetwork = dynamic(() => import('../components/Web3ProviderNetwork'), {
+  ssr: false,
+})
 
 const SpecialModalBackground = styled.div`
   display: flex;
@@ -25,8 +27,6 @@ const SpecialModalBackground = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
 `
-
-const Updaters = dynamic(() => import('../state/updaters').then((mod) => mod.Updaters))
 
 const MyApp = ({ Component, pageProps }) => {
   return (

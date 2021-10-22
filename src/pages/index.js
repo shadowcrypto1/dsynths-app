@@ -1,10 +1,10 @@
-import { useLayoutEffect } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 export default function Page() {
   const router = useRouter()
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     router.push('/exchange/basic?network=xdai')
   }, [])
 

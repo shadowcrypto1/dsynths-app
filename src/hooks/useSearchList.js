@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useSelect } from 'react-select-search'
+import { useSelect } from 'react-select-search/dist/cjs'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
 import _ from 'lodash'
@@ -11,10 +11,7 @@ import { useConductedState } from '../state/conducted/hooks'
 import { useDetailsState } from '../state/details/hooks'
 
 // This order makes sure that stocks/commodities will ALWAYS be above crypto
-const groupsOrder = [
-  'STOCKS / COMMODITIES',
-  'CRYPTO',
-]
+const groupsOrder = ['STOCKS / COMMODITIES', 'CRYPTO']
 
 export const useSearchList = (networkName) => {
   const { location, push } = useHistory()
@@ -44,18 +41,18 @@ export const useSearchList = (networkName) => {
         name: props.name,
         value: props.symbol, // using `value` and not `symbol` because snapshot takes in a 'value' param
         favorite: favorites.includes(props.name),
-        networks: values.map(o => o.networkName)
+        networks: values.map((o) => o.networkName),
       })
       return acc
     }, {})
 
-    let result = Object.values(groups).map(group => {
+    let result = Object.values(groups).map((group) => {
       return {
         ...group,
         items: group.items
-          .filter(asset => networkName === 'ALL' ? true : asset.networks.includes(networkName))
+          .filter((asset) => (networkName === 'ALL' ? true : asset.networks.includes(networkName)))
           .sort((a, b) => a.value.localeCompare(b.value))
-          .sort((a, b) => (a.favorite === b.favorite) ? 0 : a.favorite? -1 : 1)
+          .sort((a, b) => (a.favorite === b.favorite ? 0 : a.favorite ? -1 : 1)),
       }
     })
 
@@ -84,16 +81,12 @@ export const useSearchList = (networkName) => {
     const query = { ...queryParams, symbol: symbol }
 
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    push({ search: qs.stringify(query)})
+    push({ search: qs.stringify(query) })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snapshot.value])
 
-  return [
-    snapshot,
-    optionProps,
-    searchProps,
-  ]
+  return [snapshot, optionProps, searchProps]
 }
 
 function parseSectorName(sector) {
@@ -108,16 +101,19 @@ function parseSectorName(sector) {
 }
 
 function fuzzySearch(options) {
-  const mergedOptions = [].concat.apply([], options.map(group => {
-    return group.items.map(item => {
-      return {
-        ...item,
-        groupId: group.name
-      }
+  const mergedOptions = [].concat.apply(
+    [],
+    options.map((group) => {
+      return group.items.map((item) => {
+        return {
+          ...item,
+          groupId: group.name,
+        }
+      })
     })
-  }))
+  )
   const fuse = new Fuse(mergedOptions, {
-    keys: [ 'name', 'value' ],
+    keys: ['name', 'value'],
     threshold: 0.2,
   })
 
@@ -131,7 +127,7 @@ function fuzzySearch(options) {
         acc[item.groupId] = {
           type: 'group',
           name: item.groupId,
-          items: []
+          items: [],
         }
       }
       acc[item.groupId].items.push(item)
