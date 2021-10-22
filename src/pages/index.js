@@ -8,5 +8,6 @@ export default function Page() {
     router.push('/exchange/basic?network=xdai')
   }, [])
 
+  // TODO show spinner here?
   return <p>Loading...</p>
 }

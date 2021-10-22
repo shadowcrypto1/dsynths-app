@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
+import Link from 'next/Link'
 
 import { SearchList, LongTab, ShortTab, Trade, NetworkBar } from '../../components/App/Simple'
 
@@ -128,8 +128,10 @@ export default function Simple() {
         <Container isDesktop={isDesktop}>
           <Disclaimer>
             Our simple swapper is still a work in progress, please use our{' '}
-            <Link to="/exchange/basic">/basic</Link>&nbsp;swapper for an improved trading
-            experience.
+            <Link href="/exchange/basic">
+              <a>/basic</a>
+            </Link>
+            &nbsp;swapper for an improved trading experience.
           </Disclaimer>
           <SearchList focus={false} />
           <TradeContainer>

@@ -3,6 +3,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import { ModalProvider } from 'styled-react-modal'
 import styled from 'styled-components'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 
 import Web3ReactManager from '../components/Web3ReactManager'
 import Popups from '../components/Popups'
@@ -30,19 +31,25 @@ const SpecialModalBackground = styled.div`
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <ReduxProvider store={store}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <Web3ProviderNetwork getLibrary={getLibrary}>
-          <Web3ReactManager>
-            <ModalProvider backgroundComponent={SpecialModalBackground}>
-              <Popups />
-              <Updaters />
-              <Component {...pageProps} />
-            </ModalProvider>
-          </Web3ReactManager>
-        </Web3ProviderNetwork>
-      </Web3ReactProvider>
-    </ReduxProvider>
+    <>
+      <Head>
+        <title>dSynths Exchange</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </Head>
+      <ReduxProvider store={store}>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <Web3ProviderNetwork getLibrary={getLibrary}>
+            <Web3ReactManager>
+              <ModalProvider backgroundComponent={SpecialModalBackground}>
+                <Popups />
+                <Updaters />
+                <Component {...pageProps} />
+              </ModalProvider>
+            </Web3ReactManager>
+          </Web3ProviderNetwork>
+        </Web3ReactProvider>
+      </ReduxProvider>
+    </>
   )
 }
 export default MyApp

@@ -1,9 +1,31 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
-@import "./scrollbar.css";
+@import './scrollbar.css';
+
+#background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    100% 100% at 50% 100%,
+    rgba(82, 52, 166, 0.92) 24.48%,
+    #291170 53.65%,
+    #12092c 82.29%
+  );
+  z-index: -1;
+
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 
 body {
   font-size: 1rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 * {
@@ -14,10 +36,10 @@ body {
   font-style: normal;
   font-weight: normal;
 
-  box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  -webkit-box-sizing:border-box;
-  -ms-box-sizing:border-box;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -28,6 +50,6 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type='number'] {
   -moz-appearance: textfield;
 }

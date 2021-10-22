@@ -4,15 +4,15 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { NetworkConnector } from './NetworkConnector'
 import { SUPPORTED_CHAINS_BY_NAME, SUPPORTED_CHAIN_IDS } from '../constants'
 
-const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
-const WALLETCONNECT_BRIDGE_URL = process.env.REACT_APP_WALLETCONNECT_BRIDGE_URL
+const INFURA_KEY = process.env.NEXT_PUBLIC_INFURA_KEY
+const WALLETCONNECT_BRIDGE_URL = process.env.NEXT_PUBLIC_WALLETCONNECT_BRIDGE_URL
 
 if (!INFURA_KEY || typeof INFURA_KEY === 'undefined') {
-  throw new Error('REACT_APP_INFURA_KEY must be a defined environment variable')
+  throw new Error('NEXT_PUBLIC_INFURA_KEY must be a defined environment variable')
 }
 
 if (!WALLETCONNECT_BRIDGE_URL || typeof WALLETCONNECT_BRIDGE_URL === 'undefined') {
-  throw new Error('REACT_APP_WALLETCONNECT_BRIDGE_URL must be a defined environment variable')
+  throw new Error('NEXT_PUBLIC_WALLETCONNECT_BRIDGE_URL must be a defined environment variable')
 }
 
 const NETWORK_URLS = {

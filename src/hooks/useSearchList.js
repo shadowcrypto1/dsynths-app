@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
 import { useSelect } from 'react-select-search/dist/cjs'
 import Fuse from 'fuse.js'
 import qs from 'query-string'
 import _ from 'lodash'
+import { useRouter } from 'next/router'
 
 import { useFavorites } from '../state/favorites/hooks'
 import { useBaseState } from '../state/base/hooks'
@@ -13,8 +13,8 @@ import { useDetailsState } from '../state/details/hooks'
 // This order makes sure that stocks/commodities will ALWAYS be above crypto
 const groupsOrder = ['STOCKS / COMMODITIES', 'CRYPTO']
 
-export const useSearchList = (networkName) => {
-  const { location, push } = useHistory()
+export const useSearchList = () => {
+  const { push } = useRouter()
   const conducted = useConductedState()
   const details = useDetailsState()
   const base = useBaseState()
@@ -77,11 +77,11 @@ export const useSearchList = (networkName) => {
     if (!symbol) return // initial render is null, if not filtered it will cause performance issues
     if (base?.symbol.toUpperCase() === symbol?.toUpperCase()) return
 
-    const queryParams = qs.parse(location.search)
+    const queryParams = qs.parse(window.location.search)
     const query = { ...queryParams, symbol: symbol }
 
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    push({ search: qs.stringify(query) })
+    push({ query })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snapshot.value])

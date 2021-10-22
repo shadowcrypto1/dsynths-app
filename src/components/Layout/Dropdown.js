@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 import { ChevronDown } from '../Icons'
 
@@ -30,7 +30,7 @@ const DropdownButton = styled.button`
   margin: 0; /* Important for vertical align on mobile phones */
 
   &:hover {
-    color: #F6CC2E;
+    color: #f6cc2e;
   }
 
   &:focus {
@@ -39,12 +39,12 @@ const DropdownButton = styled.button`
 `
 
 const DropdownContent = styled.div`
-  display: ${props => props.show ? 'block' : 'none'};
+  display: ${(props) => (props.show ? 'block' : 'none')};
   position: absolute;
   width: 150px;
   z-index: 1;
 
-  background: #28116A;
+  background: #28116a;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   overflow: hidden;
@@ -58,27 +58,27 @@ const DropdownContent = styled.div`
     text-align: left;
 
     &:hover {
-      color: #F6CC2E;
+      color: #f6cc2e;
       background: #351690;
     }
   }
 `
 
 export const Dropdown = ({ name, linksMapping }) => {
-  const [ show, setShow ] = useState(false)
+  const [show, setShow] = useState(false)
   return (
-    <DropdownContainer
-      onMouseOver={() => setShow(true)}
-      onMouseOut={() => setShow(false)}
-    >
+    <DropdownContainer onMouseOver={() => setShow(true)} onMouseOut={() => setShow(false)}>
       <DropdownButton>
         <span>{name}</span>
-        <ChevronDown width='15' style={{marginLeft: '5px'}}/>
+        <ChevronDown width="15" style={{ marginLeft: '5px' }} />
       </DropdownButton>
       <DropdownContent show={show}>
-        {linksMapping.length && linksMapping.map((o, index) => (
-          <Link to={o.href} key={index}>{o.name}</Link>
-        ))}
+        {linksMapping.length &&
+          linksMapping.map((o, index) => (
+            <Link href={o.href} key={index}>
+              <a>{o.name}</a>
+            </Link>
+          ))}
       </DropdownContent>
     </DropdownContainer>
   )

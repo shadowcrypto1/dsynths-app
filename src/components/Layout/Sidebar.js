@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Link from 'next/link'
 
-import useOutsideClick from  '../../hooks/useOutsideClick'
+import useOutsideClick from '../../hooks/useOutsideClick'
 import {
   Close as CloseIcon,
   NavDashboard,
@@ -13,7 +13,7 @@ import {
   Twitter,
   Telegram,
   Github,
-} from  '../Icons'
+} from '../Icons'
 import { Web3Status } from '../Web3Status'
 
 const Wrapper = styled.nav`
@@ -21,7 +21,7 @@ const Wrapper = styled.nav`
   width: clamp(200px, 70vw, 300px);
   flex-flow: column nowrap;
   position: absolute;
-  background-color: #12092C;
+  background-color: #12092c;
   top: 0;
   right: 0;
   bottom: 0;
@@ -33,7 +33,9 @@ const Wrapper = styled.nav`
   -webkit-transition: all 0.3s;
   pointer-events: none;
 
-  ${props => props.toggled && `
+  ${(props) =>
+    props.toggled &&
+    `
     opacity: 1;
     pointer-events: auto;
   `};
@@ -86,9 +88,9 @@ const NavItemTitle = styled.div`
   }
 `
 
-const NavItem = styled(Link)`
+const NavItem = styled.a`
   display: block;
-  background: #28116A;
+  background: #28116a;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   height: 27px;
@@ -96,7 +98,7 @@ const NavItem = styled(Link)`
   line-height: 25px;
   display: flex;
   align-items: center;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 0px 5% 5px 5%;
   padding: 15px;
   text-decoration: none;
@@ -137,7 +139,7 @@ const ReturnButton = styled.a`
   height: 30px;
   padding: 0px 15px;
   line-height: 30px;
-  background: #5630DE;
+  background: #5630de;
   border-radius: 6px;
   text-align: center;
   text-decoration: none;
@@ -156,55 +158,69 @@ export const Sidebar = ({ toggled, handleToggled }) => {
   return (
     <Wrapper ref={wrapperRef} toggled={toggled}>
       <Header>
-        <Web3Status/>
-        <Close onClick={() => handleToggled()}/>
+        <Web3Status />
+        <Close onClick={() => handleToggled()} />
       </Header>
       <NavItems onClick={() => handleToggled()}>
         <NavItemTitle>
-          <NavExchange/>
+          <NavExchange />
           <span>Exchange</span>
         </NavItemTitle>
-        <NavItem to='/exchange/simple?network=xdai'>Simple</NavItem>
-        <NavItem to='/exchange/basic?network=xdai'>Basic</NavItem>
+        <Link href="/exchange/simple?network=xdai" passHref>
+          <NavItem>Simple</NavItem>
+        </Link>
+        <Link href="/exchange/basic?network=xdai" passHref>
+          <NavItem>Basic</NavItem>
+        </Link>
 
         <NavItemTitle>
-          <NavDashboard/>
+          <NavDashboard />
           <span>Dashboard</span>
         </NavItemTitle>
-        <NavItem to='/dashboard'>Getting Started</NavItem>
+        <Link href="/dashboard" passHref>
+          <NavItem>Getting Started</NavItem>
+        </Link>
 
         <NavItemTitle>
-          <NavMarkets/>
+          <NavMarkets />
           <span>Markets</span>
         </NavItemTitle>
-        <NavItem to='/markets'>View available instruments</NavItem>
+        <Link href="/markets" passHref>
+          <NavItem>View available instruments</NavItem>
+        </Link>
 
         <NavItemTitle>
-          <NavPortfolio/>
+          <NavPortfolio />
           <span>Portfolio</span>
         </NavItemTitle>
-        <NavItem to='/portfolio'>Check & Manage your portfolio</NavItem>
+        <Link href="/portfolio" passHref>
+          <NavItem>Check & Manage your portfolio</NavItem>
+        </Link>
 
         <NavItemTitle>
-          <NavFiat/>
+          <NavFiat />
           <span>Fiat On-Ramp</span>
         </NavItemTitle>
-        <NavItem to='/fiat'>Buy crypto with your creditcard</NavItem>
+        <Link href="/fiat" passHref>
+          <NavItem>Buy crypto with your creditcard</NavItem>
+        </Link>
       </NavItems>
 
       <Footer>
         <SocialsWrapper>
           <a href={'https://twitter.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
-            <Twitter size={18}/>
+            <Twitter size={18} />
           </a>
           <a href={'https://t.me/dsynths'} target={'_blank'} rel="noreferrer noopener">
-            <Telegram size={18}/>
+            <Telegram size={18} />
           </a>
           <a href={'https://github.com/dsynths'} target={'_blank'} rel="noreferrer noopener">
-            <Github size={20}/>
+            <Github size={20} />
           </a>
         </SocialsWrapper>
-        <ReturnButton href='https://www.dsynths.com' target='_blank' rel='noreferrer noopener'>Return to Website</ReturnButton>
+        <ReturnButton href="https://www.dsynths.com" target="_blank" rel="noreferrer noopener">
+          Return to Website
+        </ReturnButton>
       </Footer>
     </Wrapper>
   )
