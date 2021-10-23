@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 // import { useWeb3React } from '@web3-react/core'
 import { useDispatch } from 'react-redux'
-import { useWeb3React } from '../../hooks/useWeb3'
+import { useRouter } from 'next/router'
 
-import { useParsedQueryString } from '../../hooks/useParsedQueryString'
+import { useWeb3React } from '../../hooks/useWeb3'
 import { replaceMarketState } from './actions'
 import { SUPPORTED_PAIRS_BY_CHAIN_ID, SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 
@@ -16,10 +16,10 @@ const Field = {
 export default function Updater() {
   const { chainId } = useWeb3React()
   const dispatch = useDispatch()
-  const parsedQs = useParsedQueryString()
+  const { query } = useRouter()
 
   useEffect(() => {
-    const parsed = queryParametersToMarketState(parsedQs, chainId)
+    const parsed = queryParametersToMarketState(query, chainId)
 
     dispatch(
       replaceMarketState({
@@ -28,7 +28,7 @@ export default function Updater() {
         networkName: parsed[Field.NETWORK].networkName,
       })
     )
-  }, [dispatch, chainId, parsedQs])
+  }, [dispatch, chainId, query])
 
   return null
 }

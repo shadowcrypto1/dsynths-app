@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useSelect } from 'react-select-search/dist/cjs'
 import Fuse from 'fuse.js'
-import qs from 'query-string'
 import _ from 'lodash'
 import { useRouter } from 'next/router'
 
@@ -14,7 +13,7 @@ import { useDetailsState } from '../state/details/hooks'
 const groupsOrder = ['STOCKS / COMMODITIES', 'CRYPTO']
 
 export const useSearchList = () => {
-  const { push } = useRouter()
+  const router = useRouter()
   const conducted = useConductedState()
   const details = useDetailsState()
   const base = useBaseState()
@@ -77,14 +76,9 @@ export const useSearchList = () => {
     if (!symbol) return // initial render is null, if not filtered it will cause performance issues
     if (base?.symbol.toUpperCase() === symbol?.toUpperCase()) return
 
-    const queryParams = qs.parse(window.location.search)
-    const query = { ...queryParams, symbol: symbol }
-
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    push({ query })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snapshot.value])
+    router.push({ query: { symbol: symbol } })
+  }, [snapshot.value, router, base?.symbol])
 
   return [snapshot, optionProps, searchProps]
 }

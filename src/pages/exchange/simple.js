@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 import Link from 'next/Link'
@@ -10,6 +10,7 @@ import { Layout } from '../../components/Layout'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
+import useIsMounted from '../../hooks/useIsMounted'
 
 const Container = styled.div`
   display: flex;
@@ -85,12 +86,7 @@ export default function Simple() {
   const base = useBaseState()
   const [type, setType] = useState('LONG')
   const [status, setStatus] = useState('LOADING')
-  const mounted = useRef(false)
-
-  useLayoutEffect(() => {
-    mounted.current = true
-    return () => (mounted.current = false)
-  }, [])
+  const mounted = useIsMounted()
 
   const debounceLoaderScreen = useCallback(
     debounce((status) => {

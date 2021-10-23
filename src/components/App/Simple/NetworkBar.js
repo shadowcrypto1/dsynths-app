@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 import { useMarketState } from '../../../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
@@ -30,12 +31,12 @@ const OptionsWrapper = styled.div`
   grid-gap: 9px;
 `
 
-const BoxWrapper = styled.div`
+const BoxWrapper = styled.a`
   display: flex;
   justify-content: center;
   height: 22px;
   text-align: center;
-  align-text: center;
+  align-items: center;
   line-height: 22px;
   color: black;
   font-weight: 300;
@@ -86,16 +87,11 @@ export const NetworkBar = () => {
           const displayValue = name === 'MAINNET' ? 'ETH' : name
           const active = name === networkName
           return (
-            <Option
-              key={name}
-              onClick={() =>
-                (window.location.href = `${window.location.pathname}?network=${displayValue}`)
-              }
-              active={active}
-              networkName={displayValue}
-            >
-              {displayValue}
-            </Option>
+            <Link key={name} href={{ query: { network: displayValue } }} passHref shallow>
+              <Option active={active} networkName={displayValue}>
+                {displayValue}
+              </Option>
+            </Link>
           )
         })}
       </OptionsWrapper>
