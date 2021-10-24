@@ -84,7 +84,7 @@ export default function Updater() {
 }
 
 function findInConducted(conducted, symbol) {
-  return _.find(conducted.data, { id: symbol })
+  return conducted.data[symbol]
 }
 
 function findInDetails(details, symbol) {

@@ -1,19 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+
 import { makeHttpRequest } from '../../utils/http'
+import { SUPPORTED_CHAINS_BY_NAME } from '../../constants'
 
 const initialState = {
   status: 'LOADING',
-  data: [],
+  data: {},
 }
 
 export const fetchConducted = createAsyncThunk(
   'conducted/fetchConducted',
-  async (networkName) => {
-    if (!networkName) return []
+  async () => {
     try {
-      console.log('Fetching conducted tokens on network: ', networkName)
-      const result = await makeHttpRequest(`https://oracle1.deus.finance/${networkName.toLowerCase()}/conducted.json`)
-      return result?.tokens ?? []
+      const networkMapping = Object.keys(SUPPORTED_CHAINS_BY_NAME)
+      const promises = networkMapping.map(networkName => {
+        return makeHttpRequest(`https://oracle1.deus.finance/${networkName.toLowerCase()}/conducted.json`)
+      })
+
+      console.log('Fetching conducted tokens:')
+      const results = await Promise.allSettled(promises)
+
+      // Bind results to according network (Promise.All preserves the mapping order)
+      return results.reduce((acc, res, index) => {
+        acc[networkMapping[index]] = res.status === 'fulfilled' ? res.value?.tokens ?? [] : []
+        return acc
+      }, {})
     } catch (err) {
       console.error(err)
       return []
@@ -28,15 +39,30 @@ const conductedSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchConducted.pending, (state) => {
-        state.data = []
+        state.data = {}
         state.status = 'LOADING'
       })
       .addCase(fetchConducted.fulfilled, (state, { payload }) => {
-        state.data = payload
+        // Cross filter conducted among chains and index them
         state.status = 'OK'
+        state.data = Object.entries(payload).reduce((acc, keyPair) => {
+          const [networkName, values] = keyPair
+          for (let i = 0; i < values.length; i++) {
+            let asset = values[i]
+            if (!acc[asset.id]) {
+              acc[asset.id] = []
+            }
+            acc[asset.id].push({
+              networkName: networkName,
+              long: asset.long,
+              short: asset.short,
+            })
+          }
+          return acc
+        }, {})
       })
       .addCase(fetchConducted.rejected, (state) => {
-        state.data = []
+        state.data = {}
         state.status = 'ERROR'
       })
   }

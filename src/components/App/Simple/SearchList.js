@@ -6,6 +6,7 @@ import { FixedSizeList as List } from 'react-window'
 import { useSearchList } from '../../../hooks/useSearchList'
 import { useToggleFavorite } from '../../../state/favorites/hooks'
 import { useBaseState } from '../../../state/base/hooks'
+import { useMarketState } from '../../../state/market/hooks'
 import { Search as SearchIcon } from '../../Icons'
 
 const Wrapper = styled.div`
@@ -184,14 +185,14 @@ const GroupItems = ({ items, symbol, optionProps, focus, toggleFavorite, height 
 }
 
 export const SearchList = ({ focus }) => {
-  const wrapperRef = useRef(null)
   const base = useBaseState()
+  const { networkName } = useMarketState()
   const toggleFavorite = useToggleFavorite()
   const [
     snapshot,
     optionProps,
     searchProps,
-  ] = useSearchList()
+  ] = useSearchList(networkName)
 
   return (
     <Wrapper>

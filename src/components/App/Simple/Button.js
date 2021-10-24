@@ -51,10 +51,7 @@ export const TradeButton = styled.div`
   align-items: center;
   text-align: center;
   color: #FFFFFF;
-  background: ${props => props.disabled
-    ? 'rgba(255, 33, 33, 0.4)'
-    : '#542FE6'
-  };
+  background: ${props => props.disabled ? 'rgba(255, 33, 33, 0.4)' : '#542FE6'};
   border-radius: 20px;
   &:hover {
     cursor: ${props => props.disabled ? 'auto' : 'pointer'};

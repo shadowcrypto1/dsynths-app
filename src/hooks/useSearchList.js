@@ -5,6 +5,7 @@ import Fuse from 'fuse.js'
 import qs from 'query-string'
 import _ from 'lodash'
 
+import { useMarketState } from '../state/market/hooks'
 import { useFavorites } from '../state/favorites/hooks'
 import { useBaseState } from '../state/base/hooks'
 import { useConductedState } from '../state/conducted/hooks'
@@ -16,7 +17,7 @@ const groupsOrder = [
   'CRYPTO',
 ]
 
-export const useSearchList = () => {
+export const useSearchList = (networkName) => {
   const { location, push } = useHistory()
   const conducted = useConductedState()
   const details = useDetailsState()
@@ -24,10 +25,14 @@ export const useSearchList = () => {
   const favorites = useFavorites()
 
   const options = useMemo(() => {
-    if (!details) return []
-    const groups = conducted.data.reduce((acc, synth) => {
-      const props = details.data[synth.id]
+    if (!details || details.status != 'OK') return []
+    if (!networkName) return []
+
+    const groups = Object.entries(conducted.data).reduce((acc, keyValue) => {
+      const [symbol, values] = keyValue
+      const props = details.data[symbol]
       const sector = parseSectorName(props.sector)
+
       if (!acc[sector]) {
         acc[sector] = {
           type: 'group',
@@ -35,10 +40,12 @@ export const useSearchList = () => {
           items: [],
         }
       }
+
       acc[sector].items.push({
         name: props.name,
-        value: props.symbol,
+        value: props.symbol, // using `value` and not `symbol` because snapshot takes in a 'value' param
         favorite: favorites.includes(props.name),
+        networks: values.map(o => o.networkName)
       })
       return acc
     }, {})
@@ -47,8 +54,9 @@ export const useSearchList = () => {
       return {
         ...group,
         items: group.items
+          .filter(asset => networkName === 'ALL' ? true : asset.networks.includes(networkName))
           .sort((a, b) => a.value.localeCompare(b.value))
-          .sort((a, b) => (a.favorite === b.favorite)? 0 : a.favorite? -1 : 1)
+          .sort((a, b) => (a.favorite === b.favorite) ? 0 : a.favorite? -1 : 1)
       }
     })
 
@@ -56,7 +64,7 @@ export const useSearchList = () => {
     return _.sortBy(result, (obj) => {
       return _.indexOf(groupsOrder, obj.name)
     })
-  }, [conducted, details, favorites])
+  }, [conducted, details, favorites, networkName])
 
   const [snapshot, searchProps, optionProps] = useSelect({
     options,

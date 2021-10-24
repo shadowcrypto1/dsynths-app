@@ -111,17 +111,19 @@ export const Trade = ({ type }) => {
     switch (type) {
       case 'LONG':
         return `${formattedPrice} ${inputSymbol}/${outputSymbol}`
-        case 'SHORT':
-          return `${formattedPrice} ${outputSymbol}/${inputSymbol}`
-        }
-      }, [price])
+      case 'SHORT':
+        return `${formattedPrice} ${outputSymbol}/${inputSymbol}`
+      default:
+        return `${formattedPrice} ${inputSymbol}/${outputSymbol}`
+    }
+  }, [price])
 
-      const [approvalState, approveCallback] = useApproveCallback({
-        address: inputContract,
-        isToken: inputIsToken,
-        symbol: inputSymbol,
-        type: type,
-      })
+  const [approvalState, approveCallback] = useApproveCallback({
+    address: inputContract,
+    isToken: inputIsToken,
+    symbol: inputSymbol,
+    type: type,
+  })
 
   const balance = useTokenBalance(inputContract, inputIsToken)
   const sufficientBalance = useMemo(() => {

@@ -1,6 +1,7 @@
 export { default as Close } from './Close'
 export { default as ChevronDown } from './ChevronDown'
 export { default as DownArrow } from './DownArrow'
+export { default as GoArrow } from './GoArrow'
 export { default as Loader } from './Loader'
 export { default as LogoAsLoader } from './LogoAsLoader'
 export { default as NavToggle } from './NavToggle'

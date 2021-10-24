@@ -6,6 +6,7 @@ import { FixedSizeList as List } from 'react-window'
 import { useSearchList } from '../../../hooks/useSearchList'
 import { useToggleFavorite } from '../../../state/favorites/hooks'
 import { useBaseState } from '../../../state/base/hooks'
+import { useMarketState } from '../../../state/market/hooks'
 import { Search as SearchIcon } from '../../Icons'
 
 const Wrapper = styled.div`
@@ -138,6 +139,7 @@ const SearchBar = ({ searchProps, value, focus }) => {
         value={value}
         placeholder={'Search stocks, commodities & crypto'}
         autoFocus={focus}
+        onBlur={() => {}}
       />
       <SearchIcon style={{ alignSelf: 'center', marginRight: '5px'}} color={'#000000'}/>
     </InputWrapper>
@@ -185,12 +187,13 @@ const GroupItems = ({ items, symbol, optionProps, focus, toggleFavorite, height 
 
 export const SearchList = ({ focus }) => {
   const base = useBaseState()
+  const { networkName } = useMarketState()
   const toggleFavorite = useToggleFavorite()
   const [
     snapshot,
     optionProps,
     searchProps,
-  ] = useSearchList()
+  ] = useSearchList(networkName)
 
   return (
     <Wrapper>

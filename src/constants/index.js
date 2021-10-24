@@ -81,5 +81,13 @@ export const SUPPORTED_CHAINS_BY_NAME = {
   POLYGON: 137,
 }
 
+export const SUPPORTED_CHAINS_AS_OPTIONS = [
+  { name: 'Ethereum', short: 'ETH', value: 'MAINNET' },
+  { name: 'BSC', short: 'BSC', value: 'BSC' },
+  { name: 'xDAI', short: 'xDAI', value: 'XDAI' },
+  { name: 'HECO', short: 'HECO', value: 'HECO' },
+  { name: 'Polygon', short: 'POLYGON', value: 'POLYGON' },
+]
+
 export const SUPPORTED_CHAINS_BY_ID = _.invert(SUPPORTED_CHAINS_BY_NAME)
 export const SUPPORTED_CHAIN_IDS = Object.values(SUPPORTED_CHAINS_BY_NAME)

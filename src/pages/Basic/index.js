@@ -22,10 +22,7 @@ const Container = styled.div`
   position: relative;
   height: auto;
 
-  padding: ${({isDesktop}) => isDesktop
-    ? '50px 30px 20px 30px'
-    : '20px 30px 20px 30px'
-  };
+  padding: ${({isDesktop}) => isDesktop ? '50px 30px 20px 30px' : '20px 30px 20px 30px'};
 `
 
 const CenterWrapper = styled.div`

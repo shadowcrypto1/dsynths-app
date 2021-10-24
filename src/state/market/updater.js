@@ -63,7 +63,7 @@ export function parsePairCurrency(fallbackNetworkName) {
   return SUPPORTED_PAIRS_BY_CHAIN_ID[chainIdByNetworkName][0]
 }
 
-function parseNetworkName(urlParam, fallbackChainId) {
+function parseNetworkName(urlParam) {
   if (typeof urlParam === 'string') {
     let name = urlParam === 'ETH' ? 'MAINNET' : urlParam.toUpperCase()
     if (SUPPORTED_CHAINS_BY_NAME[name]) {

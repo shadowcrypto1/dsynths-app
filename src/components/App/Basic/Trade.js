@@ -118,12 +118,12 @@ export const Trade = ({ type }) => {
     }
   }, [price, type, inputSymbol, outputSymbol])
 
-    const [approvalState, approveCallback] = useApproveCallback({
-      address: inputContract,
-      isToken: inputIsToken,
-      symbol: inputSymbol,
-      type: type,
-    })
+  const [approvalState, approveCallback] = useApproveCallback({
+    address: inputContract,
+    isToken: inputIsToken,
+    symbol: inputSymbol,
+    type: type,
+  })
 
   const balance = useTokenBalance(inputContract, inputIsToken)
   const sufficientBalance = useMemo(() => {
