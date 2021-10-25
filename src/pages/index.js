@@ -1,5 +1,17 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import styled from 'styled-components'
+
+import { Layout } from '../components/Layout'
+import { LogoAsLoader as LoaderIcon } from '../components/Icons'
+
+const LoaderWrapper = styled.div`
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`
 
 export default function Page() {
   const router = useRouter()
@@ -8,6 +20,11 @@ export default function Page() {
     router.push('/exchange/basic?network=xdai')
   }, [])
 
-  // TODO show spinner here?
-  return <p>Loading...</p>
+  return (
+    <Layout>
+      <LoaderWrapper>
+        <LoaderIcon size={'90px'} />
+      </LoaderWrapper>
+    </Layout>
+  )
 }

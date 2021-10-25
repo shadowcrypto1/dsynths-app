@@ -78,7 +78,9 @@ export const useSearchList = () => {
 
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
     router.push({ query: { ...router.query, symbol: symbol } })
-  }, [snapshot.value, router, base?.symbol])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapshot.value])
 
   return [snapshot, optionProps, searchProps]
 }
@@ -127,7 +129,6 @@ function fuzzySearch(options) {
       acc[item.groupId].items.push(item)
       return acc
     }, {})
-    console.log(Object.values(groups))
     return Object.values(groups)
   }
 }
