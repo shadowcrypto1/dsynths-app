@@ -27,6 +27,10 @@ const Wrapper = styled.div`
       :hover {
         cursor: pointer;
       }
+
+      @media screen and (max-width: 400px) {
+        padding: 16px 10px;
+      }
     }
 
   }
@@ -35,10 +39,13 @@ const Wrapper = styled.div`
   }
   .active {
     & > * {
-      font-weight: bold;
-      font-size: 14px;
-      line-height: 10px;
+      font-weight: 700;
+      background: #242657;
     }
+  }
+
+  @media screen and (max-width: 400px) {
+    font-size: 9px;
   }
 `
 

@@ -6,7 +6,7 @@ import { Search as SearchIcon } from '../../Icons'
 const InputWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 300px;
+  width: clamp(210px, 300px, 100%);
   background: #DEDFEC;
   border: 1px solid #CECECE;
   border-radius: 5px;

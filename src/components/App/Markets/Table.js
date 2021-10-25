@@ -85,6 +85,9 @@ const Cel = styled.td`
   }
 
   @media screen and (max-width: 480px) {
+    &:nth-of-type(1) {
+      max-width: 50px;
+    }
     &:nth-of-type(2) {
       display: none;
     }
@@ -167,7 +170,7 @@ export const Table = ({
       <TableWrapper>
         <Head>
           <Row>
-            <Cel ></Cel>
+            <Cel></Cel>
             <Cel justify='left'>Symbol</Cel>
             <Cel justify='left'>Name</Cel>
             <Cel>Price</Cel>
