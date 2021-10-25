@@ -77,7 +77,7 @@ export const useSearchList = () => {
     if (base?.symbol.toUpperCase() === symbol?.toUpperCase()) return
 
     // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    router.push({ query: { symbol: symbol } })
+    router.push({ query: { ...router.query, symbol: symbol } })
   }, [snapshot.value, router, base?.symbol])
 
   return [snapshot, optionProps, searchProps]
@@ -116,7 +116,7 @@ function fuzzySearch(options) {
       return options
     }
     const result = fuse.search(value)
-    const groups = result.reduce((acc, item) => {
+    const groups = result.reduce((acc, { item }) => {
       if (!acc[item.groupId]) {
         acc[item.groupId] = {
           type: 'group',
@@ -127,6 +127,7 @@ function fuzzySearch(options) {
       acc[item.groupId].items.push(item)
       return acc
     }, {})
+    console.log(Object.values(groups))
     return Object.values(groups)
   }
 }
