@@ -143,7 +143,8 @@ export const Table = ({
     return slice.map(asset => {
       let mappedPrices = quotes.status !== 'OK'
         ? []
-        : quotes.data[asset.value].map(o => o.long?.price).filter(n => n)
+        : quotes?.data[asset.value] ?? []
+      mappedPrices = mappedPrices.map(o => o.long?.price).filter(n => n)
 
       let price = mappedPrices.length > 0 ? formatDollarAmount(mappedPrices[0]) : 'Market Closed'
       return {
