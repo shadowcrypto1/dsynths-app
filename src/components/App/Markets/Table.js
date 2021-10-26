@@ -6,6 +6,7 @@ import ReactImageFallback from 'react-image-fallback'
 
 import { Pagination } from './Pagination'
 import { useQuotesState } from '../../../state/quotes/hooks'
+import { formatDollarAmount } from '../../../utils/numbers'
 
 const Wrapper = styled.div`
   display: flex;
@@ -146,8 +147,11 @@ export const Table = ({
   const paginatedData = useMemo(() => {
     const slice = data.slice(offset, offset + amountPerPage)
     return slice.map(asset => {
-      let parsedPrice = quotes?.data[asset.value]?.Long.price
-      let price = (parsedPrice && parsedPrice > 0) ? `$${parsedPrice}` : 'Market Closed'
+      let mappedPrices = quotes.status !== 'OK'
+        ? []
+        : quotes.data[asset.value].map(o => o.long?.price).filter(n => n)
+
+      let price = mappedPrices.length > 0 ? formatDollarAmount(mappedPrices[0]) : 'Market Closed'
       return {
         ...asset,
         symbol: asset.value,

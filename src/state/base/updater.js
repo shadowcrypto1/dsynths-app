@@ -9,7 +9,7 @@ import { useDetailsState } from '../details/hooks'
 import { useQuotesState } from '../quotes/hooks'
 
 export default function Updater() {
-  const { baseSymbol } = useMarketState()
+  const { baseSymbol, networkName } = useMarketState()
   const quote = useQuotesState()
   const conducted = useConductedState()
   const details = useDetailsState()
@@ -61,24 +61,27 @@ export default function Updater() {
 
     const foundQuote = findInQuote(quote, baseSymbol)
     if (!foundQuote) {
-      // console.log(`Unable to get a quote for ${baseSymbol}`);
+      console.log(`Unable to get a quote for ${baseSymbol}`);
       dispatch(noQuote())
       return
     }
 
     // console.log(`Found ${baseSymbol} in the quote registry`)
+    const index = _.findIndex(foundQuote, { networkName: networkName.toUpperCase()})
+    const assetQuote = foundQuote[index]
+    const exists = index !== -1
 
     dispatch(
       updateQuote({
-        longPrice: foundQuote?.Long?.price,
-        longFee: foundQuote?.Long?.fee,
-        longIsClosed: !!foundQuote?.Long?.is_close,
-        shortPrice: foundQuote?.Short?.price,
-        shortFee: foundQuote?.Short?.fee,
-        shortIsClosed: !!foundQuote?.Short?.is_close,
+        longPrice: exists ? assetQuote.long.price : null,
+        longFee: exists ? assetQuote.long.fee : null,
+        longIsClosed: exists ? !!assetQuote.long.is_close : null,
+        shortPrice: exists ? assetQuote.short.price : null,
+        shortFee: exists ? assetQuote.short.fee : null,
+        shortIsClosed: exists ? !!assetQuote.short.is_close : null,
       })
     )
-  }, [dispatch, baseSymbol, quote])
+  }, [dispatch, baseSymbol, quote, networkName])
 
   return null
 }
