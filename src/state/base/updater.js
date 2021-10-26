@@ -26,9 +26,10 @@ export default function Updater() {
     }
 
     const [ conductedValue, detailedValue ] = [
-      findInConducted(conducted, baseSymbol),
+      findInConducted(conducted, networkName, baseSymbol),
       findInDetails(details, baseSymbol),
     ]
+
     if (!conductedValue || !detailedValue) {
       // console.log(`Unable to find baseSymbol ${baseSymbol} in the conducted/detailed registry`)
       dispatch(updateStatus({ status: 'NOT_FOUND' }))
@@ -36,7 +37,6 @@ export default function Updater() {
     }
 
     // console.log(`Found ${baseSymbol} in the conducted/detailed registry`)
-
     dispatch(updateSymbol({
       symbol: baseSymbol,
       name: detailedValue?.name,
@@ -59,7 +59,7 @@ export default function Updater() {
       return
     }
 
-    const foundQuote = findInQuote(quote, baseSymbol)
+    const foundQuote = findInQuote(quote, networkName, baseSymbol)
     if (!foundQuote) {
       console.log(`Unable to get a quote for ${baseSymbol}`)
       dispatch(noQuote())
@@ -67,18 +67,14 @@ export default function Updater() {
     }
 
     // console.log(`Found ${baseSymbol} in the quote registry`)
-    const index = _.findIndex(foundQuote, { networkName: networkName.toUpperCase()})
-    const assetQuote = foundQuote[index]
-    const exists = index !== -1
-
     dispatch(
       updateQuote({
-        longPrice: exists ? assetQuote.long.price : null,
-        longFee: exists ? assetQuote.long.fee : null,
-        longIsClosed: exists ? !!assetQuote.long.is_close : null,
-        shortPrice: exists ? assetQuote.short.price : null,
-        shortFee: exists ? assetQuote.short.fee : null,
-        shortIsClosed: exists ? !!assetQuote.short.is_close : null,
+        longPrice: foundQuote.long.price,
+        longFee: foundQuote.long.fee ,
+        longIsClosed: !!foundQuote.long.is_close ,
+        shortPrice: foundQuote.short.price,
+        shortFee: foundQuote.short.fee,
+        shortIsClosed: !!foundQuote.short.is_close,
       })
     )
   }, [dispatch, baseSymbol, quote, networkName])
@@ -86,16 +82,18 @@ export default function Updater() {
   return null
 }
 
-function findInConducted(conducted, symbol) {
-  return conducted.data[symbol]
+function findInConducted(conducted, networkName, symbol) {
+  const index = _.findIndex(conducted.data[symbol], { networkName: networkName.toUpperCase()})
+  return conducted.data[symbol][index]
 }
 
 function findInDetails(details, symbol) {
   return details.data[symbol]
 }
 
-function findInQuote(quote, symbol) {
-  return quote.data[symbol]
+function findInQuote(quote, networkName, symbol) {
+  const index = _.findIndex(quote.data[symbol], { networkName: networkName.toUpperCase()})
+  return quote.data[symbol][index]
 }
 
 function getFetchedStatus(conducted, details) {
