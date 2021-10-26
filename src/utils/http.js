@@ -1,4 +1,6 @@
-export const makeHttpRequest = async function (url, options = {}) {
+export const makeHttpRequest = async function (url, options = {
+  cache: 'no-cache'
+}) {
   try {
     const response = await fetch(url, options)
     return await response.json()
