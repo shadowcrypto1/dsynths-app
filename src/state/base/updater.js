@@ -84,7 +84,9 @@ export default function Updater() {
 
 function findInConducted(conducted, networkName, symbol) {
   const index = _.findIndex(conducted.data[symbol], { networkName: networkName.toUpperCase()})
-  return conducted.data[symbol][index]
+  return index == -1
+    ? null
+    : conducted.data[symbol][index]
 }
 
 function findInDetails(details, symbol) {
@@ -93,7 +95,9 @@ function findInDetails(details, symbol) {
 
 function findInQuote(quote, networkName, symbol) {
   const index = _.findIndex(quote.data[symbol], { networkName: networkName.toUpperCase()})
-  return quote.data[symbol][index]
+  return index == -1
+    ? null
+    : quote.data[symbol][index]
 }
 
 function getFetchedStatus(conducted, details) {
