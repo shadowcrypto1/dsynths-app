@@ -17,7 +17,7 @@ export const fetchConducted = createAsyncThunk(
         return makeHttpRequest(`https://oracle1.deus.finance/${networkName.toLowerCase()}/conducted.json`)
       })
 
-      console.log('Fetching conducted tokens:')
+      console.log('Fetching conducted tokens')
       const results = await Promise.allSettled(promises)
 
       // Bind results to according network (Promise.All preserves the mapping order)
@@ -27,7 +27,7 @@ export const fetchConducted = createAsyncThunk(
       }, {})
     } catch (err) {
       console.error(err)
-      return []
+      return {}
     }
   }
 )
