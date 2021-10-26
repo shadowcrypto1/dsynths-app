@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Star} from 'react-feather'
 import { FixedSizeList as List } from 'react-window'
@@ -200,7 +200,7 @@ export const SearchList = ({ focus }) => {
       {(snapshot.focus || focus) && (
         <GroupsContainer n={snapshot.options.length}>
           {snapshot.options.map(group => (
-            <GroupWrapper key={group.groupId} ref={wrapperRef}>
+            <GroupWrapper key={group.groupId} >
               <GroupHeader>{group.name}</GroupHeader>
               <GroupItems
                 items={group.items}
@@ -208,7 +208,7 @@ export const SearchList = ({ focus }) => {
                 optionProps={optionProps}
                 focus={focus}
                 toggleFavorite={toggleFavorite}
-                height={(wrapperRef?.current?.offsetHeight ?? 265) - 30 - 8} // subtract GroupHeader and 1 gap
+                height={200} // subtract GroupHeader and 1 gap
               />
             </GroupWrapper>
           ))}
