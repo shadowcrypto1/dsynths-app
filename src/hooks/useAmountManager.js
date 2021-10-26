@@ -59,11 +59,11 @@ export const useAmountManager = (price, type, fee) => {
       if (!amount) return setInputAmount('')
       setInputAmount(type === 'LONG'
         ? action === 'OPEN'
-          ? amount * price * (1 - fee)
-          : amount / price * (1 - fee)
+          ? amount * price / (1 - fee)
+          : amount / price / (1 - fee)
         : action === 'CLOSE'
-          ? amount / price * (1 - fee)
-          : amount * price * (1 - fee)
+          ? amount / price / (1 - fee)
+          : amount * price / (1 - fee)
       )
     }, 300),
     [price, type, fee, action]
