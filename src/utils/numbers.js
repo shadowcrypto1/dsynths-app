@@ -1,6 +1,6 @@
 import numbro from 'numbro'
 
-export const formatDollarAmount = (number = undefined, digits = 2, round = true) => {
+export const formatDollarAmount = (number = undefined, digits = 2, round = false) => {
   if (number === 0) return '$0.00'
   if (!number) return '-'
   if (number < 0.001) {
