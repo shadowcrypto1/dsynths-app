@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import ReactPaginate from 'react-paginate'
 

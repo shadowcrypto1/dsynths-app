@@ -4,8 +4,8 @@
   "background_color": "#191E38",
   "theme_color": "#191E38",
   "display": "standalone",
-  "homepage_url": "https://dsynths.com",
-  "providedBy": { "name": "dSynths", "url": "https://dsynths.com" },
+  "homepage_url": "https://app.dsynths.com",
+  "providedBy": { "name": "dSynths", "url": "https://app.dsynths.com" },
   "icons": [
     {
       "src": "./img/192x192_App_Icon.png",
@@ -23,5 +23,5 @@
   "orientation": "portrait",
   "description": "Trade stocks, commodities and crypto in a decentralized fashion using DEUS Finance its smart contract technology. No KYC - No Signup. Simply connect your wallet and start trading on multiple chains.",
   "iconPath": "./images/512x512_App_Icon.png",
-  "start_url": "https://dsynths.com"
+  "start_url": "/"
 }

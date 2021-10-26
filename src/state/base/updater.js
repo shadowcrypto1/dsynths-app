@@ -20,7 +20,7 @@ export default function Updater() {
 
     const status = getFetchedStatus(conducted, details)
     if (status !== 'OK') {
-      // console.log('Conducted and/or details are NOT OK');
+      // console.log('Conducted and/or details are NOT OK')
       dispatch(updateStatus({ status }))
       return
     }
@@ -30,7 +30,7 @@ export default function Updater() {
       findInDetails(details, baseSymbol),
     ]
     if (!conductedValue || !detailedValue) {
-      // console.log(`Unable to find baseSymbol ${baseSymbol} in the conducted/detailed registry`);
+      // console.log(`Unable to find baseSymbol ${baseSymbol} in the conducted/detailed registry`)
       dispatch(updateStatus({ status: 'NOT_FOUND' }))
       return
     }
@@ -61,7 +61,7 @@ export default function Updater() {
 
     const foundQuote = findInQuote(quote, baseSymbol)
     if (!foundQuote) {
-      console.log(`Unable to get a quote for ${baseSymbol}`);
+      console.log(`Unable to get a quote for ${baseSymbol}`)
       dispatch(noQuote())
       return
     }

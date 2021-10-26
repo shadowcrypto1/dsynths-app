@@ -36,8 +36,12 @@ export class RetryableError extends Error {
 export function retry(fn, { n, minWait, maxWait }) {
   let completed = false
   let rejectCancelled
+
+  // eslint-disable-next-line
   const promise = new Promise(async (resolve, reject) => {
     rejectCancelled = reject
+
+    // eslint-disable-next-line
     while (true) {
       let result
       try {

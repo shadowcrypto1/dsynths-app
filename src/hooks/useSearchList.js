@@ -5,7 +5,6 @@ import Fuse from 'fuse.js'
 import qs from 'query-string'
 import _ from 'lodash'
 
-import { useMarketState } from '../state/market/hooks'
 import { useFavorites } from '../state/favorites/hooks'
 import { useBaseState } from '../state/base/hooks'
 import { useConductedState } from '../state/conducted/hooks'

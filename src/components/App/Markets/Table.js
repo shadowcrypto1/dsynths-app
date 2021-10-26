@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import ReactPaginate from 'react-paginate'
 import ReactImageFallback from 'react-image-fallback'
 
 import { Pagination } from './Pagination'
@@ -59,11 +58,6 @@ const Row = styled.tr`
   color: #FFFFFF;
   overflow: hidden;
   white-space: nowrap;
-`
-
-const EmptyRow = styled(Row)`
-  display: flex;
-  justify-content: center;
 `
 
 const Cel = styled.td`

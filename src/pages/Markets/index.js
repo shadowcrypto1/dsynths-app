@@ -50,7 +50,7 @@ const TableWrapper = styled.div`
 `
 
 const NoResults = styled.p`
-  margin-top: 50px;  
+  margin-top: 50px;
   font-size: 15px;
   text-align: center;
 `
@@ -69,6 +69,8 @@ export default function Markets () {
 
   // Related to Table
   const [ currentNetwork, setCurrentNetwork ] = useState(networkMapping[0].value)
+  
+  // eslint-disable-next-line
   const [ snapshot, optionProps, searchProps ] = useSearchList(currentNetwork)
 
   return (
