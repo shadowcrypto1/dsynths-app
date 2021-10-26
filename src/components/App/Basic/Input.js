@@ -191,14 +191,14 @@ export const InputBar = ({
         )}
         <AmountField
           onChange={(evt) => {
-            const process = ( str ) => {
-              return str.replace( /^([^.]*\.)(.*)$/, function ( a, b, c ) {
-                return b + c.replace( /\./g, '' )
-              })
-            }
-            const value = evt.target.value.replace(/,/g, '.')
-            // remove additional commas
-            let output = process(value)
+            // Remove non-numeric characters but allow points
+            let output = evt.target.value.replace(/[^\d.]/g, '')
+
+            // Remove additional commas (for decimals), to prevent stuff like: 19.800.9 => 19.800
+            output = output.replace( /^([^.]*\.)(.*)$/, ( a, b, c ) => {
+              return b + c.replace( /\./g, '' )
+            })
+
             setAmount(output)
           }}
           inputMode="decimal"
