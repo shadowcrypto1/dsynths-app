@@ -35,6 +35,7 @@ const BoxWrapper = styled.a`
   display: flex;
   justify-content: center;
   height: 22px;
+  text-decoration: none;
   text-align: center;
   align-items: center;
   line-height: 22px;
@@ -99,9 +100,9 @@ export const NetworkBar = () => {
   )
 }
 
-function Option({ active, networkName, onClick }) {
+function Option({ active, networkName, href }) {
   return (
-    <BoxWrapper active={active} onClick={onClick}>
+    <BoxWrapper active={active} href={href}>
       {active ? (
         <CircleWrapper>
           <GreenCircle>

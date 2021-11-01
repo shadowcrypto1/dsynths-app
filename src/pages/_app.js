@@ -7,6 +7,7 @@ import Head from 'next/head'
 
 import Web3ReactManager from '../components/Web3ReactManager'
 import Popups from '../components/Popups'
+import { Layout } from '../components/Layout'
 
 import store from '../state'
 import { getLibrary } from '../utils/library'
@@ -43,7 +44,9 @@ const MyApp = ({ Component, pageProps }) => {
               <ModalProvider backgroundComponent={SpecialModalBackground}>
                 <Popups />
                 <Updaters />
-                <Component {...pageProps} />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
               </ModalProvider>
             </Web3ReactManager>
           </Web3ProviderNetwork>

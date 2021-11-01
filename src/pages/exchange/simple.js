@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
-import Link from 'next/Link'
+import Link from 'next/link'
 
 import { SearchList, LongTab, ShortTab, Trade, NetworkBar } from '../../components/App/Simple'
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
-import { Layout } from '../../components/Layout'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
@@ -110,52 +109,46 @@ export default function Simple() {
 
   if (status === 'LOADING') {
     return (
-      <Layout>
-        <LoaderWrapper>
-          <LoaderIcon size={'90px'} />
-        </LoaderWrapper>
-      </Layout>
+      <LoaderWrapper>
+        <LoaderIcon size={'90px'} />
+      </LoaderWrapper>
     )
   }
 
   if (status === 'OK') {
     return (
-      <Layout>
-        <Container isDesktop={isDesktop}>
-          <Disclaimer>
-            Our simple swapper is still a work in progress, please use our{' '}
-            <Link href="/exchange/basic">
-              <a>/basic</a>
-            </Link>
-            &nbsp;swapper for an improved trading experience.
-          </Disclaimer>
-          <SearchList focus={false} />
-          <TradeContainer>
-            <TypeWrapper>
-              <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>
-                LONG
-              </LongTab>
-              <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>
-                SHORT
-              </ShortTab>
-            </TypeWrapper>
-            <Trade type={type} />
-          </TradeContainer>
-        </Container>
-      </Layout>
+      <Container isDesktop={isDesktop}>
+        <Disclaimer>
+          Our simple swapper is still a work in progress, please use our{' '}
+          <Link href="/exchange/basic">
+            <a>/basic</a>
+          </Link>
+          &nbsp;swapper for an improved trading experience.
+        </Disclaimer>
+        <SearchList focus={false} />
+        <TradeContainer>
+          <TypeWrapper>
+            <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>
+              LONG
+            </LongTab>
+            <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>
+              SHORT
+            </ShortTab>
+          </TypeWrapper>
+          <Trade type={type} />
+        </TradeContainer>
+      </Container>
     )
   }
 
   return (
-    <Layout>
-      <Container isDesktop={isDesktop}>
-        <HeroTitle>Stock not found</HeroTitle>
-        <HeroSubTitle>
-          Try a different symbol or switch to another chain for more options!
-        </HeroSubTitle>
-        <SearchList focus={true} />
-        <NetworkBar />
-      </Container>
-    </Layout>
+    <Container isDesktop={isDesktop}>
+      <HeroTitle>Stock not found</HeroTitle>
+      <HeroSubTitle>
+        Try a different symbol or switch to another chain for more options!
+      </HeroSubTitle>
+      <SearchList focus={true} />
+      <NetworkBar />
+    </Container>
   )
 }

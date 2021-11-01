@@ -6,7 +6,6 @@ import { Hero, SearchList, LongTab, ShortTab, Trade, NetworkBar } from '../../co
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
 import { FluidGrid } from '../../components/FluidGrid'
-import { Layout } from '../../components/Layout'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
@@ -176,41 +175,35 @@ export default function Basic() {
 
   if (status === 'LOADING') {
     return (
-      <Layout>
-        <LoaderWrapper>
-          <LoaderIcon size={'90px'} />
-        </LoaderWrapper>
-      </Layout>
+      <LoaderWrapper>
+        <LoaderIcon size={'90px'} />
+      </LoaderWrapper>
     )
   }
 
   if (status === 'OK') {
     return (
-      <Layout>
-        <Container isDesktop={isDesktop}>
-          <FluidGrid
-            leftChild={<div />}
-            centerChild={
-              <CenterContent isDesktop={isDesktop} base={base} type={type} setType={setType} />
-            }
-            rightChild={isDesktop ? <RightContent /> : <div />}
-            centerWidth={'512px'}
-          />
-        </Container>
-      </Layout>
+      <Container isDesktop={isDesktop}>
+        <FluidGrid
+          leftChild={<div />}
+          centerChild={
+            <CenterContent isDesktop={isDesktop} base={base} type={type} setType={setType} />
+          }
+          rightChild={isDesktop ? <RightContent /> : <div />}
+          centerWidth={'512px'}
+        />
+      </Container>
     )
   }
 
   return (
-    <Layout>
-      <Container isDesktop={isDesktop}>
-        <FluidGrid
-          leftChild={<div />}
-          centerChild={<NotFound />}
-          rightChild={<div />}
-          centerWidth={'512px'}
-        />
-      </Container>
-    </Layout>
+    <Container isDesktop={isDesktop}>
+      <FluidGrid
+        leftChild={<div />}
+        centerChild={<NotFound />}
+        rightChild={<div />}
+        centerWidth={'512px'}
+      />
+    </Container>
   )
 }
