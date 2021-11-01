@@ -1,4 +1,5 @@
 {
   "root": "out/",
-  "https_only": true
+  "https_only": true,
+  "clean_urls": true
 }
