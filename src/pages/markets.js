@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Layout } from '../components/Layout'
-
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -15,10 +13,8 @@ const Container = styled.div`
 
 export default function Markets() {
   return (
-    <Layout>
-      <Container>
-        <div>Markets overview will be made available soon</div>
-      </Container>
-    </Layout>
+    <Container>
+      <div>Markets overview will be made available soon</div>
+    </Container>
   )
 }

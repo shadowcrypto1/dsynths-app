@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-import { Layout } from '../components/Layout'
 import { LogoAsLoader as LoaderIcon } from '../components/Icons'
 
 const LoaderWrapper = styled.div`
@@ -21,10 +20,8 @@ export default function Page() {
   }, [])
 
   return (
-    <Layout>
-      <LoaderWrapper>
-        <LoaderIcon size={'90px'} />
-      </LoaderWrapper>
-    </Layout>
+    <LoaderWrapper>
+      <LoaderIcon size={'90px'} />
+    </LoaderWrapper>
   )
 }
