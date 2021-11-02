@@ -88,31 +88,26 @@ export const NetworkBar = () => {
           const displayValue = name === 'MAINNET' ? 'ETH' : name
           const active = name === networkName
           return (
-            <Link key={name} href={{ query: { network: displayValue } }} passHref shallow>
-              <Option active={active} networkName={displayValue}>
+            <Link
+              key={name}
+              href={{ pathname: '/exchange/basic', query: { network: displayValue } }}
+              passHref
+              shallow
+            >
+              <BoxWrapper active={active}>
+                {active && (
+                  <CircleWrapper>
+                    <GreenCircle>
+                      <div />
+                    </GreenCircle>
+                  </CircleWrapper>
+                )}
                 {displayValue}
-              </Option>
+              </BoxWrapper>
             </Link>
           )
         })}
       </OptionsWrapper>
     </Wrapper>
-  )
-}
-
-function Option({ active, networkName, href }) {
-  return (
-    <BoxWrapper active={active} href={href}>
-      {active ? (
-        <CircleWrapper>
-          <GreenCircle>
-            <div />
-          </GreenCircle>
-        </CircleWrapper>
-      ) : (
-        ''
-      )}
-      {networkName}
-    </BoxWrapper>
   )
 }
