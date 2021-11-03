@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { useMarketState } from '../../../state/market/hooks'
 import { SUPPORTED_CHAINS_BY_NAME } from '../../../constants'
@@ -79,6 +80,7 @@ const GreenCircle = styled.div`
 
 export const NetworkBar = () => {
   const { networkName } = useMarketState()
+  const { query } = useRouter()
 
   return (
     <Wrapper>
@@ -90,11 +92,11 @@ export const NetworkBar = () => {
           return (
             <Link
               key={name}
-              href={{ pathname: '/exchange/simple', query: { network: displayValue } }}
+              href={{ pathname: '/exchange/simple', query: { ...query, network: displayValue } }}
               passHref
               shallow
             >
-              <BoxWrapper active={active} href={href}>
+              <BoxWrapper active={active}>
                 {active &
                 (
                   <CircleWrapper>
