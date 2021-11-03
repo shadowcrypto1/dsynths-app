@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useSelect } from 'react-select-search/dist/cjs'
 import Fuse from 'fuse.js'
 import _ from 'lodash'
@@ -73,6 +73,7 @@ export const useSearchList = (networkName) => {
   return [snapshot, optionProps, searchProps]
 }
 
+/* eslint-disable indent */
 function parseSectorName(sector) {
   switch (sector.toUpperCase()) {
     case 'STOCK' || 'XDAI-STOCK':
@@ -83,6 +84,7 @@ function parseSectorName(sector) {
       return 'STOCKS / COMMODITIES'
   }
 }
+/* eslint-enable indent */
 
 function fuzzySearch(options) {
   const mergedOptions = [].concat.apply(

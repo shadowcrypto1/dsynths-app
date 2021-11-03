@@ -128,11 +128,11 @@ const buttonMapping = [
   { value: 'y', text: '1Y', noun: 'Year' },
 ]
 
-export const Hero = ({ symbol, name, isDesktop }) => {
+export const Hero = ({ symbol, assetType, name, isDesktop }) => {
   const wrapperRef = useRef(null)
   const [ selectedTimeframe, setSelectedTimeframe ] = useState(buttonMapping[3].value)
   const [ noun, setNoun ] = useState(buttonMapping[3].noun)
-  const { data, loading, hasNoData } = useLineChart(symbol, selectedTimeframe)
+  const { data, loading, hasNoData } = useLineChart(symbol, assetType, selectedTimeframe)
 
   const [ priceLabel, setPriceLabel ] = useState(null)
   const [ changeLabel, setChangeLabel ] = useState(null)

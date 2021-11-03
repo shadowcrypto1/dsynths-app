@@ -11,6 +11,7 @@ const initialQuote = {
 const initialState = {
   status: 'LOADING',
   symbol: '',
+  type: '',
   name: '',
   long: {
     symbol: '',
@@ -39,6 +40,7 @@ export default createReducer(initialState, (builder) =>
     .addCase(updateSymbol, (state, {payload}) => {
       const {
         symbol,
+        assetType,
         name,
         longSymbol, longContract, longDecimals, longIsToken,
         shortSymbol, shortContract, shortDecimals, shortIsToken,
@@ -48,6 +50,7 @@ export default createReducer(initialState, (builder) =>
         ...state,
         status: 'OK',
         symbol,
+        assetType,
         name,
         long: {
           ...state.long,

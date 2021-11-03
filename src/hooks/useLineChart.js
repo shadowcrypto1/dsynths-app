@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
 
-const getStockCandles = async (symbol, timeframe) => {
+const getStockCandles = async (symbol, assetType, timeframe) => {
   const response = await fetch(
-    `http://localhost:5000/prices?${new URLSearchParams({
+    `http://localhost:4000/prices?${new URLSearchParams({
+      assetType,
       symbol,
       timeframe,
     }).toString()}`,
@@ -15,28 +16,27 @@ const getStockCandles = async (symbol, timeframe) => {
   return stockCandles
 }
 
-export const useLineChart = (baseSymbol, timeframe) => {
+export const useLineChart = (baseSymbol, assetType, timeframe) => {
   const [hasNoData, setHasNoData] = useState(true)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
   const fetchPrices = useCallback(async () => {
-    let mounted = true;
-    const { resolution, from, to } = getParams(timeframe);
-    const result = await getStockCandles(baseSymbol, resolution, from, to);
+    let mounted = true
+    const result = await getStockCandles(baseSymbol, assetType, timeframe)
 
-    if (!mounted) return;
-    setData(result);
-    setHasNoData(!result.length || result.length < 2); // filter single plots
-    setLoading(false);
+    if (!mounted) return
+    setData(result)
+    setHasNoData(!result.length || result.length < 2) // filter single plots
+    setLoading(false)
 
-    return () => (mounted = false);
-  }, [baseSymbol, timeframe]);
+    return () => (mounted = false)
+  }, [baseSymbol, timeframe])
 
   useEffect(() => {
-    setLoading(true);
-    fetchPrices();
-  }, [baseSymbol, timeframe, fetchPrices]);
+    setLoading(true)
+    fetchPrices()
+  }, [baseSymbol, timeframe, fetchPrices])
 
   return {
     data,

@@ -11,6 +11,7 @@ const Field = {
   BASE: 'BASE',
   PAIR: 'PAIR',
   NETWORK: 'NETWORK',
+  TYPE: 'TYPE',
 }
 
 export default function Updater() {
@@ -26,6 +27,7 @@ export default function Updater() {
         baseSymbol: parsed[Field.BASE].baseSymbol,
         pairSymbol: parsed[Field.PAIR].pairSymbol,
         networkName: parsed[Field.NETWORK].networkName,
+        type: parsed[Field.TYPE].type,
       })
     )
   }, [dispatch, chainId, query])
@@ -34,21 +36,32 @@ export default function Updater() {
 }
 
 function queryParametersToMarketState(parsedQs) {
-  let networkName = parseNetworkName(parsedQs?.network)
-  let baseSymbol = parseBaseCurrency(parsedQs?.symbol)
-  let pairSymbol = parsePairCurrency(networkName)
+  const networkName = parseNetworkName(parsedQs?.network)
+  const baseSymbol = parseBaseCurrency(parsedQs?.symbol)
+  const type = parseType(parsedQs?.type)
+  const pairSymbol = parsePairCurrency(networkName)
 
   return {
     [Field.BASE]: {
-      baseSymbol: baseSymbol,
+      baseSymbol,
     },
     [Field.PAIR]: {
-      pairSymbol: pairSymbol,
+      pairSymbol,
     },
     [Field.NETWORK]: {
-      networkName: networkName,
+      networkName,
+    },
+    [Field.TYPE]: {
+      type,
     },
   }
+}
+
+const parseType = (urlParam) => {
+  if (typeof urlParam === 'string') {
+    return urlParam.toUpperCase()
+  }
+  return 'STOCK'
 }
 
 function parseBaseCurrency(urlParam) {

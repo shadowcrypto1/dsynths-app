@@ -9,7 +9,7 @@ import { useDetailsState } from '../details/hooks'
 import { useQuotesState } from '../quotes/hooks'
 
 export default function Updater() {
-  const { baseSymbol, networkName } = useMarketState()
+  const { baseSymbol, networkName, type } = useMarketState()
   const quote = useQuotesState()
   const conducted = useConductedState()
   const details = useDetailsState()
@@ -40,6 +40,7 @@ export default function Updater() {
     dispatch(updateSymbol({
       symbol: baseSymbol,
       name: detailedValue?.name,
+      assetType: type,
       longSymbol: detailedValue?.long_symbol,
       longContract: conductedValue?.long,
       longDecimals: 18,

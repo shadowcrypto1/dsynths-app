@@ -105,8 +105,8 @@ const HeroSubTitle = styled.div`
 const CenterContent = ({ isDesktop, base, type, setType }) => {
   return (
     <CenterWrapper>
-      <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={isDesktop} />
-      {!isDesktop && <SearchList focus={false} />}
+      <Hero symbol={base.symbol.toUpperCase()} assetType={base.type.toUpperCase()} name={base.name} isDesktop={isDesktop}/>
+      {!isDesktop && <SearchList focus={false}/>}
       <TradeContainer>
         <TypeWrapper>
           <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>
