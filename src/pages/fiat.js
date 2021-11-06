@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-import { NetworkRow, SearchBar, Category, Table, TradeModal } from '../../components/App/Markets'
+import { NetworkRow, SearchBar, Category, Table, TradeModal } from '../components/App/Markets'
 
-import { useSearchList } from '../../hooks/useSearchList'
-import { SUPPORTED_CHAINS_AS_OPTIONS } from '../../constants'
+import { useSearchList } from '../hooks/useSearchList'
+import { SUPPORTED_CHAINS_AS_OPTIONS } from '../constants'
 
 const networkMapping = [{ name: 'All', short: 'ALL', value: 'ALL' }, ...SUPPORTED_CHAINS_AS_OPTIONS]
 

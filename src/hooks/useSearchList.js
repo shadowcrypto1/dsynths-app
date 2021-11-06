@@ -12,7 +12,7 @@ import { useDetailsState } from '../state/details/hooks'
 // This order makes sure that stocks/commodities will ALWAYS be above crypto
 const groupsOrder = ['STOCKS / COMMODITIES', 'CRYPTO']
 
-export const useSearchList = () => {
+export const useSearchList = (networkName) => {
   const router = useRouter()
   const conducted = useConductedState()
   const details = useDetailsState()
