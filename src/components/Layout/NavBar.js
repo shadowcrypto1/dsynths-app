@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useWeb3React } from '@web3-react/core'
 import _ from 'lodash'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { NavToggle as NavToggleIcon } from '../Icons'
 import { Web3Status } from '../Web3Status'
@@ -24,7 +25,7 @@ const Wrapper = styled.div`
   width: 100%;
   z-index: 1;
   padding: 0 30px;
-  background: #12092C;
+  background: #12092c;
   align-items: center;
 `
 
@@ -61,7 +62,7 @@ const NavToggle = styled(NavToggleIcon)`
   }
 `
 
-const NavItem = styled(Link)`
+const NavItem = styled.a`
   display: flex;
   font-size: 14px;
   line-height: 18px;
@@ -73,10 +74,12 @@ const NavItem = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    color: #F6CC2E;
+    color: #f6cc2e;
   }
 
-  ${({ selected}) => selected && `
+  ${({ selected }) =>
+    selected &&
+    `
     pointer-events: none;
     text-decoration: underline;
     text-decoration-color: #9277E0;
@@ -96,25 +99,37 @@ const ButtonsWrapper = styled.div`
 `
 
 const NavLinks = () => {
-  const { pathname } = useLocation()
+  const { pathname } = useRouter()
   return (
     <NavLinksWrapper>
       {/*Web3Status is only visible on smaller devices using media queries*/}
-      <Web3Status/>
-      <NavItem to='/dashboard' selected={pathname === '/dashboard'}>Dashboard</NavItem>
-      <Dropdown name='Exchange' selected={false} linksMapping={[
-        {
-          name: 'Simple',
-          href: '/exchange/simple?network=xdai',
-        },
-        {
-          name: 'Basic',
-          href: '/exchange/basic?network=xdai',
-        },
-      ]}/>
-      <NavItem to='/markets' selected={pathname === '/markets'}>Markets</NavItem>
-      <NavItem to='/portfolio' selected={pathname === '/portfolio'}>Portfolio</NavItem>
-      <NavItem to='/fiat' selected={pathname === '/fiat'}>Fiat</NavItem>
+      <Web3Status />
+      <Link href="/dashboard" passHref>
+        <NavItem selected={pathname === '/dashboard'}>Dashboard</NavItem>
+      </Link>
+      <Dropdown
+        name="Exchange"
+        selected={false}
+        linksMapping={[
+          {
+            name: 'Simple',
+            href: '/exchange/simple?network=xdai',
+          },
+          {
+            name: 'Basic',
+            href: '/exchange/basic?network=xdai',
+          },
+        ]}
+      />
+      <Link href="/markets" passHref>
+        <NavItem selected={pathname === '/markets'}>Markets</NavItem>
+      </Link>
+      <Link href="/portfolio" passHref>
+        <NavItem selected={pathname === '/portfolio'}>Portfolio</NavItem>
+      </Link>
+      <Link href="/fiat" passHref>
+        <NavItem selected={pathname === '/fiat'}>Fiat</NavItem>
+      </Link>
     </NavLinksWrapper>
   )
 }
@@ -124,16 +139,16 @@ const NavButtons = () => {
   const { networkName } = useMarketState()
   return (
     <ButtonsWrapper>
-      <Web3Status/>
+      <Web3Status />
       <NetworkBox style={{ marginLeft: '10px' }}>
         {chainId && (
           <div>
-            <span style={{color: '#8A8E9B'}}>Connected Network: </span>
+            <span style={{ color: '#8A8E9B' }}>Connected Network: </span>
             <span>{_.findKey(SUPPORTED_CHAINS_BY_NAME, (value) => value === chainId) ?? '-'}</span>
           </div>
         )}
         <div>
-          <span style={{color: '#8A8E9B'}}>Viewing Network: </span>
+          <span style={{ color: '#8A8E9B' }}>Viewing Network: </span>
           <span>{networkName}</span>
         </div>
       </NetworkBox>
@@ -148,13 +163,13 @@ export const NavBar = () => {
   }
   return (
     <Wrapper>
-      <Logo/>
-      <NavLinks/>
-      <NavButtons/>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <NavToggle onClick={() => toggleSidebar()}/>
+      <Logo />
+      <NavLinks />
+      <NavButtons />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <NavToggle onClick={() => toggleSidebar()} />
       </div>
-      <Sidebar toggled={sidebarOpen} handleToggled={toggleSidebar}/>
+      <Sidebar toggled={sidebarOpen} handleToggled={toggleSidebar} />
     </Wrapper>
   )
 }

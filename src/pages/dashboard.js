@@ -11,10 +11,10 @@ const Container = styled.div`
   font-size: 30px;
 `
 
-export default function Fiat () {
+export default function Dashboard() {
   return (
     <Container>
-      <div>Fiat On-ramp will be made available soon</div>
+      <div>Dashboard is coming soon</div>
     </Container>
   )
 }

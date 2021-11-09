@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import styled from 'styled-components'
 import ReactImageFallback from 'react-image-fallback'
 
@@ -204,7 +204,7 @@ export const Table = ({
                     }}
                   >Trade</TradeButton>
                 ) : (
-                  <Link to={`/exchange/basic?symbol=${asset.symbol}&network=${currentNetwork}`} target="_parent" rel="noopener noreferrer" style={{textDecoration: 'none'}}>
+                  <Link href={`/exchange/basic?symbol=${asset.symbol}&network=${currentNetwork}`} style={{textDecoration: 'none'}}>
                     <TradeButton>Trade</TradeButton>
                   </Link>
                 )}

@@ -11,10 +11,10 @@ const Container = styled.div`
   font-size: 30px;
 `
 
-export default function Dashboard () {
+export default function Markets() {
   return (
     <Container>
-      <div>Dashboard is coming soon</div>
+      <div>Fiat On-ramp will be made available soon</div>
     </Container>
   )
 }

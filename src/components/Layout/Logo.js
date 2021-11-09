@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Link from 'next/link'
 
-const Wrapper = styled(Link)`
+const Wrapper = styled.a`
   display: flex;
   justify-content: flex-start;
   flex-grow: row nowrap;
@@ -19,9 +19,15 @@ const Text = styled.img`
 
 export const Logo = () => {
   return (
-    <Wrapper to='/exchange/basic'>
-      <img src='/images/NavLogo.png' style={{marginRight: '10px', height: '30px'}}/>
-      <Text src='/images/NavLogoText.png'/>
-    </Wrapper>
+    <Link href="/exchange/basic" passHref>
+      <Wrapper>
+        <img
+          src="/images/NavLogo.png"
+          style={{ marginRight: '10px', height: '30px' }}
+          alt="dSynths Logo"
+        />
+        <Text src="/images/NavLogoText.png" />
+      </Wrapper>
+    </Link>
   )
 }

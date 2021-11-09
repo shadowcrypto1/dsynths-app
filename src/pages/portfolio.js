@@ -11,7 +11,7 @@ const Container = styled.div`
   font-size: 30px;
 `
 
-export default function Portfolio () {
+export default function Portfolio() {
   return (
     <Container>
       <div>Your personal portfolio management will be made available soon</div>

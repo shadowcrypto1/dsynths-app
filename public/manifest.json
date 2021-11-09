@@ -8,13 +8,13 @@
   "providedBy": { "name": "dSynths", "url": "https://app.dsynths.com" },
   "icons": [
     {
-      "src": "./img/192x192_App_Icon.png",
+      "src": "./images/192x192_App_Icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./img/512x512_App_Icon.png",
+      "src": "./images/512x512_App_Icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

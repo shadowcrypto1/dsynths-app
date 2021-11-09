@@ -5,14 +5,16 @@ function calculateGasMargin(value) {
   return value.mul(BigNumber.from(10000 + 2000)).div(BigNumber.from(10000))
 }
 
-export default async function ({
-  SynchronizerContract = null,
-  action = null,
-  payload = null,
-  account = null,
-  submitCallback = null,
-  errorCallback = null
-} = {}) {
+export default async function Mainnet(
+  {
+    SynchronizerContract = null,
+    action = null,
+    payload = null,
+    account = null,
+    submitCallback = null,
+    errorCallback = null
+  } = {}
+) {
   try {
     if (!SynchronizerContract || typeof SynchronizerContract !== 'object') {
       throw new Error('SynchronizerContract is either missing or corrupted: ', SynchronizerContract)

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Star} from 'react-feather'
 import { FixedSizeList as List } from 'react-window'
+import { useRouter } from 'next/router'
 
 import { useSearchList } from '../../../hooks/useSearchList'
 import { useToggleFavorite } from '../../../state/favorites/hooks'
@@ -146,6 +147,7 @@ const SearchBar = ({ searchProps, value, focus }) => {
 }
 
 const GroupItems = ({ items, symbol, optionProps, focus, toggleFavorite, height }) => {
+  const router = useRouter()
   return (
     <List
       height={height}
@@ -164,6 +166,14 @@ const GroupItems = ({ items, symbol, optionProps, focus, toggleFavorite, height 
             showFavorite={focus}
             style={style}
             {...optionProps}
+            onClick={() => {
+              router.push({
+                query: {
+                  ...router.query,
+                  symbol: value,
+                }
+              })
+            }}
           >
             {focus && (
               <GroupItem onClick={() => toggleFavorite(name)}>

@@ -7,10 +7,7 @@ import Web3 from 'web3'
 
 import { TradeButton } from './Button'
 import { InputBar } from './Input'
-import {
-  DownArrow as DownArrowIcon,
-  Loader as LoaderIcon,
-} from '../../Icons'
+import { DownArrow as DownArrowIcon, Loader as LoaderIcon } from '../../Icons'
 
 import { setOpenModal } from '../../../state/application/actions'
 import { flipAction } from '../../../state/action/actions'
@@ -45,7 +42,7 @@ const ArrowWrapper = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #542FE6;
+  background: #542fe6;
   transform: translateX(-50%);
   align-items: center;
   justify-content: center;
@@ -62,8 +59,8 @@ const NoteWrapper = styled.div`
   color: rgba(255, 255, 255, 0.69);
   width: 100%;
   height: 11px;
-  font-size: ${props => props.isMobile ? '9px' : '11px'};
-  line-height: ${props => props.isMobile ? '9px' : '11px'};
+  font-size: ${(props) => (props.isMobile ? '9px' : '11px')};
+  line-height: ${(props) => (props.isMobile ? '9px' : '11px')};
 
   & > * {
     & > a {
@@ -99,12 +96,11 @@ export const Trade = ({ type }) => {
 
   const { price, fee, isClosed } = quote[type.toLowerCase()]
 
-  const {
-    inputAmount,
-    outputAmount,
-    setInputAmount,
-    setOutputAmount,
-  } = useAmountManager(price, type, fee)
+  const { inputAmount, outputAmount, setInputAmount, setOutputAmount } = useAmountManager(
+    price,
+    type,
+    fee
+  )
 
   const priceFormatted = useCallback(() => {
     let formattedPrice = price ? price.toFixed(2) : 0
@@ -129,7 +125,7 @@ export const Trade = ({ type }) => {
   const sufficientBalance = useMemo(() => {
     if (!inputAmount) return true
     if (!balance || balance.lte(0)) return false
-    return (balance.gte(BigNumber.from(toWei(inputAmount, inputDecimals)))) ? true : false
+    return balance.gte(BigNumber.from(toWei(inputAmount, inputDecimals))) ? true : false
   }, [balance, inputAmount])
 
   const handleApprove = useCallback(async () => {
@@ -178,7 +174,7 @@ export const Trade = ({ type }) => {
         setAmount={setInputAmount}
       />
       <ArrowWrapper onClick={() => dispatch(flipAction())}>
-        <DownArrowIcon width={'8px'}/>
+        <DownArrowIcon width={'8px'} />
       </ArrowWrapper>
       <InputBar
         ticker={outputTicker}
@@ -192,54 +188,50 @@ export const Trade = ({ type }) => {
       <NoteWrapper isMobile={width < 985}>
         <div>Fee: {fee * 100}%</div>
         <div>
-          <a href='https://muon.net/' target='_blank' rel='noopener noreferrer'>Oracle </a>
+          <a href="https://muon.net/" target="_blank" rel="noopener noreferrer">
+            Oracle{' '}
+          </a>
           Price {priceFormatted()}
         </div>
       </NoteWrapper>
       {isClosed ? (
-        <TradeButton
-          disabled={true}
-          size={(width < 500) ? '20px' : '24px'}
-        >
+        <TradeButton disabled={true} size={width < 500 ? '20px' : '24px'}>
           MARKET IS CLOSED
         </TradeButton>
-      ) : (!active || !account) ? (
+      ) : !active || !account ? (
         <TradeButton
           onClick={() => dispatch(setOpenModal(true))}
-          size={(width < 500) ? '20px' : '24px'}
+          size={width < 500 ? '20px' : '24px'}
         >
           CONNECT WALLET
         </TradeButton>
       ) : !correctNetworkURL ? (
         <TradeButton
           onClick={() => window.ethereum && rpcChangerCallback()}
-          size={(width < 500) ? '16px' : '24px'}
+          size={width < 500 ? '16px' : '24px'}
         >
-          {window.ethereum ? 'CLICK TO CHANGE NETWORK' : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
+          {window.ethereum
+            ? 'CLICK TO CHANGE NETWORK'
+            : `PLEASE SWITCH TO ${networkName} FROM WITHIN YOUR WALLET`}
         </TradeButton>
       ) : approvalState === ApprovalState.NOT_APPROVED ? (
-        <TradeButton
-          onClick={handleApprove}
-          size={(width < 500) ? '20px' : '24px'}
-        >
+        <TradeButton onClick={handleApprove} size={width < 500 ? '20px' : '24px'}>
           APPROVE
         </TradeButton>
       ) : approvalState === ApprovalState.PENDING ? (
-        <TradeButton size={(width < 500) ? '20px' : '24px'}>
-          <LoaderIcon size={'20px'} style={{marginRight: '5px'}}/>
+        <TradeButton size={width < 500 ? '20px' : '24px'}>
+          <LoaderIcon size={'20px'} style={{ marginRight: '5px' }} />
           <span>APPROVING</span>
         </TradeButton>
       ) : syncState === SyncState.PENDING ? (
-        <TradeButton size={(width < 500) ? '20px' : '24px'}>
-          <LoaderIcon size={'20px'} style={{marginRight: '5px'}}/>
+        <TradeButton size={width < 500 ? '20px' : '24px'}>
+          <LoaderIcon size={'20px'} style={{ marginRight: '5px' }} />
           <span>{type.toUpperCase()} TRANSACTING</span>
         </TradeButton>
       ) : !sufficientBalance ? (
-        <TradeButton size={(width < 500) ? '20px' : '24px'}>
-          INSUFFICIENT BALANCE
-        </TradeButton>
+        <TradeButton size={width < 500 ? '20px' : '24px'}>INSUFFICIENT BALANCE</TradeButton>
       ) : (
-        <TradeButton onClick={handleSync} size={(width < 500) ? '20px' : '24px'}>
+        <TradeButton onClick={handleSync} size={width < 500 ? '20px' : '24px'}>
           {action === 'OPEN' ? type.toUpperCase() : `CLOSE ${type.toUpperCase()}`}
         </TradeButton>
       )}

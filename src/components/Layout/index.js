@@ -23,11 +23,9 @@ const Content = styled.div`
 export const Layout = ({ children }) => {
   return (
     <Wrapper>
-      <NavBar/>
-      <Content>
-        {children}
-      </Content >
-      <Footer/>
+      <NavBar />
+      <Content>{children}</Content>
+      <Footer />
     </Wrapper>
   )
 }

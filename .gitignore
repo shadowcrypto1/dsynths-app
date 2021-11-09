@@ -9,3 +9,6 @@ npm-debug.log
 .env.development
 .env.production
 .DS_Store
+
+.next
+out

@@ -1,28 +1,22 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import { debounce } from 'lodash'
 
-import {
-  Hero,
-  SearchList,
-  LongTab,
-  ShortTab,
-  Trade,
-  NetworkBar,
-} from '../../components/App/Basic'
+import { Hero, SearchList, LongTab, ShortTab, Trade, NetworkBar } from '../../components/App/Basic'
 
 import { LogoAsLoader as LoaderIcon } from '../../components/Icons'
 import { FluidGrid } from '../../components/FluidGrid'
 
 import { useBaseState } from '../../state/base/hooks'
 import { useWindowSize } from '../../hooks/useWindowSize'
+import useIsMounted from '../../hooks/useIsMounted'
 
 const Container = styled.div`
   display: block;
   position: relative;
   height: auto;
 
-  padding: ${({isDesktop}) => isDesktop ? '50px 30px 20px 30px' : '20px 30px 20px 30px'};
+  padding: ${({ isDesktop }) => (isDesktop ? '50px 30px 20px 30px' : '20px 30px 20px 30px')};
 `
 
 const CenterWrapper = styled.div`
@@ -33,7 +27,7 @@ const CenterWrapper = styled.div`
   height: auto;
 
   & > * {
-    &:not(:last-of-type){
+    &:not(:last-of-type) {
       margin-bottom: 8px;
     }
   }
@@ -49,7 +43,7 @@ const TypeWrapper = styled.div`
 
 const TradeContainer = styled.div`
   display: block;
-  background: #30315D;
+  background: #30315d;
   border-radius: 10px;
   padding: 30px;
 `
@@ -94,7 +88,7 @@ const HeroTitle = styled.div`
   line-height: 38px;
   text-transform: uppercase;
   align-items: center;
-  color: #FFFFFF;
+  color: #ffffff;
   text-shadow: 0px 0px 5px rgba(146, 119, 224, 0.7), 0px 0px 5px rgba(146, 119, 224, 0.9);
 `
 
@@ -108,15 +102,19 @@ const HeroSubTitle = styled.div`
   color: rgba(255, 255, 255, 0.75);
 `
 
-const CenterContent = ({isDesktop, base, type, setType}) => {
+const CenterContent = ({ isDesktop, base, type, setType }) => {
   return (
     <CenterWrapper>
-      <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={isDesktop}/>
-      {!isDesktop && <SearchList focus={false}/>}
+      <Hero symbol={base.symbol.toUpperCase()} name={base.name} isDesktop={isDesktop} />
+      {!isDesktop && <SearchList focus={false} />}
       <TradeContainer>
         <TypeWrapper>
-          <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>LONG</LongTab>
-          <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>SHORT</ShortTab>
+          <LongTab selected={type === 'LONG'} onClick={() => setType('LONG')}>
+            LONG
+          </LongTab>
+          <ShortTab selected={type === 'SHORT'} onClick={() => setType('SHORT')}>
+            SHORT
+          </ShortTab>
         </TypeWrapper>
         <Trade type={type} />
       </TradeContainer>
@@ -128,8 +126,8 @@ const RightContent = () => {
   return (
     <RightContainer>
       <RightWrapper>
-        <NetworkBar/>
-        <SearchList focus={true}/>
+        <NetworkBar />
+        <SearchList focus={true} />
       </RightWrapper>
     </RightContainer>
   )
@@ -139,28 +137,28 @@ const NotFound = () => {
   return (
     <CenterWrapper>
       <HeroTitle>Stock not found</HeroTitle>
-      <HeroSubTitle>Try a different symbol or switch to another chain for more options!</HeroSubTitle>
-      <SearchList focus={true}/>
-      <NetworkBar/>
+      <HeroSubTitle>
+        Try a different symbol or switch to another chain for more options!
+      </HeroSubTitle>
+      <SearchList focus={true} />
+      <NetworkBar />
     </CenterWrapper>
   )
 }
 
-export default function Basic () {
+export default function Basic() {
   const { width } = useWindowSize()
   const base = useBaseState()
-  const [ type, setType ] = useState('LONG')
-  const [ status, setStatus ] = useState('LOADING')
-  const mounted = useRef(false)
+  const [type, setType] = useState('LONG')
+  const [status, setStatus] = useState('LOADING')
+  const mounted = useIsMounted()
 
-  useLayoutEffect(() => {
-    mounted.current = true
-    return () => (mounted.current = false)
-  }, [])
-
-  const debounceLoaderScreen = useCallback(debounce(status => {
-    mounted.current && setStatus(status)
-  }, 1500), [mounted, setStatus])
+  const debounceLoaderScreen = useCallback(
+    debounce((status) => {
+      mounted.current && setStatus(status)
+    }, 1500),
+    [mounted, setStatus]
+  )
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') {
@@ -178,7 +176,7 @@ export default function Basic () {
   if (status === 'LOADING') {
     return (
       <LoaderWrapper>
-        <LoaderIcon size={'90px'}/>
+        <LoaderIcon size={'90px'} />
       </LoaderWrapper>
     )
   }
@@ -187,14 +185,11 @@ export default function Basic () {
     return (
       <Container isDesktop={isDesktop}>
         <FluidGrid
-          leftChild={<div/>}
-          centerChild={<CenterContent
-            isDesktop={isDesktop}
-            base={base}
-            type={type}
-            setType={setType}
-          />}
-          rightChild={isDesktop ? <RightContent/> : <div/>}
+          leftChild={<div />}
+          centerChild={
+            <CenterContent isDesktop={isDesktop} base={base} type={type} setType={setType} />
+          }
+          rightChild={isDesktop ? <RightContent /> : <div />}
           centerWidth={'512px'}
         />
       </Container>
@@ -204,9 +199,9 @@ export default function Basic () {
   return (
     <Container isDesktop={isDesktop}>
       <FluidGrid
-        leftChild={<div/>}
-        centerChild={<NotFound/>}
-        rightChild={<div/>}
+        leftChild={<div />}
+        centerChild={<NotFound />}
+        rightChild={<div />}
         centerWidth={'512px'}
       />
     </Container>
