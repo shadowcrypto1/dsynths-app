@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Modal from 'styled-react-modal'
 import styled from 'styled-components'
 import ReactImageFallback from 'react-image-fallback'
+import { useRouter } from 'next/router'
 
 import { Close as CloseIcon, GoArrow } from '../../Icons'
 
@@ -64,9 +64,7 @@ const NetworksWrapper = styled.ul`
   margin-block-end: 0;
 `
 
-const Network = styled(Link).attrs({
-  type: 'li'
-})`
+const Network = styled.div`
   display: flex;
   width: auto;
   height: 50px;
@@ -78,6 +76,10 @@ const Network = styled(Link).attrs({
   border-radius: 12px;
   font-size: 16px;
   text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 const NetworkNameWrapper = styled.div`
@@ -106,6 +108,7 @@ const LinkWrapper = styled.div`
 `
 
 export const TradeModal = ({ showModal, toggleModal, symbol, name, networks }) => {
+  const router = useRouter()
   return (
     <StyledModal
       isOpen={showModal}
@@ -129,7 +132,15 @@ export const TradeModal = ({ showModal, toggleModal, symbol, name, networks }) =
         </p>
         <NetworksWrapper>
           {(networks.length > 0) && networks.map((network, index) => (
-            <Network key={index} to={`/exchange/basic?symbol=${symbol}&network=${network}`} target="_parent" rel="noopener noreferrer">
+            <Network key={index} onClick={() => {
+              router.push({
+                pathname: '/exchange/basic',
+                query: {
+                  symbol: symbol,
+                  network: network
+                }
+              })
+            }}>
               <NetworkNameWrapper>
                 <NetworkLogo src={`/images/networks/${network?.toLowerCase()}.png`}/>
                 <NetworkName>{network}</NetworkName>

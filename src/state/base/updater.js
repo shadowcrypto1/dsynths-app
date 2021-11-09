@@ -49,7 +49,7 @@ export default function Updater() {
       shortDecimals: 18,
       shortIsToken: true,
     }))
-  }, [dispatch, baseSymbol, conducted, details])
+  }, [dispatch, baseSymbol, conducted, details, networkName])
 
   useEffect(() => {
     if (!baseSymbol) return
@@ -60,8 +60,8 @@ export default function Updater() {
     }
 
     const foundQuote = findInQuote(quote, networkName, baseSymbol)
-    if (!foundQuote) {
-      console.log(`Unable to get a quote for ${baseSymbol}`)
+    if (!foundQuote || !foundQuote?.long || !foundQuote?.short) {
+      // console.log(`Unable to get a quote for ${baseSymbol}`)
       dispatch(noQuote())
       return
     }

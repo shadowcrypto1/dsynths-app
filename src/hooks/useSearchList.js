@@ -70,18 +70,6 @@ export const useSearchList = (networkName) => {
     closeOnSelect: false,
   })
 
-  useEffect(() => {
-    const symbol = snapshot.value
-
-    if (!symbol) return // initial render is null, if not filtered it will cause performance issues
-    if (base?.symbol.toUpperCase() === symbol?.toUpperCase()) return
-
-    // Dispatch changes by altering the url, this won't cause a re-render/reload, but will be picked up by URLParsing listeners
-    router.push({ query: { ...router.query, symbol: symbol } })
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snapshot.value])
-
   return [snapshot, optionProps, searchProps]
 }
 
