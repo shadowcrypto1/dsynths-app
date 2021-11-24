@@ -7,11 +7,11 @@ import AMM_ABI_XDAI from './abi/AMM_ABI_XDAI.json'
 import AMM_ABI_POLYGON from './abi/AMM_ABI_POLYGON.json'
 
 export const SYNCHRONIZER_ADDRESSES_BY_CHAIN_ID = {
-  1: '0x7a27a7BF25d64FAa090404F94606c580ce8E1D37',
+  1: '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3',
   56: '0x3b62f3820e0b035cc4ad602dece6d796bc325325',
   100: '0x89951F2546f36789072c72C94272a68970Eba65e', // wxDAI proxy
   128: '0xe82aa18b107aaf8D3829111C91CD0D133E0773DC',
-  137: '0x5e16B021994e3c2536435CA3A45f0dA6536eD315'
+  137: '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3'
 }
 
 export const SYNCHRONIZER_ABI_BY_CHAIN_ID = {
@@ -23,11 +23,11 @@ export const SYNCHRONIZER_ABI_BY_CHAIN_ID = {
 }
 
 export const SUPPORTED_PAIRS_BY_CHAIN_ID = {
-  1: ['DAI'],
+  1: ['DEI'],
   56: ['BUSD'],
   100: ['XDAI'],
   128: ['HUSD'],
-  137: ['USDC'],
+  137: ['DEI'],
 }
 
 export const PAIR_INFO_BY_CHAIN_ID = {
@@ -37,7 +37,13 @@ export const PAIR_INFO_BY_CHAIN_ID = {
       contract: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
       decimals: 18,
       symbol: 'DAI',
-    }
+    },
+    DEI: {
+      isToken: true,
+      contract: '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3',
+      decimals: 18,
+      symbol: 'DEI',
+    },
   },
   56: {
     BUSD: {
@@ -69,6 +75,12 @@ export const PAIR_INFO_BY_CHAIN_ID = {
       contract: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
       decimals: 6,
       symbol: 'USDC',
+    },
+    DEI: {
+      isToken: true,
+      contract: '0xDE12c7959E1a72bbe8a5f7A1dc8f8EeF9Ab011B3',
+      decimals: 18,
+      symbol: 'DEI',
     }
   },
 }
