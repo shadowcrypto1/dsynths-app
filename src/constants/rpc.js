@@ -53,7 +53,7 @@ export const RpcParams = {
       symbol: 'Matic',
       decimals: 18,
     },
-    rpcUrls: ['https://rpc-mainnet.matic.quiknode.pro', 'https://matic-mainnet.chainstacklabs.com', 'https://rpc-mainnet.matic.network', 'https://rpc-mainnet.maticvigil.com', 'https://matic-mainnet-full-rpc.bwarelabs.com', 'https://matic-mainnet-archive-rpc.bwarelabs.com'],
+    rpcUrls: ['https://polygon-rpc.com/'],
     blockExplorerUrls: ['https://polygonscan.com/'],
   },
 }
