@@ -50,7 +50,7 @@ export default function Updater() {
       shortDecimals: 18,
       shortIsToken: true,
     }))
-  }, [dispatch, baseSymbol, conducted, details, networkName])
+  }, [dispatch, baseSymbol, conducted, details, networkName, type])
 
   useEffect(() => {
     if (!baseSymbol) return

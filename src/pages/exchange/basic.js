@@ -105,7 +105,7 @@ const HeroSubTitle = styled.div`
 const CenterContent = ({ isDesktop, base, type, setType }) => {
   return (
     <CenterWrapper>
-      <Hero symbol={base.symbol.toUpperCase()} assetType={base.type.toUpperCase()} name={base.name} isDesktop={isDesktop}/>
+      <Hero symbol={base.symbol.toUpperCase()} assetType={base.assetType.toUpperCase()} name={base.name} isDesktop={isDesktop}/>
       {!isDesktop && <SearchList focus={false}/>}
       <TradeContainer>
         <TypeWrapper>
